@@ -1,0 +1,148 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+const tab = ref<'event' | 'news'>('event');
+</script>
+
+<template>
+  <div class="min-h-screen bg-[#0f1419]" style="overflow-x: hidden;">
+    <AppHeader />
+    <div class="bg-gradient-to-r from-orange-600 via-red-500 to-pink-500 py-16 md:py-20">
+    <div class="container mx-auto px-4 text-center">
+    <h1 class="text-4xl md:text-7xl text-white mb-4">PROMOTIONS</h1>
+    </div>
+    </div>
+    <section class="py-8 bg-[#0f1419] min-h-[600px]">
+    <div class="container mx-auto px-4">
+    <div class="flex flex-col gap-6">
+    <div class="flex items-center gap-6 border-b border-gray-800">
+    <button class="pb-4 px-2 transition-colors relative" :class="tab==='event' ? 'text-[#98E7D2]' : 'text-gray-400 hover:text-gray-300'" @click="tab='event'">Event<div v-if="tab==='event'" class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]"></div></button>
+    <button class="pb-4 px-2 transition-colors relative" :class="tab==='news' ? 'text-[#98E7D2]' : 'text-gray-400 hover:text-gray-300'" @click="tab='news'">News<div v-if="tab==='news'" class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]"></div></button>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div class="bg-[#1a2128] border border-gray-800 rounded-lg overflow-hidden hover:border-[#98E7D2] transition-colors">
+    <div class="relative h-32 overflow-hidden" style="background: linear-gradient(135deg, rgb(9, 29, 20) 0%, rgb(13, 42, 30) 50%, rgb(10, 26, 18) 100%);">
+    <div class="absolute inset-0 flex items-center justify-center">
+    <span class="font-black select-none" style="color: rgb(152, 231, 210); font-size: 54px; letter-spacing: 0.12em; opacity: 0.07;">PROMO!</span>
+    </div>
+    <div class="absolute top-2 right-3 flex flex-col items-end" style="gap: 3px;">
+    <div style="width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, rgb(203, 232, 228), rgb(152, 231, 210)); opacity: 0.85;">
+    </div>
+    <div style="width: 16px; height: 16px; border-radius: 50%; background: linear-gradient(135deg, rgb(152, 231, 210), rgb(109, 213, 189)); opacity: 0.6; margin-right: 10px;">
+    </div>
+    <div style="width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, rgb(203, 232, 228), rgb(152, 231, 210)); opacity: 0.45; margin-right: 2px;">
+    </div>
+    </div>
+    <div class="absolute inset-0 flex flex-col justify-center px-4">
+    <p class="text-xs mb-1.5" style="color: rgb(152, 231, 210); letter-spacing: 0.2em;">SPECIAL OFFER</p>
+    <p class="text-2xl font-black" style="background: linear-gradient(90deg, rgb(203, 232, 228), rgb(152, 231, 210)) text; -webkit-text-fill-color: transparent; letter-spacing: 0.06em;">PROMOTION</p>
+    </div>
+    </div>
+    <div class="p-6">
+    <h3 class="text-white text-xl mb-4 text-center">RioBet Casino</h3>
+    <div class="mb-6">
+    <div class="text-gray-400 text-sm text-center mb-1">SAFETY INDEX:</div>
+    <div class="text-[#A0E187] text-center font-semibold">VERY HIGH</div>
+    </div>
+    <div class="space-y-3">
+    <button class="w-full bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-4 py-3 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center font-semibold">Detail</button>
+    </div>
+    </div>
+    </div>
+    <div class="bg-[#1a2128] border border-gray-800 rounded-lg overflow-hidden hover:border-[#98E7D2] transition-colors">
+    <div class="relative h-32 overflow-hidden" style="background: linear-gradient(135deg, rgb(9, 29, 20) 0%, rgb(13, 42, 30) 50%, rgb(10, 26, 18) 100%);">
+    <div class="absolute inset-0 flex items-center justify-center">
+    <span class="font-black select-none" style="color: rgb(152, 231, 210); font-size: 54px; letter-spacing: 0.12em; opacity: 0.07;">PROMO!</span>
+    </div>
+    <div class="absolute top-2 right-3 flex flex-col items-end" style="gap: 3px;">
+    <div style="width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, rgb(203, 232, 228), rgb(152, 231, 210)); opacity: 0.85;">
+    </div>
+    <div style="width: 16px; height: 16px; border-radius: 50%; background: linear-gradient(135deg, rgb(152, 231, 210), rgb(109, 213, 189)); opacity: 0.6; margin-right: 10px;">
+    </div>
+    <div style="width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, rgb(203, 232, 228), rgb(152, 231, 210)); opacity: 0.45; margin-right: 2px;">
+    </div>
+    </div>
+    <div class="absolute inset-0 flex flex-col justify-center px-4">
+    <p class="text-xs mb-1.5" style="color: rgb(152, 231, 210); letter-spacing: 0.2em;">SPECIAL OFFER</p>
+    <p class="text-2xl font-black" style="background: linear-gradient(90deg, rgb(203, 232, 228), rgb(152, 231, 210)) text; -webkit-text-fill-color: transparent; letter-spacing: 0.06em;">PROMOTION</p>
+    </div>
+    </div>
+    <div class="p-6">
+    <h3 class="text-white text-xl mb-4 text-center">BitStarz Casino</h3>
+    <div class="mb-6">
+    <div class="text-gray-400 text-sm text-center mb-1">SAFETY INDEX:</div>
+    <div class="text-[#A0E187] text-center font-semibold">VERY HIGH</div>
+    </div>
+    <div class="space-y-3">
+    <button class="w-full bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-4 py-3 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center font-semibold">Detail</button>
+    </div>
+    </div>
+    </div>
+    <div class="bg-[#1a2128] border border-gray-800 rounded-lg overflow-hidden hover:border-[#98E7D2] transition-colors">
+    <div class="relative h-32 overflow-hidden" style="background: linear-gradient(135deg, rgb(9, 29, 20) 0%, rgb(13, 42, 30) 50%, rgb(10, 26, 18) 100%);">
+    <div class="absolute inset-0 flex items-center justify-center">
+    <span class="font-black select-none" style="color: rgb(152, 231, 210); font-size: 54px; letter-spacing: 0.12em; opacity: 0.07;">PROMO!</span>
+    </div>
+    <div class="absolute top-2 right-3 flex flex-col items-end" style="gap: 3px;">
+    <div style="width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, rgb(203, 232, 228), rgb(152, 231, 210)); opacity: 0.85;">
+    </div>
+    <div style="width: 16px; height: 16px; border-radius: 50%; background: linear-gradient(135deg, rgb(152, 231, 210), rgb(109, 213, 189)); opacity: 0.6; margin-right: 10px;">
+    </div>
+    <div style="width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, rgb(203, 232, 228), rgb(152, 231, 210)); opacity: 0.45; margin-right: 2px;">
+    </div>
+    </div>
+    <div class="absolute inset-0 flex flex-col justify-center px-4">
+    <p class="text-xs mb-1.5" style="color: rgb(152, 231, 210); letter-spacing: 0.2em;">SPECIAL OFFER</p>
+    <p class="text-2xl font-black" style="background: linear-gradient(90deg, rgb(203, 232, 228), rgb(152, 231, 210)) text; -webkit-text-fill-color: transparent; letter-spacing: 0.06em;">PROMOTION</p>
+    </div>
+    </div>
+    <div class="p-6">
+    <h3 class="text-white text-xl mb-4 text-center">IceCasino</h3>
+    <div class="mb-6">
+    <div class="text-gray-400 text-sm text-center mb-1">SAFETY INDEX:</div>
+    <div class="text-[#A0E187] text-center font-semibold">VERY HIGH</div>
+    </div>
+    <div class="space-y-3">
+    <button class="w-full bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-4 py-3 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center font-semibold">Detail</button>
+    </div>
+    </div>
+    </div>
+    <div class="bg-[#1a2128] border border-gray-800 rounded-lg overflow-hidden hover:border-[#98E7D2] transition-colors">
+    <div class="relative h-32 overflow-hidden" style="background: linear-gradient(135deg, rgb(9, 29, 20) 0%, rgb(13, 42, 30) 50%, rgb(10, 26, 18) 100%);">
+    <div class="absolute inset-0 flex items-center justify-center">
+    <span class="font-black select-none" style="color: rgb(152, 231, 210); font-size: 54px; letter-spacing: 0.12em; opacity: 0.07;">PROMO!</span>
+    </div>
+    <div class="absolute top-2 right-3 flex flex-col items-end" style="gap: 3px;">
+    <div style="width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, rgb(203, 232, 228), rgb(152, 231, 210)); opacity: 0.85;">
+    </div>
+    <div style="width: 16px; height: 16px; border-radius: 50%; background: linear-gradient(135deg, rgb(152, 231, 210), rgb(109, 213, 189)); opacity: 0.6; margin-right: 10px;">
+    </div>
+    <div style="width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, rgb(203, 232, 228), rgb(152, 231, 210)); opacity: 0.45; margin-right: 2px;">
+    </div>
+    </div>
+    <div class="absolute inset-0 flex flex-col justify-center px-4">
+    <p class="text-xs mb-1.5" style="color: rgb(152, 231, 210); letter-spacing: 0.2em;">SPECIAL OFFER</p>
+    <p class="text-2xl font-black" style="background: linear-gradient(90deg, rgb(203, 232, 228), rgb(152, 231, 210)) text; -webkit-text-fill-color: transparent; letter-spacing: 0.06em;">PROMOTION</p>
+    </div>
+    </div>
+    <div class="p-6">
+    <h3 class="text-white text-xl mb-4 text-center">Gamdom Casino</h3>
+    <div class="mb-6">
+    <div class="text-gray-400 text-sm text-center mb-1">SAFETY INDEX:</div>
+    <div class="text-[#A0E187] text-center font-semibold">VERY HIGH</div>
+    </div>
+    <div class="space-y-3">
+    <button class="w-full bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-4 py-3 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center font-semibold">Detail</button>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="flex justify-center pt-6 pb-2">
+    <button class="transition-colors" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 12px 60px; font-size: 15px; font-weight: 500; color: rgb(209, 213, 219); cursor: pointer;">Load more</button>
+    </div>
+    </div>
+    </div>
+    </section>
+    <AppFooter />
+    <MobileBottomNav />
+  </div>
+</template>
