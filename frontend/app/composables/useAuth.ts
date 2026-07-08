@@ -18,6 +18,9 @@ export function useAuth() {
     loggedIn.value = true;
     close();
   };
+  const logout = () => {
+    loggedIn.value = false;
+  };
 
-  return { loggedIn, mode, open, close, submit };
+  return { loggedIn, mode, open, close, submit, logout };
 }

@@ -111,14 +111,79 @@ function applyLoginState() {
       <span style="color:#9ca3af;font-weight:700">Balance:</span>
       <span style="color:#fff;font-weight:800">₩1,000,000,000</span>
     </a>
-    <a href="#/account" aria-label="Account" style="display:flex;color:#d1d5db;text-decoration:none">${window.ic ? window.ic('user', 20) : ''}</a>`;
+    <a href="#/account" aria-label="Account" style="display:flex;color:#d1d5db;text-decoration:none">${window.ic ? window.ic('user', 20) : ''}</a>
+    <button data-logout aria-label="Logout" title="Logout" style="display:flex;align-items:center;background:none;border:0;color:#d1d5db;cursor:pointer;padding:0">${window.ic ? window.ic('log-out', 20) : ''}</button>`;
   loginBtn.parentElement.insertBefore(w, loginBtn);
   loginBtn.remove();
   if (regBtn) regBtn.remove();
 }
 
+// === 語言下拉選單 (英/中/韓) + 登出 ===
+const LANGS = [
+  { code: 'EN', label: 'English' },
+  { code: '中文', label: '中文' },
+  { code: '한국어', label: '한국어' },
+];
+
+function setupHeaderLang() {
+  const btn = [...document.querySelectorAll('#container button')].find((b) => b.querySelector('svg.lucide-globe'));
+  if (!btn) return;
+  const wrap = btn.parentElement;
+  const row = wrap && wrap.parentElement;
+  if (row && row.lastElementChild !== wrap) row.appendChild(wrap); // 移到最右邊
+  const label = btn.querySelector('span');
+  if (label) label.textContent = window._lang || 'EN';
+  btn.dataset.langToggle = '1';
+  if (!btn.querySelector('svg.lucide-chevron-down')) {
+    btn.insertAdjacentHTML('beforeend', '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>');
+  }
+}
+
+function closeLangMenu() { document.querySelectorAll('.lang-menu').forEach((m) => m.remove()); }
+
+function openLangMenu(toggle) {
+  const menu = document.createElement('div');
+  menu.className = 'lang-menu';
+  menu.style.cssText = 'position:absolute;right:0;top:100%;z-index:1000;margin-top:6px;background:#1a2128;border:1px solid #2a3441;border-radius:10px;padding:6px;min-width:140px;box-shadow:0 12px 30px rgba(0,0,0,.45)';
+  LANGS.forEach((l) => {
+    const o = document.createElement('div');
+    o.dataset.lang = l.code;
+    o.textContent = l.label;
+    const active = (window._lang || 'EN') === l.code;
+    o.style.cssText = `padding:9px 14px;border-radius:6px;font-size:14px;cursor:pointer;white-space:nowrap;color:${active ? '#98E7D2' : '#d1d5db'};font-weight:${active ? '700' : '400'}`;
+    o.addEventListener('mouseenter', () => { o.style.background = '#0f1419'; });
+    o.addEventListener('mouseleave', () => { o.style.background = ''; });
+    menu.appendChild(o);
+  });
+  toggle.parentElement.style.position = 'relative';
+  toggle.parentElement.appendChild(menu);
+}
+
+document.addEventListener('page:rendered', setupHeaderLang);
+document.addEventListener('click', (e) => {
+  const toggle = e.target.closest('[data-lang-toggle]');
+  if (toggle) {
+    e.preventDefault();
+    if (document.querySelector('.lang-menu')) { closeLangMenu(); return; }
+    openLangMenu(toggle);
+    return;
+  }
+  const opt = e.target.closest('[data-lang]');
+  if (opt) {
+    window._lang = opt.dataset.lang;
+    closeLangMenu();
+    setupHeaderLang(); // 更新按鈕文字
+    return;
+  }
+  if (!e.target.closest('.lang-menu')) closeLangMenu();
+  if (e.target.closest('[data-logout]')) {
+    window._loggedIn = false;
+    window.dispatchEvent(new Event('hashchange')); // 重新渲染本頁,還原 Login/Register
+  }
+});
+
 window.openAuthModal = openAuthModal;
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAuthModal(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeAuthModal(); closeLangMenu(); } });
 document.addEventListener('page:rendered', applyLoginState);
 document.addEventListener('click', (e) => {
   if (e.target.closest('#auth-modal')) return;

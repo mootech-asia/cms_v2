@@ -34,7 +34,16 @@ const mobileLinks = [
 const route = useRoute();
 const isActive = (to: string) => (to === '/' ? route.path === '/' : route.path.startsWith(to));
 
-const { loggedIn, open: openAuth } = useAuth();
+const { loggedIn, open: openAuth, logout } = useAuth();
+
+// language dropdown (EN / 中文 / 한국어)
+const langs = [
+  { code: 'EN', label: 'English' },
+  { code: '中文', label: '中文' },
+  { code: '한국어', label: '한국어' },
+];
+const lang = useState<string>('ui:lang', () => 'EN');
+const langOpen = ref(false);
 
 const base = 'px-2 py-1.5 rounded-lg flex items-center gap-1.5 transition-all whitespace-nowrap';
 const activeCls = 'text-gray-900 bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] shadow-md font-semibold';
@@ -59,11 +68,6 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
       </NuxtLink>
       <div class="flex flex-col flex-1">
         <div class="flex items-center justify-end gap-3 py-2 text-sm min-h-[44px]">
-          <div v-if="!loggedIn" class="relative">
-            <button class="text-gray-300 hover:text-white flex items-center gap-1">
-              <AppIcon name="globe" class="w-4 h-4" /><span>EN</span>
-            </button>
-          </div>
           <template v-if="loggedIn">
             <NuxtLink
               to="/account"
@@ -81,11 +85,35 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
             <NuxtLink to="/account" class="text-gray-300 hover:text-white transition-colors" aria-label="Account">
               <AppIcon name="user" class="w-5 h-5" />
             </NuxtLink>
+            <button class="flex text-gray-300 hover:text-white transition-colors" aria-label="Logout" title="Logout" @click="logout">
+              <AppIcon name="log-out" class="w-5 h-5" />
+            </button>
           </template>
           <template v-else>
             <button class="bg-[#2a3138] text-white px-5 py-1.5 rounded-lg hover:opacity-90 transition-opacity" @click="openAuth('login')">Login</button>
             <button class="bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-5 py-1.5 rounded-lg hover:opacity-90 transition-opacity font-semibold" @click="openAuth('register')">Register</button>
           </template>
+          <div class="relative">
+            <button class="text-gray-300 hover:text-white flex items-center gap-1" @click="langOpen = !langOpen">
+              <AppIcon name="globe" class="w-4 h-4" /><span>{{ lang }}</span><AppIcon name="chevron-down" class="w-3 h-3" />
+            </button>
+            <div v-if="langOpen" class="fixed inset-0 z-[999]" @click="langOpen = false"></div>
+            <div
+              v-if="langOpen"
+              class="absolute right-0 top-full z-[1000]"
+              style="margin-top:6px;background:#1a2128;border:1px solid #2a3441;border-radius:10px;padding:6px;min-width:140px;box-shadow:0 12px 30px rgba(0,0,0,.45)"
+            >
+              <div
+                v-for="l in langs" :key="l.code"
+                class="rounded-md cursor-pointer"
+                style="padding:9px 14px;font-size:14px;white-space:nowrap"
+                :style="{ color: lang === l.code ? '#98E7D2' : '#d1d5db', fontWeight: lang === l.code ? 700 : 400 }"
+                @mouseover="(e) => ((e.currentTarget as HTMLElement).style.background = '#0f1419')"
+                @mouseout="(e) => ((e.currentTarget as HTMLElement).style.background = '')"
+                @click="lang = l.code; langOpen = false"
+              >{{ l.label }}</div>
+            </div>
+          </div>
         </div>
         <nav class="flex items-center justify-end gap-1.5 py-1.5 border-t border-gray-800 text-sm relative">
           <template v-for="item in nav" :key="item.to">
