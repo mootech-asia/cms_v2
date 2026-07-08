@@ -69,6 +69,9 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
       <div class="flex flex-col flex-1">
         <div class="flex items-center justify-end gap-3 py-2 text-sm min-h-[44px]">
           <template v-if="loggedIn">
+            <NuxtLink to="/account" class="flex text-gray-300 hover:text-white transition-colors" aria-label="Account">
+              <AppIcon name="user" class="w-5 h-5" />
+            </NuxtLink>
             <NuxtLink
               to="/account"
               class="flex items-center gap-3 text-gray-300 hover:text-white transition-colors whitespace-nowrap"
@@ -81,9 +84,6 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
             <NuxtLink to="/account" class="flex items-center gap-2 whitespace-nowrap hover:opacity-90 transition-opacity">
               <span class="text-gray-400 font-semibold">Balance:</span>
               <span class="text-white font-bold">₩1,000,000,000</span>
-            </NuxtLink>
-            <NuxtLink to="/account" class="text-gray-300 hover:text-white transition-colors" aria-label="Account">
-              <AppIcon name="user" class="w-5 h-5" />
             </NuxtLink>
             <button class="flex text-gray-300 hover:text-white transition-colors" aria-label="Logout" title="Logout" @click="logout">
               <AppIcon name="log-out" class="w-5 h-5" />
