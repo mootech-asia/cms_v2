@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 
-const props = defineProps<{ title: string; kind: string }>();
+const props = defineProps<{ title: string; kind: string; direct?: boolean }>();
 
 const SLOT_VENDORS = [
   'Pragmatic Play', 'PG Soft', 'CQ9 Gaming', 'Hacksaw Gaming', 'NetEnt', 'Nolimit City',
@@ -25,42 +25,32 @@ const PHOTOS = [
 const photo = (i: number) => `/_external/images.unsplash.com/${PHOTOS[((i % PHOTOS.length) + PHOTOS.length) % PHOTOS.length]}`;
 
 const vendors = computed(() => (props.kind === 'live' ? LIVE_VENDORS : SLOT_VENDORS));
-const tab = ref<'vendor' | 'favorites'>('vendor');
 const active = ref<string | null>(null);
 const q = ref('');
-const filtered = computed(() => {
+
+const showingVendors = computed(() => !props.direct && !active.value);
+const filteredVendors = computed(() => {
   const s = q.value.trim().toLowerCase();
   return vendors.value.filter((v) => !s || v.toLowerCase().includes(s));
+});
+const games = computed(() => {
+  const list = props.direct
+    ? Array.from({ length: 30 }, (_, i) => ({ provider: vendors.value[i % vendors.value.length]!, i }))
+    : (active.value ? Array.from({ length: 24 }, (_, i) => ({ provider: active.value as string, i })) : []);
+  if (!props.direct) return list; // vendor game list is not text-filtered
+  const s = q.value.trim().toLowerCase();
+  return s ? list.filter((g) => g.provider.toLowerCase().includes(s)) : list;
 });
 
 const router = useRouter();
 function back() {
-  if (active.value) { active.value = null; return; }
+  if (!props.direct && active.value) { active.value = null; return; }
   router.back();
 }
 function openVendor(v: string) {
   active.value = v;
   if (import.meta.client) window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-function selectTab(t: 'vendor' | 'favorites') { tab.value = t; active.value = null; }
-
-// 收藏(元件生命週期內記憶)
-const favs = ref<Set<string>>(new Set());
-const favId = (vendor: string, i: number) => `${vendor}||${i}`;
-const isFav = (vendor: string, i: number) => favs.value.has(favId(vendor, i));
-function toggleFav(vendor: string, i: number) {
-  const id = favId(vendor, i);
-  const s = new Set(favs.value);
-  if (s.has(id)) s.delete(id); else s.add(id);
-  favs.value = s;
-}
-const favGames = computed(() => [...favs.value].map((id) => {
-  const idx = id.lastIndexOf('||');
-  return { vendor: id.slice(0, idx), i: Number(id.slice(idx + 2)) };
-}));
-const gameList = computed(() => (tab.value === 'favorites'
-  ? favGames.value
-  : (active.value ? Array.from({ length: 24 }, (_, i) => ({ vendor: active.value as string, i })) : [])));
 </script>
 
 <template>
@@ -73,49 +63,32 @@ const gameList = computed(() => (tab.value === 'favorites'
         </button>
       </div>
 
-      <div class="vnd-tabs">
-        <button :class="{ active: tab === 'vendor' }" @click="selectTab('vendor')">Vendor</button>
-        <button :class="{ active: tab === 'favorites' }" @click="selectTab('favorites')">Favorites</button>
-      </div>
-
       <div class="vnd-head">
         <h2>{{ title }}</h2>
         <div class="vnd-search">
           <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
-          <input v-model="q" type="text" placeholder="Vendor Name">
+          <input v-model="q" type="text" :placeholder="direct ? 'Search Game' : 'Vendor Name'">
           <button class="s-btn" type="button">Search</button>
         </div>
       </div>
 
-      <div v-if="tab === 'favorites' && !favGames.length" class="vnd-empty">No favorites yet - tap the star on a game to add one.</div>
-
-      <div v-else-if="tab === 'vendor' && !active" class="vnd-grid">
-        <button v-for="v in filtered" :key="v" class="vnd-card" @click="openVendor(v)">
+      <div v-if="showingVendors" class="vnd-grid">
+        <button v-for="v in filteredVendors" :key="v" class="vnd-card" @click="openVendor(v)">
           <span class="vnd-name">{{ v }}</span>
         </button>
       </div>
 
       <div v-else class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         <div
-          v-for="g in gameList" :key="`${g.vendor}-${g.i}`"
+          v-for="g in games" :key="`${g.provider}-${g.i}`"
           class="bg-[#1a2128] border border-gray-800 rounded-lg overflow-hidden hover:border-[#98E7D2] transition-colors cursor-pointer group"
         >
           <div class="aspect-[4/3] relative overflow-hidden">
             <img :src="photo(g.i)" alt="Game Name" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-            <button
-              class="absolute top-2 right-2 z-10 focus:outline-none bg-black/50 rounded-full p-1.5 transition-colors"
-              aria-label="Favourite" @click.stop="toggleFav(g.vendor, g.i)"
-            >
-              <svg
-                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                :fill="isFav(g.vendor, g.i) ? '#98E7D2' : 'none'"
-                :style="{ width: '14px', height: '14px', color: isFav(g.vendor, g.i) ? '#98E7D2' : '#fff' }"
-              ><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></svg>
-            </button>
           </div>
           <div class="p-4">
             <h3 class="text-white mb-1 truncate">Game Name</h3>
-            <p class="text-gray-400 text-sm mb-3 truncate">{{ g.vendor }}</p>
+            <p class="text-gray-400 text-sm mb-3 truncate">{{ g.provider }}</p>
             <button class="w-full bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 px-4 py-2 rounded-lg hover:opacity-90 transition-opacity text-sm">Play Now</button>
           </div>
         </div>
@@ -129,10 +102,6 @@ const gameList = computed(() => (tab.value === 'favorites'
 #inner-back button{display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:#fff;font-size:22px;font-weight:700;cursor:pointer;padding:0}
 #inner-back button:hover{color:#98E7D2}
 #inner-back svg{width:24px;height:24px}
-.vnd-tabs{display:flex;gap:32px;border-bottom:1px solid #263241;margin-bottom:26px}
-.vnd-tabs button{position:relative;padding:0 0 14px;background:none;border:0;color:#9ca3af;font-weight:600;font-size:15px;cursor:pointer}
-.vnd-tabs button.active{color:#98E7D2}
-.vnd-tabs button.active::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;border-radius:2px;background:linear-gradient(90deg,#CBE8E4,#98E7D2)}
 .vnd-head{display:flex;flex-direction:column;gap:16px;margin-bottom:26px}
 @media(min-width:768px){.vnd-head{flex-direction:row;align-items:center;justify-content:space-between}}
 .vnd-head h2{color:#fff;font-size:26px;font-weight:600;margin:0}
@@ -141,7 +110,6 @@ const gameList = computed(() => (tab.value === 'favorites'
 .vnd-search input:focus{border-color:#98E7D2}
 .vnd-search .s-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#9ca3af;width:16px;height:16px}
 .vnd-search .s-btn{background:linear-gradient(90deg,#CBE8E4,#98E7D2);color:#0f1622;border:0;border-radius:10px;padding:0 20px;font-weight:700;cursor:pointer;white-space:nowrap}
-.vnd-empty{text-align:center;color:#9ca3af;padding:56px 16px}
 .vnd-grid{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:16px}
 @media(min-width:640px){.vnd-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(min-width:1024px){.vnd-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}

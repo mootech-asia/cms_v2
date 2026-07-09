@@ -6,7 +6,7 @@
     <h1 class="text-4xl md:text-7xl text-white mb-4">HOT GAMES</h1>
     </div>
     </div>
-    <VendorBrowser title="Hot Games" kind="hot-games" />
+    <VendorBrowser title="Hot Games" kind="hot-games" direct />
     <AppFooter />
     <MobileBottomNav />
   </div>
