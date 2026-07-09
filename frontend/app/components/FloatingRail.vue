@@ -19,7 +19,8 @@ const items = [
 </template>
 
 <style scoped>
-#qr-rail{position:fixed;right:14px;top:50%;transform:translateY(-58%);z-index:9000;display:flex;flex-direction:column;align-items:center;gap:14px;padding:12px 8px;border-radius:44px;background:rgba(20,28,36,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.08);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+#qr-rail{position:fixed;right:14px;top:50%;transform:translateY(-58%);z-index:9000;display:flex;flex-direction:column;align-items:center;gap:14px;padding:12px 8px;border-radius:44px;background:rgba(20,28,36,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.08);box-shadow:0 10px 30px rgba(0,0,0,.4);opacity:.5;transition:opacity .2s ease}
+#qr-rail:hover,#qr-rail:focus-within{opacity:1}
 .qr-btn{position:relative;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#12233a;color:#cbe8e4;box-shadow:0 6px 18px rgba(0,0,0,.35);transition:transform .15s ease,background .15s ease;text-decoration:none}
 .qr-btn:hover{transform:scale(1.06);background:#17304d}
 .qr-btn img{width:40px;height:40px;object-fit:contain}
