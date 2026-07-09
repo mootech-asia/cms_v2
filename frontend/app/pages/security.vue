@@ -168,7 +168,7 @@ useMemberPage(root);
     </div>
     <span class="text-gray-500 text-sm whitespace-nowrap flex-shrink-0">Not set ›</span>
     </div>
-    <div class="flex items-center justify-between p-4 border-b border-gray-800 hover:bg-[#0f1419] cursor-pointer">
+    <NuxtLink to="/change-password" class="flex items-center justify-between p-4 border-b border-gray-800 hover:bg-[#0f1419] cursor-pointer">
     <div class="flex items-center gap-3">
     <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: rgba(152, 231, 210, 0.15);">
     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: rgb(152, 231, 210);">
@@ -182,7 +182,7 @@ useMemberPage(root);
     </div>
     </div>
     <span class="text-gray-500 text-sm whitespace-nowrap flex-shrink-0">Not set ›</span>
-    </div>
+    </NuxtLink>
     <div class="flex items-center justify-between p-4 border-b border-gray-800 hover:bg-[#0f1419] cursor-pointer">
     <div class="flex items-center gap-3">
     <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: rgba(152, 231, 210, 0.15);">
@@ -198,7 +198,7 @@ useMemberPage(root);
     </div>
     <span class="text-gray-500 text-sm whitespace-nowrap flex-shrink-0">Not set ›</span>
     </div>
-    <div class="flex items-center justify-between p-4 border-b border-gray-800 hover:bg-[#0f1419] cursor-pointer">
+    <NuxtLink to="/banking-details" class="flex items-center justify-between p-4 border-b border-gray-800 hover:bg-[#0f1419] cursor-pointer">
     <div class="flex items-center gap-3">
     <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: rgba(152, 231, 210, 0.15);">
     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: rgb(152, 231, 210);">
@@ -212,7 +212,7 @@ useMemberPage(root);
     </div>
     </div>
     <span class="text-gray-500 text-sm whitespace-nowrap flex-shrink-0">Not set ›</span>
-    </div>
+    </NuxtLink>
     <div class="flex items-center justify-between p-4 hover:bg-[#0f1419] cursor-pointer">
     <div class="flex items-center gap-3">
     <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: rgba(152, 231, 210, 0.15);">

@@ -26,6 +26,11 @@ const icons: Record<string, string> = {
   card: '<rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 10h18"></path><path d="M7 15h4"></path>',
   bitcoin: '<circle cx="12" cy="12" r="9"></circle><path d="M9.5 8h3.8a2.2 2.2 0 0 1 0 4.4H9.5z"></path><path d="M9.5 12.4h4.2a2.3 2.3 0 0 1 0 4.6H9.5z"></path><path d="M9.5 6v12M11 4.5V6M14 4.5V6M11 18v1.5M14 18v1.5"></path>',
   'log-out': '<path d="m16 17 5-5-5-5"></path><path d="M21 12H9"></path><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>',
+  eye: '<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle>',
+  search: '<circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path>',
+  plus: '<path d="M12 5v14M5 12h14"></path>',
+  check: '<path d="M20 6 9 17l-5-5"></path>',
+  bank: '<rect x="2" y="7" width="16" height="11" rx="2"></rect><path d="M2 11h16"></path><circle cx="8" cy="14.5" r="1.4"></circle><path d="M18 9.5l3.6 1.5a1 1 0 0 1 .4 1.4l-2 3.4"></path>',
 };
 </script>
 

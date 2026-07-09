@@ -1,5 +1,7 @@
 <script setup lang="ts">
+const props = defineProps<{ active?: string }>();
 const route = useRoute();
+const current = computed(() => props.active || route.path);
 const links = [
   ['Account Overview', '/account', 'grid'],
   ['Deposit', '/deposit', 'download'],
@@ -22,7 +24,7 @@ const links = [
         :key="to"
         :to="to"
         class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all"
-        :class="route.path === to
+        :class="current === to
           ? 'bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 font-semibold'
           : 'text-gray-300 hover:bg-[#0f1419] hover:text-white'"
       >

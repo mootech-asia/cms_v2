@@ -1,7 +1,7 @@
 // === 原生 JS 路由 (取代 React Router) ===
-const ROUTES = ['home','about','account','account-record','betting-record','deposit','deposit-record',
-  'fish','hot-games','live','mini-games','personal-info','profit-loss','promotion','security',
-  'slot','sport','support','withdrawal','withdrawal-record'];
+const ROUTES = ['home','about','account','account-record','banking-details','betting-record','change-password',
+  'deposit','deposit-record','fish','hot-games','live','mini-games','personal-info','profit-loss','promotion',
+  'security','slot','sport','support','withdrawal','withdrawal-record'];
 
 function slugFromHref(href) {
   if (href == null) return null;
@@ -12,7 +12,7 @@ function slugFromHref(href) {
 
 // 片段版本號:每次改版 pages/*.html 時一併更新,避免 GitHub Pages 的
 // max-age=600 快取讓使用者在部署後最多 10 分鐘內拿到舊頁面
-const PAGES_V = '20260709-1300';
+const PAGES_V = '20260709-1600';
 
 const cache = {};
 async function loadFragment(slug) {

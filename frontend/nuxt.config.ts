@@ -12,7 +12,7 @@ export default defineNuxtConfig({
         '/', '/hot-games', '/mini-games', '/slot', '/sport', '/live', '/fish', '/promotion',
         '/account', '/deposit', '/withdrawal', '/personal-info', '/profit-loss', '/security',
         '/support', '/account-record', '/betting-record', '/deposit-record', '/withdrawal-record',
-        '/about',
+        '/about', '/change-password', '/banking-details',
       ],
     },
   },
