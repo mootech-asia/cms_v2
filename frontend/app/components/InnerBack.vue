@@ -12,7 +12,7 @@ const router = useRouter();
 </template>
 
 <style scoped>
-#inner-back{padding:0 0 18px}
+#inner-back{align-self:flex-start;width:100%;padding:0 0 18px}
 #inner-back button{display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:#fff;font-size:22px;font-weight:700;cursor:pointer;padding:0}
 #inner-back button:hover{color:#98E7D2}
 #inner-back svg{width:24px;height:24px}

@@ -136,6 +136,7 @@ useMemberPage(root);
     </nav>
     </aside>
     <main class="flex-1 min-w-0 p-4 md:p-8 flex flex-col" style="padding-bottom: 80px;">
+    <InnerBack />
     <h1 class="text-white text-3xl mb-8 w-full">Withdrawal Record</h1>
     <div class="w-full mb-4 flex md:hidden flex-col gap-2">
     <div style="display: flex; flex-wrap: nowrap; gap: 8px; align-items: center; width: 100%;">

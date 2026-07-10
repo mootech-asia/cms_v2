@@ -136,6 +136,7 @@ useMemberPage(root);
     </nav>
     </aside>
     <main class="flex-1 min-w-0 p-4 md:p-8 flex flex-col" style="padding-bottom: 80px;">
+    <InnerBack />
     <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8 w-full">Account Overview</h1>
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8 w-full">
     <div class="lg:col-span-2 relative overflow-hidden rounded-2xl p-4 md:p-6" style="background: linear-gradient(105deg, rgb(22, 63, 52) 0%, rgb(15, 42, 35) 28%, rgb(11, 24, 21) 55%, rgb(10, 14, 18) 100%);">

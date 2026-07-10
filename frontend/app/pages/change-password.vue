@@ -30,6 +30,7 @@ function closeModal() {
     <div class="flex min-h-screen">
       <MemberSidebar active="/security" />
       <main class="flex-1 min-w-0 p-4 md:p-8 pb-24">
+        <InnerBack />
         <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8">Change Login Password</h1>
         <div class="mf-card">
           <div class="mf-field">
@@ -63,8 +64,8 @@ function closeModal() {
 .mf-hint{color:#fff;font-size:14px;margin:6px 0 24px}
 .mf-submit{display:block;width:100%;padding:15px;border:0;border-radius:10px;background:#4b5563;font-weight:700;font-size:16px;cursor:not-allowed;text-align:center}
 .mf-submit span{color:#e5e7eb}
-.mf-submit.ready{background:#0a1526;cursor:pointer}
-.mf-submit.ready span{background:linear-gradient(90deg,#ff4d9d 10%,#ff8a3d 60%,#ffb43d);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;font-weight:800}
+.mf-submit.ready{background:linear-gradient(90deg,#CBE8E4,#98E7D2);cursor:pointer}
+.mf-submit.ready span{color:#0f1622;font-weight:800}
 .mf-back{display:block;width:100%;margin-top:14px;padding:15px;border:1px solid #374151;border-radius:10px;background:#0f1419;color:#fff;font-weight:700;font-size:16px;text-align:center;text-decoration:none;cursor:pointer;box-sizing:border-box}
 .mf-back:hover{border-color:#4b5563}
 </style>

@@ -137,6 +137,7 @@ const showSuccess = ref(false);
     </nav>
     </aside>
     <main class="flex-1 min-w-0 p-4 md:p-8 flex flex-col items-center" style="padding-bottom: 80px;">
+    <InnerBack />
     <h1 class="text-white text-3xl mb-8 w-full">Personal Info</h1>
     <div class="bg-[#1a2128] border border-gray-800 rounded-xl p-6 w-full max-w-md">
     <h2 class="text-white text-center font-semibold text-lg mb-5">Username : PLAYER</h2>

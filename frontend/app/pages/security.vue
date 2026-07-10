@@ -136,6 +136,7 @@ useMemberPage(root);
     </nav>
     </aside>
     <main class="flex-1 min-w-0 p-4 md:p-8 flex flex-col items-center" style="padding-bottom: 80px;">
+    <InnerBack />
     <h1 class="text-white text-3xl mb-8 w-full">Security Center</h1>
     <div class="w-full max-w-4xl">
     <h2 class="text-gray-400 text-sm font-semibold uppercase tracking-wider mb-2">Last login</h2>

@@ -28,24 +28,26 @@
       .mf-hint{color:#fff;font-size:14px;margin:6px 0 24px}
       .mf-submit{display:block;width:100%;padding:15px;border:0;border-radius:10px;background:#4b5563;font-weight:700;font-size:16px;cursor:not-allowed;text-align:center}
       .mf-submit span{color:#e5e7eb}
-      .mf-submit.ready{background:#0a1526;cursor:pointer}
-      .mf-submit.ready span{background:linear-gradient(90deg,#ff4d9d 10%,#ff8a3d 60%,#ffb43d);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;font-weight:800}
+      .mf-submit.ready{background:linear-gradient(90deg,#CBE8E4,#98E7D2);cursor:pointer}
+      .mf-submit.ready span{color:#0f1622;font-weight:800}
       .mf-back{display:block;width:100%;margin-top:14px;padding:15px;border:1px solid #374151;border-radius:10px;background:#0f1419;color:#fff;font-weight:700;font-size:16px;text-align:center;text-decoration:none;cursor:pointer;box-sizing:border-box}
       .mf-back:hover{border-color:#4b5563}
       .mf-section{display:flex;justify-content:center;margin:8px 0 20px}
-      .mf-section span{display:inline-block;padding:10px 22px;border-radius:999px;background:#0a1526;color:#aae5d3;font-weight:700;font-size:15px}
+      .mf-section span{display:inline-block;padding:10px 22px;border-radius:999px;background:#0f1419;color:#aae5d3;font-weight:700;font-size:15px}
       .mf-select-wrap{position:relative;margin-bottom:16px}
-      .mf-select{box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:52px;background:#fff;border:1px solid #d1d5db;border-radius:10px;padding:12px 16px;color:#1a2128;font-size:15px;cursor:pointer;text-align:left}
+      .mf-select{box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:52px;background:#0f1419;border:1px solid #374151;border-radius:10px;padding:12px 16px;color:#fff;font-size:15px;cursor:pointer;text-align:left}
       .mf-select.placeholder{color:#6b7280}
-      .mf-select svg{width:18px;height:18px;color:#6b7280;flex:0 0 auto}
-      .mf-select-menu{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:30;background:#fff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;box-shadow:0 16px 40px rgba(0,0,0,.35)}
-      .mf-select-search{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid #eef0f2}
+      .mf-select:hover{border-color:#4b5563}
+      .mf-select svg{width:18px;height:18px;color:#9ca3af;flex:0 0 auto}
+      .mf-select-menu{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:30;background:#1a2128;border:1px solid #374151;border-radius:10px;overflow:hidden;box-shadow:0 16px 40px rgba(0,0,0,.5)}
+      .mf-select-search{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid #263241}
       .mf-select-search svg{width:18px;height:18px;color:#9ca3af;flex:0 0 auto}
-      .mf-select-search input{flex:1;border:0;outline:none;font-size:15px;color:#1a2128;background:none}
+      .mf-select-search input{flex:1;border:0;outline:none;font-size:15px;color:#fff;background:none}
+      .mf-select-search input::placeholder{color:#6b7280}
       .mf-select-opts{max-height:220px;overflow-y:auto}
-      .mf-select-opt{padding:13px 16px;color:#1a2128;font-size:15px;cursor:pointer;border-bottom:1px solid #f1f3f5}
+      .mf-select-opt{padding:13px 16px;color:#d1d5db;font-size:15px;cursor:pointer;border-bottom:1px solid #232b36}
       .mf-select-opt:last-child{border-bottom:0}
-      .mf-select-opt:hover{background:#f5f7f9}
+      .mf-select-opt:hover{background:#0f1419;color:#fff}
       .mf-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:#151b24;border:1px solid #1f2937;border-radius:14px;padding:44px 24px}
       .mf-empty-coin{width:92px;height:92px;border:2px dashed #4b5563;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(26,33,40,.6);color:#9ca3af;margin-bottom:16px}
       .mf-empty-coin svg{width:44px;height:44px}
@@ -62,14 +64,18 @@
       .mf-fab svg{width:26px;height:26px}
       @media(min-width:768px){.mf-fab{bottom:32px;right:32px}}
       .mf-overlay{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55);padding:20px}
-      .mf-modal{position:relative;width:340px;max-width:calc(100vw - 40px);background:#2b313c;border-radius:22px;padding:34px 28px 24px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.5)}
-      .mf-modal::before{content:"";position:absolute;inset:0;border-radius:22px;padding:2px;background:linear-gradient(120deg,#ff4d9d,#ff8a3d,#ffb43d);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
-      .mf-modal-icon{width:58px;height:58px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
-      .mf-modal-icon svg{width:30px;height:30px;color:#1a2128}
+      .mf-modal{position:relative;width:340px;max-width:calc(100vw - 40px);background:#1a2128;border-radius:22px;padding:34px 28px 24px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+      .mf-modal::before{content:"";position:absolute;inset:0;border-radius:22px;padding:2px;background:linear-gradient(120deg,#CBE8E4,#98E7D2);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+      .mf-modal-icon{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#CBE8E4,#98E7D2);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+      .mf-modal-icon svg{width:30px;height:30px;color:#0f1622}
       .mf-modal-title{color:#fff;font-size:22px;font-weight:800;margin:0 0 8px}
       .mf-modal-msg{color:#c3cbd6;font-size:14px;margin:0 0 22px;line-height:1.5;word-break:break-word}
-      .mf-modal-btn{display:block;width:100%;padding:13px;border:0;border-radius:999px;background:linear-gradient(90deg,#ff4d9d,#ffb43d);color:#1a2128;font-weight:800;font-size:15px;cursor:pointer}
+      .mf-modal-btn{display:block;width:100%;padding:13px;border:0;border-radius:999px;background:linear-gradient(90deg,#CBE8E4,#98E7D2);color:#0f1622;font-weight:800;font-size:15px;cursor:pointer}
       .mf-modal-btn.secondary{background:none;color:#fff;margin-top:6px}
+      #member-back{align-self:flex-start;width:100%;padding:0 0 18px}
+      #member-back button{display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:#fff;font-size:22px;font-weight:700;cursor:pointer;padding:0}
+      #member-back button:hover{color:#98E7D2}
+      #member-back svg{width:24px;height:24px}
     `;
     document.head.appendChild(s);
   }
@@ -361,9 +367,30 @@
     });
   }
 
+  // ---------- 側邊欄內頁:內容上方統一 Back ----------
+  const MEMBER_SLUGS = new Set(['account', 'account-record', 'betting-record', 'banking-details',
+    'change-password', 'deposit', 'deposit-record', 'personal-info', 'profit-loss', 'security',
+    'withdrawal', 'withdrawal-record']);
+  const BACK_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>';
+  function injectMemberBack() {
+    const main = document.querySelector('#container main');
+    if (!main || main.querySelector('#member-back')) return;
+    const bar = document.createElement('div');
+    bar.id = 'member-back';
+    bar.innerHTML = `<button type="button">${BACK_SVG}<span>Back</span></button>`;
+    main.insertBefore(bar, main.firstChild);
+  }
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#member-back button')) return;
+    e.preventDefault();
+    if (window.history.length > 1) window.history.back();
+    else location.hash = '#/account';
+  });
+
   document.addEventListener('page:rendered', (e) => {
     if (!e.detail) return;
     injectStyle();
+    if (MEMBER_SLUGS.has(e.detail.slug)) injectMemberBack();
     if (e.detail.slug === 'change-password') initChangePassword();
     if (e.detail.slug === 'banking-details') initBankingDetails();
     if (e.detail.slug === 'personal-info') initPersonalInfo();

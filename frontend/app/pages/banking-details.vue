@@ -69,6 +69,7 @@ function closeModal(confirmed: boolean) {
     <div class="flex min-h-screen">
       <MemberSidebar active="/security" />
       <main class="flex-1 min-w-0 p-4 md:p-8 pb-24">
+        <InnerBack />
         <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8">Banking Details</h1>
         <div class="mf-wrap">
           <!-- Empty -->
@@ -148,25 +149,27 @@ function closeModal(confirmed: boolean) {
 .mf-eye :deep(svg){width:20px;height:20px}
 .mf-submit{display:block;width:100%;padding:15px;border:0;border-radius:10px;background:#4b5563;font-weight:700;font-size:16px;cursor:not-allowed;text-align:center}
 .mf-submit span{color:#e5e7eb}
-.mf-submit.ready{background:#0a1526;cursor:pointer}
-.mf-submit.ready span{background:linear-gradient(90deg,#ff4d9d 10%,#ff8a3d 60%,#ffb43d);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;font-weight:800}
+.mf-submit.ready{background:linear-gradient(90deg,#CBE8E4,#98E7D2);cursor:pointer}
+.mf-submit.ready span{color:#0f1622;font-weight:800}
 .mf-back{display:block;width:100%;margin-top:14px;padding:15px;border:1px solid #374151;border-radius:10px;background:#0f1419;color:#fff;font-weight:700;font-size:16px;text-align:center;cursor:pointer;box-sizing:border-box}
 .mf-back:hover{border-color:#4b5563}
 .mf-section{display:flex;justify-content:center;margin:8px 0 20px}
-.mf-section span{display:inline-block;padding:10px 22px;border-radius:999px;background:#0a1526;color:#aae5d3;font-weight:700;font-size:15px}
+.mf-section span{display:inline-block;padding:10px 22px;border-radius:999px;background:#0f1419;color:#aae5d3;font-weight:700;font-size:15px}
 .mf-select-wrap{position:relative;margin-bottom:16px}
-.mf-select{box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:52px;background:#fff;border:1px solid #d1d5db;border-radius:10px;padding:12px 16px;color:#1a2128;font-size:15px;cursor:pointer;text-align:left}
+.mf-select{box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:52px;background:#0f1419;border:1px solid #374151;border-radius:10px;padding:12px 16px;color:#fff;font-size:15px;cursor:pointer;text-align:left}
 .mf-select.placeholder{color:#6b7280}
-.mf-select :deep(svg){width:18px;height:18px;color:#6b7280;flex:0 0 auto}
+.mf-select:hover{border-color:#4b5563}
+.mf-select :deep(svg){width:18px;height:18px;color:#9ca3af;flex:0 0 auto}
 .mf-select-back{position:fixed;inset:0;z-index:20}
-.mf-select-menu{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:30;background:#fff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;box-shadow:0 16px 40px rgba(0,0,0,.35)}
-.mf-select-search{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid #eef0f2}
+.mf-select-menu{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:30;background:#1a2128;border:1px solid #374151;border-radius:10px;overflow:hidden;box-shadow:0 16px 40px rgba(0,0,0,.5)}
+.mf-select-search{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid #263241}
 .mf-select-search :deep(svg){width:18px;height:18px;color:#9ca3af;flex:0 0 auto}
-.mf-select-search input{flex:1;border:0;outline:none;font-size:15px;color:#1a2128;background:none}
+.mf-select-search input{flex:1;border:0;outline:none;font-size:15px;color:#fff;background:none}
+.mf-select-search input::placeholder{color:#6b7280}
 .mf-select-opts{max-height:220px;overflow-y:auto}
-.mf-select-opt{padding:13px 16px;color:#1a2128;font-size:15px;cursor:pointer;border-bottom:1px solid #f1f3f5}
+.mf-select-opt{padding:13px 16px;color:#d1d5db;font-size:15px;cursor:pointer;border-bottom:1px solid #232b36}
 .mf-select-opt:last-child{border-bottom:0}
-.mf-select-opt:hover{background:#f5f7f9}
+.mf-select-opt:hover{background:#0f1419;color:#fff}
 .mf-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:#151b24;border:1px solid #1f2937;border-radius:14px;padding:44px 24px}
 .mf-empty-coin{width:92px;height:92px;border:2px dashed #4b5563;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(26,33,40,.6);color:#9ca3af;margin-bottom:16px}
 .mf-empty-coin :deep(svg){width:44px;height:44px}

@@ -37,6 +37,7 @@ function submitWithdraw() {
     <div class="flex min-h-screen">
       <MemberSidebar />
       <main class="flex-1 min-w-0 p-4 md:p-8 pb-24">
+        <InnerBack />
         <h1 class="text-white text-2xl md:text-3xl mb-6 md:mb-8">Withdrawl</h1>
         <div class="mode-tabs">
           <button :class="{ active: mode === 'withdraw' }" @click="mode = 'withdraw'">Withdraw</button>
@@ -182,7 +183,7 @@ function submitWithdraw() {
 .accts-title span{color:#9ca3af;font-weight:500}
 .bound-card{min-height:150px;background:linear-gradient(105deg,#1b2536 0%,#131c2b 55%,#0d1420 100%);border:1px solid #26324a;padding:22px 26px}
 .bound-inner{display:flex;flex-direction:column;min-height:106px}
-.bound-pill{align-self:flex-start;background:#0a1526;color:#cbd5e1;font-size:12px;font-weight:700;padding:6px 14px;border-radius:8px}
+.bound-pill{align-self:flex-start;background:#0f1419;color:#cbd5e1;font-size:12px;font-weight:700;padding:6px 14px;border-radius:8px}
 .bound-num{text-align:center;margin-top:-4px}
 .bound-num .bn-label{color:#9ca3af;font-size:13px;margin:0}
 .bound-num .bn-value{color:#fff;font-size:24px;font-weight:800;letter-spacing:.12em;margin:2px 0 0}
@@ -190,6 +191,6 @@ function submitWithdraw() {
 .bound-name{color:#eab308;font-weight:700;letter-spacing:.08em}
 .bound-date{text-align:right;color:#9ca3af;font-size:12px}
 .bound-date b{color:#e5e7eb;font-size:13px}
-.submit-ready{display:flex;align-items:center;justify-content:center;border:0;background:#0a1526;cursor:pointer}
-.submit-ready span{background:linear-gradient(90deg,#ff4d9d,#ff8a3d,#ffb43d);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:800}
+.submit-ready{display:flex;align-items:center;justify-content:center;border:0;background:linear-gradient(90deg,#cbe8e4,#98e7d2);cursor:pointer}
+.submit-ready span{color:#0f1622;font-weight:800}
 </style>
