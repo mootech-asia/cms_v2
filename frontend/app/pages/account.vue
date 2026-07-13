@@ -142,7 +142,7 @@ useMemberPage(root);
       <div class="rk-id">
         <div class="rk-av">
           <div class="rk-ring"><span>ME</span></div>
-          <svg class="rk-hex" viewBox="0 0 24 24" fill="#2563eb" stroke="#0e1826" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2l8.66 5v10L12 22l-8.66-5V7z" /></svg>
+          <svg class="rk-hex" viewBox="0 0 24 24" fill="#98E7D2" stroke="#1a2128" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2l8.66 5v10L12 22l-8.66-5V7z" /></svg>
         </div>
         <div><div class="rk-name">meqomcao</div><div class="rk-sub">Rewards · Day 27, 03:26 UTC</div></div>
       </div>
@@ -414,23 +414,23 @@ useMemberPage(root);
 </template>
 
 <style scoped>
-#rk-bar{position:relative;background:#0e1826;border:1px solid #1e2a3a;border-radius:16px;padding:18px 22px;margin-bottom:24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+#rk-bar{position:relative;background:#1a2128;border:1px solid #1f2937;border-radius:16px;padding:18px 22px;margin-bottom:24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
 #rk-bar .rk-id{display:flex;align-items:center;gap:14px}
 #rk-bar .rk-av{position:relative;width:52px;height:52px;flex:0 0 auto}
-#rk-bar .rk-ring{width:52px;height:52px;border-radius:50%;padding:2px;background:conic-gradient(from 210deg,#2563eb,#60a5fa,#2563eb)}
-#rk-bar .rk-ring>span{display:flex;width:100%;height:100%;align-items:center;justify-content:center;border-radius:50%;background:#0e1826;color:#cfe0ff;font-weight:800;font-size:14px}
+#rk-bar .rk-ring{width:52px;height:52px;border-radius:50%;padding:2px;background:linear-gradient(135deg,#CBE8E4,#98E7D2)}
+#rk-bar .rk-ring>span{display:flex;width:100%;height:100%;align-items:center;justify-content:center;border-radius:50%;background:#1a2128;color:#CBE8E4;font-weight:800;font-size:14px}
 #rk-bar .rk-hex{position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:18px;height:18px}
 #rk-bar .rk-name{color:#fff;font-size:18px;font-weight:800;line-height:1.15}
-#rk-bar .rk-sub{color:#7c8aa0;font-size:12.5px;margin-top:2px}
+#rk-bar .rk-sub{color:#9ca3af;font-size:12.5px;margin-top:2px}
 #rk-bar .rk-prog{flex:1 1 300px;min-width:220px}
-#rk-bar .rk-track{height:8px;border-radius:99px;background:#1b2738;overflow:hidden}
-#rk-bar .rk-fill{height:100%;width:62%;border-radius:99px;background:linear-gradient(90deg,#2563eb,#60a5fa)}
-#rk-bar .rk-meta{display:flex;justify-content:space-between;align-items:center;margin-top:9px;font-size:13px;color:#8b97a8}
-#rk-bar .rk-cur b{color:#60a5fa;font-weight:700}
+#rk-bar .rk-track{height:8px;border-radius:99px;background:#0f1419;overflow:hidden}
+#rk-bar .rk-fill{height:100%;width:62%;border-radius:99px;background:linear-gradient(90deg,#CBE8E4,#98E7D2)}
+#rk-bar .rk-meta{display:flex;justify-content:space-between;align-items:center;margin-top:9px;font-size:13px;color:#9ca3af}
+#rk-bar .rk-cur b{color:#98E7D2;font-weight:700}
 #rk-bar .rk-dot{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:middle;margin-left:4px}
 #rk-bar .rk-dot-gray{background:#6b7688}
 #rk-bar .rk-dot-bronze{background:#f59e0b}
-#rk-bar .rk-next{color:#8b97a8;font-size:14px;white-space:nowrap}
+#rk-bar .rk-next{color:#9ca3af;font-size:14px;white-space:nowrap}
 #rk-bar .rk-next b{color:#f59e0b;font-weight:800}
 @media(max-width:768px){#rk-bar{flex-direction:column;align-items:stretch;gap:16px}#rk-bar .rk-next{align-self:flex-start}}
 </style>
