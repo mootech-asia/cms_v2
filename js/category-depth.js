@@ -55,19 +55,18 @@
     button.type = 'button';
     button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg><span>Back</span>';
     button.addEventListener('click', () => {
-      if (location.hash.includes('?provider=')) {
-        location.hash = '#/' + slug;
-        return;
-      }
-      if (history.length > 1) history.back();
-      else location.hash = '#/';
+      location.hash = '#/' + slug;
     });
     wrap.appendChild(button);
     return wrap;
   }
 
+  function hasProviderQuery(query) {
+    return Boolean(query && Object.prototype.hasOwnProperty.call(query, 'provider') && String(query.provider).trim());
+  }
+
   function providerText(query, slug) {
-    const raw = query && query.provider ? String(query.provider) : DEFAULT_PROVIDER[slug];
+    const raw = hasProviderQuery(query) ? String(query.provider) : DEFAULT_PROVIDER[slug];
     if (!raw) return '';
     return decodeURIComponent(raw).replace(/\+/g, ' ');
   }
@@ -110,8 +109,9 @@
     ensureStyle();
 
     removeCategoryBacks(target);
-    const hasProviderView = updateProviderHeading(target, slug, detail.query || {});
-    if (hasProviderView) target.insertBefore(makeBack(slug), target.firstChild);
+    const query = detail.query || {};
+    updateProviderHeading(target, slug, query);
+    if (hasProviderQuery(query)) target.insertBefore(makeBack(slug), target.firstChild);
   }
 
   document.addEventListener('page:rendered', (event) => {
