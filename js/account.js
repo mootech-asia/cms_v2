@@ -88,15 +88,41 @@ function renderBankCard() {
   }
 }
 
+function deleteBankAccount(index) {
+  bankAccounts.splice(index, 1);
+  if (bankIdx >= bankAccounts.length) bankIdx = Math.max(0, bankAccounts.length - 1);
+  renderBankCard();
+  if (window.showMemberModal) window.showMemberModal({ type: 'success' });
+}
+
+function confirmDeleteBankAccount(index) {
+  const account = bankAccounts[index];
+  const message = account ? account.num + ' ?' : 'Delete this bank account?';
+  if (window.showMemberModal) {
+    window.showMemberModal({
+      type: 'confirm',
+      message,
+      onConfirm: () => deleteBankAccount(index),
+    });
+    return;
+  }
+  if (window.confirm(message)) deleteBankAccount(index);
+}
+
 document.addEventListener('click', (e) => {
   const prev = e.target.closest('.bk-prev');
   const next = e.target.closest('.bk-next');
   const del = e.target.closest('.bk-del');
   if (!prev && !next && !del) return;
   const total = bankAccounts.length;
+  if (del && total) {
+    e.preventDefault();
+    e.stopPropagation();
+    confirmDeleteBankAccount(bankIdx);
+    return;
+  }
   if (prev && total) bankIdx = (bankIdx - 1 + total) % total;
   if (next && total) bankIdx = (bankIdx + 1) % total;
-  if (del && total) bankAccounts.splice(bankIdx, 1);
   renderBankCard();
 });
 
