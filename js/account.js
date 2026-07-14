@@ -17,6 +17,14 @@ function updateDepositNextState() {
 }
 
 document.addEventListener('click', (e) => {
+  // --- Account Overview: 查看更多紀錄 ---
+  const recordsLink = e.target.closest('button, a');
+  if (recordsLink && (recordsLink.textContent || '').includes('View More Records')) {
+    e.preventDefault();
+    window.location.hash = '#/account-record';
+    return;
+  }
+
   // --- 金額快選 ---
   const btn = e.target.closest('button');
   if (btn && AMT_RE.test((btn.textContent || '').trim())) {
