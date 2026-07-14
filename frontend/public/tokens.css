@@ -1,0 +1,58 @@
+/* ============================================================
+   設計代幣 v1 — 規範見 docs/design-system-plan.md
+   作為 base.css 之後載入的覆蓋層;inline style 與 JS 注入樣式
+   一律引用這裡的變數,不再手寫 hex/px。
+   ============================================================ */
+:root {
+  /* 字級階梯 */
+  --fs-display: 30px; /* 頁面大標 (text-3xl) */
+  --fs-h1: 24px;      /* 區塊主標/彈窗標題/金額 (text-2xl) */
+  --fs-h2: 18px;      /* 卡片標題 (text-lg) */
+  --fs-body-lg: 16px; /* 強調內文 (text-base) */
+  --fs-body: 14px;    /* 內文 (text-sm) */
+  --fs-caption: 12px; /* 說明/標籤/表格輔助 (text-xs) */
+  --fs-micro: 10px;   /* 徽章/角標 */
+
+  /* 字重四階:400 內文 / 600 次強調 / 700 標題 / 800 數值與 CTA */
+
+  /* 字距三階 */
+  --ls-tight: 0;
+  --ls-wide: .06em;    /* 小型標籤 */
+  --ls-numeric: .12em; /* 卡號/金額 */
+
+  /* 行高三階 */
+  --lh-solid: 1;    /* 按鈕/徽章/數值 */
+  --lh-heading: 1.2;
+  --lh-body: 1.5;
+
+  /* 主色 */
+  --c-primary: #98E7D2;
+  --c-primary-soft: #CBE8E4;
+  --c-primary-faint: #313E40; /* 選中底色 */
+  --c-on-primary: #0F1622;    /* 主色上的文字 */
+  --g-primary: linear-gradient(90deg, var(--c-primary-soft), var(--c-primary));
+
+  /* 面板(綠黑系) */
+  --c-bg: #0F1419;
+  --c-surface: #1A2128;
+  --c-surface-2: #2A3138;
+  --c-border: #374151;
+  --c-disabled: #4B5563;
+
+  /* 文字灰階 */
+  --c-text: #FFFFFF;
+  --c-text-2: #D1D5DB;
+  --c-text-3: #9CA3AF;
+  --c-text-4: #6B7280;
+
+  /* 狀態/強調 */
+  --c-gold: #F0B24A;
+  --c-danger: #F87171;
+  --c-success: #4ADE80;
+
+  /* 銀行卡擬物卡面(全站唯一保留的藍黑系) */
+  --c-card-face-1: #1B2536;
+  --c-card-face-2: #131C2B;
+  --c-card-face-3: #0D1420;
+  --c-card-border: #26324A;
+}

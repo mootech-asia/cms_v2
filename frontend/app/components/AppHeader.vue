@@ -213,10 +213,12 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
                     <span class="text-white text-lg min-[400px]:text-xl font-bold truncate">meqomcao</span>
                     <span class="bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 text-xs min-[400px]:text-sm font-bold px-2.5 py-1 rounded-full leading-none">VIP1</span>
                   </div>
-                  <div class="mt-1 text-sm min-[400px]:text-base font-semibold">
+                  <div class="mt-1 text-sm min-[400px]:text-base font-semibold whitespace-nowrap">
                     <span class="text-gray-400">Balance: </span>
                     <span class="text-[#98E7D2]">₩1,000,000,000</span>
-                    <span class="text-gray-400 ml-3">Points: </span>
+                  </div>
+                  <div class="text-sm min-[400px]:text-base font-semibold">
+                    <span class="text-gray-400">Points: </span>
                     <span class="text-[#98E7D2]">0.00</span>
                   </div>
                 </div>

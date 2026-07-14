@@ -18,7 +18,10 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      link: [{ rel: 'stylesheet', href: '/figma.css' }],
+      link: [
+        { rel: 'stylesheet', href: '/figma.css' },
+        { rel: 'stylesheet', href: '/tokens.css' },
+      ],
     },
   },
   primevue: {
