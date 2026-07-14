@@ -13,9 +13,24 @@ function prevBank() {
 function nextBank() {
   if (banks.value.length) bankIdx.value = (bankIdx.value + 1) % banks.value.length;
 }
+type BankModal = { type: 'confirm' | 'success'; message?: string; onConfirm?: () => void } | null;
+const bankModal = ref<BankModal>(null);
 function deleteBank() {
-  bankStore.accounts.splice(bankIdx.value, 1);
-  if (bankIdx.value >= banks.value.length) bankIdx.value = Math.max(0, banks.value.length - 1);
+  const acct = banks.value[bankIdx.value];
+  bankModal.value = {
+    type: 'confirm',
+    message: acct ? acct.num + ' ?' : 'Delete this bank account?',
+    onConfirm: () => {
+      bankStore.accounts.splice(bankIdx.value, 1);
+      if (bankIdx.value >= banks.value.length) bankIdx.value = Math.max(0, banks.value.length - 1);
+      bankModal.value = { type: 'success' };
+    },
+  };
+}
+function closeBankModal(confirmed: boolean) {
+  const m = bankModal.value;
+  bankModal.value = null;
+  if (confirmed) m?.onConfirm?.();
 }
 </script>
 
@@ -403,6 +418,7 @@ function deleteBank() {
     </main>
     </div>
     <MobileBottomNav />
+    <MemberModal v-if="bankModal" :type="bankModal.type" :message="bankModal.message" @confirm="closeBankModal(true)" @cancel="closeBankModal(false)" />
   </div>
 </template>
 
