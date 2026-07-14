@@ -116,6 +116,37 @@
     target.appendChild(createLoadMore());
   }
 
+  // === 點擊載入:每次補一批(賽事卡 8 張、遊戲卡 12 張),最多 3 次後移除按鈕 ===
+  const MAX_LOADS = 3;
+
+  function contentGridFor(button) {
+    const section = button.closest('section') || document.querySelector('#container section');
+    const target = section && section.querySelector('.container');
+    if (!target) return null;
+    return [...target.querySelectorAll('.grid')].find((grid) => {
+      const cards = [...grid.children].filter((child) => child.nodeType === 1);
+      return cards.length >= 4 && cards.some((card) => card.querySelector('img') || /play\s*now|place\s*bet/i.test(card.textContent || ''));
+    }) || null;
+  }
+
+  document.addEventListener('click', (event) => {
+    const button = event.target.closest('.cms-load-more-button');
+    if (!button) return;
+    const grid = contentGridFor(button);
+    if (!grid) return;
+    const originals = [...grid.children].filter((child) => child.nodeType === 1);
+    if (!originals.length) return;
+    const batch = /place\s*bet/i.test(grid.textContent || '') ? 8 : 12;
+    for (let i = 0; i < batch; i++) {
+      grid.appendChild(originals[i % originals.length].cloneNode(true));
+    }
+    const loads = Number(button.dataset.loads || 0) + 1;
+    button.dataset.loads = String(loads);
+    if (loads >= MAX_LOADS) {
+      (button.closest('.cms-load-more-wrap') || button).remove();
+    }
+  });
+
   document.addEventListener('page:rendered', (event) => {
     ensureLoadMore(event.detail && event.detail.slug);
   });

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 const root = ref<HTMLElement | null>(null);
 const { modal } = useGamesPage(root);
 const route = useRoute();
@@ -9,6 +9,28 @@ watch(() => route.query.tab, (tab) => {
   if (providers.includes(String(tab))) provider.value = String(tab);
 });
 const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-gray-400 hover:text-gray-300');
+
+// 賽事卡資料(與靜態版 pages/sport.html 相同 8 筆);Load More 每次循環補 8 張、最多 3 次
+const MATCHES = [
+  { league: 'Premier League', home: { abbr: 'MU', name: 'Manchester United' }, away: { abbr: 'LIV', name: 'Liverpool' }, score: '2 - 1', time: "Live 67'" },
+  { league: 'NBA', home: { abbr: 'LAL', name: 'Lakers' }, away: { abbr: 'GSW', name: 'Warriors' }, score: '98 - 105', time: 'Live Q3' },
+  { league: 'La Liga', home: { abbr: 'RMA', name: 'Real Madrid' }, away: { abbr: 'FCB', name: 'Barcelona' }, score: '1 - 1', time: "Live 82'" },
+  { league: 'MLB', home: { abbr: 'NYY', name: 'Yankees' }, away: { abbr: 'BOS', name: 'Red Sox' }, score: '4 - 3', time: 'Live 7th' },
+  { league: 'Champions League', home: { abbr: 'PSG', name: 'PSG' }, away: { abbr: 'FCB', name: 'Bayern Munich' }, score: '3 - 2', time: "Live 55'" },
+  { league: 'NBA', home: { abbr: 'BOS', name: 'Celtics' }, away: { abbr: 'MIA', name: 'Heat' }, score: '102 - 99', time: 'Live Q4' },
+  { league: 'Premier League', home: { abbr: 'ARS', name: 'Arsenal' }, away: { abbr: 'CHE', name: 'Chelsea' }, score: '1 - 0', time: "Live 78'" },
+  { league: 'Serie A', home: { abbr: 'JUV', name: 'Juventus' }, away: { abbr: 'INT', name: 'Inter Milan' }, score: '0 - 0', time: "Live 23'" },
+];
+const MAX_LOADS = 3;
+const loads = ref(0);
+const shownMatches = computed(() => {
+  const list = [];
+  for (let i = 0; i < MATCHES.length * (1 + loads.value); i++) list.push(MATCHES[i % MATCHES.length]!);
+  return list;
+});
+function loadMore() {
+  if (loads.value < MAX_LOADS) loads.value++;
+}
 </script>
 
 <template>
@@ -46,10 +68,10 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     </div>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-    <div class="cursor-pointer bg-[#1a2128] border border-gray-800 rounded-xl hover:border-[#98E7D2] transition-colors">
+    <div v-for="(m, mi) in shownMatches" :key="mi" class="cursor-pointer bg-[#1a2128] border border-gray-800 rounded-xl hover:border-[#98E7D2] transition-colors">
     <div class="p-4">
     <div class="flex items-center justify-between mb-3">
-    <span class="text-gray-500 text-[10px] truncate max-w-[120px]">Premier League</span>
+    <span class="text-gray-500 text-[10px] truncate max-w-[120px]">{{ m.league }}</span>
     <div class="flex items-center gap-2">
     <button class="focus:outline-none transition-colors">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-3.5 h-3.5" style="color: rgb(75, 85, 99);">
@@ -75,356 +97,27 @@ const tabCls = (p: string) => (p === provider.value ? 'text-[#98E7D2]' : 'text-g
     <div class="flex items-center justify-between gap-2 mb-4">
     <div class="flex flex-col items-center gap-1.5 flex-1">
     <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[10px] text-gray-300 font-semibold">MU</span>
+    <span class="text-[10px] text-gray-300 font-semibold">{{ m.home.abbr }}</span>
     </div>
-    <span class="text-white text-[10px] text-center leading-tight">Manchester United</span>
-    </div>
-    <div class="text-center flex-shrink-0">
-    <div class="text-[#98E7D2] text-xl font-bold leading-none">2 - 1</div>
-    <div class="text-gray-500 text-[10px] mt-0.5">Live 67'</div>
-    </div>
-    <div class="flex flex-col items-center gap-1.5 flex-1">
-    <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[10px] text-gray-300 font-semibold">LIV</span>
-    </div>
-    <span class="text-white text-[10px] text-center leading-tight">Liverpool</span>
-    </div>
-    </div>
-    <button class="w-full py-1.5 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]">Place Bet</button>
-    </div>
-    </div>
-    <div class="cursor-pointer bg-[#1a2128] border border-gray-800 rounded-xl hover:border-[#98E7D2] transition-colors">
-    <div class="p-4">
-    <div class="flex items-center justify-between mb-3">
-    <span class="text-gray-500 text-[10px] truncate max-w-[120px]">NBA</span>
-    <div class="flex items-center gap-2">
-    <button class="focus:outline-none transition-colors">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-3.5 h-3.5" style="color: rgb(75, 85, 99);">
-    <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
-    </path>
-    </svg>
-    </button>
-    <span class="flex items-center gap-1 text-[10px] bg-red-600/20 text-red-400 border border-red-600/30 px-1.5 py-0.5 rounded">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-radio w-2.5 h-2.5 animate-pulse">
-    <path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9">
-    </path>
-    <path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5">
-    </path>
-    <circle cx="12" cy="12" r="2">
-    </circle>
-    <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5">
-    </path>
-    <path d="M19.1 4.9C23 8.8 23 15.1 19.1 19">
-    </path>
-    </svg>LIVE</span>
-    </div>
-    </div>
-    <div class="flex items-center justify-between gap-2 mb-4">
-    <div class="flex flex-col items-center gap-1.5 flex-1">
-    <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[10px] text-gray-300 font-semibold">LAL</span>
-    </div>
-    <span class="text-white text-[10px] text-center leading-tight">Lakers</span>
+    <span class="text-white text-[10px] text-center leading-tight">{{ m.home.name }}</span>
     </div>
     <div class="text-center flex-shrink-0">
-    <div class="text-[#98E7D2] text-xl font-bold leading-none">98 - 105</div>
-    <div class="text-gray-500 text-[10px] mt-0.5">Live Q3</div>
+    <div class="text-[#98E7D2] text-xl font-bold leading-none">{{ m.score }}</div>
+    <div class="text-gray-500 text-[10px] mt-0.5">{{ m.time }}</div>
     </div>
     <div class="flex flex-col items-center gap-1.5 flex-1">
     <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[10px] text-gray-300 font-semibold">GSW</span>
+    <span class="text-[10px] text-gray-300 font-semibold">{{ m.away.abbr }}</span>
     </div>
-    <span class="text-white text-[10px] text-center leading-tight">Warriors</span>
-    </div>
-    </div>
-    <button class="w-full py-1.5 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]">Place Bet</button>
-    </div>
-    </div>
-    <div class="cursor-pointer bg-[#1a2128] border border-gray-800 rounded-xl hover:border-[#98E7D2] transition-colors">
-    <div class="p-4">
-    <div class="flex items-center justify-between mb-3">
-    <span class="text-gray-500 text-[10px] truncate max-w-[120px]">La Liga</span>
-    <div class="flex items-center gap-2">
-    <button class="focus:outline-none transition-colors">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-3.5 h-3.5" style="color: rgb(75, 85, 99);">
-    <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
-    </path>
-    </svg>
-    </button>
-    <span class="flex items-center gap-1 text-[10px] bg-red-600/20 text-red-400 border border-red-600/30 px-1.5 py-0.5 rounded">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-radio w-2.5 h-2.5 animate-pulse">
-    <path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9">
-    </path>
-    <path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5">
-    </path>
-    <circle cx="12" cy="12" r="2">
-    </circle>
-    <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5">
-    </path>
-    <path d="M19.1 4.9C23 8.8 23 15.1 19.1 19">
-    </path>
-    </svg>LIVE</span>
-    </div>
-    </div>
-    <div class="flex items-center justify-between gap-2 mb-4">
-    <div class="flex flex-col items-center gap-1.5 flex-1">
-    <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[10px] text-gray-300 font-semibold">RMA</span>
-    </div>
-    <span class="text-white text-[10px] text-center leading-tight">Real Madrid</span>
-    </div>
-    <div class="text-center flex-shrink-0">
-    <div class="text-[#98E7D2] text-xl font-bold leading-none">1 - 1</div>
-    <div class="text-gray-500 text-[10px] mt-0.5">Live 82'</div>
-    </div>
-    <div class="flex flex-col items-center gap-1.5 flex-1">
-    <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[10px] text-gray-300 font-semibold">FCB</span>
-    </div>
-    <span class="text-white text-[10px] text-center leading-tight">Barcelona</span>
-    </div>
-    </div>
-    <button class="w-full py-1.5 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]">Place Bet</button>
-    </div>
-    </div>
-    <div class="cursor-pointer bg-[#1a2128] border border-gray-800 rounded-xl hover:border-[#98E7D2] transition-colors">
-    <div class="p-4">
-    <div class="flex items-center justify-between mb-3">
-    <span class="text-gray-500 text-[10px] truncate max-w-[120px]">MLB</span>
-    <div class="flex items-center gap-2">
-    <button class="focus:outline-none transition-colors">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-3.5 h-3.5" style="color: rgb(75, 85, 99);">
-    <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
-    </path>
-    </svg>
-    </button>
-    <span class="flex items-center gap-1 text-[10px] bg-red-600/20 text-red-400 border border-red-600/30 px-1.5 py-0.5 rounded">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-radio w-2.5 h-2.5 animate-pulse">
-    <path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9">
-    </path>
-    <path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5">
-    </path>
-    <circle cx="12" cy="12" r="2">
-    </circle>
-    <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5">
-    </path>
-    <path d="M19.1 4.9C23 8.8 23 15.1 19.1 19">
-    </path>
-    </svg>LIVE</span>
-    </div>
-    </div>
-    <div class="flex items-center justify-between gap-2 mb-4">
-    <div class="flex flex-col items-center gap-1.5 flex-1">
-    <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[10px] text-gray-300 font-semibold">NYY</span>
-    </div>
-    <span class="text-white text-[10px] text-center leading-tight">Yankees</span>
-    </div>
-    <div class="text-center flex-shrink-0">
-    <div class="text-[#98E7D2] text-xl font-bold leading-none">4 - 3</div>
-    <div class="text-gray-500 text-[10px] mt-0.5">Live 7th</div>
-    </div>
-    <div class="flex flex-col items-center gap-1.5 flex-1">
-    <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[10px] text-gray-300 font-semibold">BOS</span>
-    </div>
-    <span class="text-white text-[10px] text-center leading-tight">Red Sox</span>
-    </div>
-    </div>
-    <button class="w-full py-1.5 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]">Place Bet</button>
-    </div>
-    </div>
-    <div class="cursor-pointer bg-[#1a2128] border border-gray-800 rounded-xl hover:border-[#98E7D2] transition-colors">
-    <div class="p-4">
-    <div class="flex items-center justify-between mb-3">
-    <span class="text-gray-500 text-[10px] truncate max-w-[120px]">Champions League</span>
-    <div class="flex items-center gap-2">
-    <button class="focus:outline-none transition-colors">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-3.5 h-3.5" style="color: rgb(75, 85, 99);">
-    <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
-    </path>
-    </svg>
-    </button>
-    <span class="flex items-center gap-1 text-[10px] bg-red-600/20 text-red-400 border border-red-600/30 px-1.5 py-0.5 rounded">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-radio w-2.5 h-2.5 animate-pulse">
-    <path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9">
-    </path>
-    <path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5">
-    </path>
-    <circle cx="12" cy="12" r="2">
-    </circle>
-    <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5">
-    </path>
-    <path d="M19.1 4.9C23 8.8 23 15.1 19.1 19">
-    </path>
-    </svg>LIVE</span>
-    </div>
-    </div>
-    <div class="flex items-center justify-between gap-2 mb-4">
-    <div class="flex flex-col items-center gap-1.5 flex-1">
-    <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[10px] text-gray-300 font-semibold">PSG</span>
-    </div>
-    <span class="text-white text-[10px] text-center leading-tight">PSG</span>
-    </div>
-    <div class="text-center flex-shrink-0">
-    <div class="text-[#98E7D2] text-xl font-bold leading-none">3 - 2</div>
-    <div class="text-gray-500 text-[10px] mt-0.5">Live 55'</div>
-    </div>
-    <div class="flex flex-col items-center gap-1.5 flex-1">
-    <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[10px] text-gray-300 font-semibold">FCB</span>
-    </div>
-    <span class="text-white text-[10px] text-center leading-tight">Bayern Munich</span>
-    </div>
-    </div>
-    <button class="w-full py-1.5 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]">Place Bet</button>
-    </div>
-    </div>
-    <div class="cursor-pointer bg-[#1a2128] border border-gray-800 rounded-xl hover:border-[#98E7D2] transition-colors">
-    <div class="p-4">
-    <div class="flex items-center justify-between mb-3">
-    <span class="text-gray-500 text-[10px] truncate max-w-[120px]">NBA</span>
-    <div class="flex items-center gap-2">
-    <button class="focus:outline-none transition-colors">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-3.5 h-3.5" style="color: rgb(75, 85, 99);">
-    <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
-    </path>
-    </svg>
-    </button>
-    <span class="flex items-center gap-1 text-[10px] bg-red-600/20 text-red-400 border border-red-600/30 px-1.5 py-0.5 rounded">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-radio w-2.5 h-2.5 animate-pulse">
-    <path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9">
-    </path>
-    <path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5">
-    </path>
-    <circle cx="12" cy="12" r="2">
-    </circle>
-    <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5">
-    </path>
-    <path d="M19.1 4.9C23 8.8 23 15.1 19.1 19">
-    </path>
-    </svg>LIVE</span>
-    </div>
-    </div>
-    <div class="flex items-center justify-between gap-2 mb-4">
-    <div class="flex flex-col items-center gap-1.5 flex-1">
-    <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[10px] text-gray-300 font-semibold">BOS</span>
-    </div>
-    <span class="text-white text-[10px] text-center leading-tight">Celtics</span>
-    </div>
-    <div class="text-center flex-shrink-0">
-    <div class="text-[#98E7D2] text-xl font-bold leading-none">102 - 99</div>
-    <div class="text-gray-500 text-[10px] mt-0.5">Live Q4</div>
-    </div>
-    <div class="flex flex-col items-center gap-1.5 flex-1">
-    <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[10px] text-gray-300 font-semibold">MIA</span>
-    </div>
-    <span class="text-white text-[10px] text-center leading-tight">Heat</span>
-    </div>
-    </div>
-    <button class="w-full py-1.5 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]">Place Bet</button>
-    </div>
-    </div>
-    <div class="cursor-pointer bg-[#1a2128] border border-gray-800 rounded-xl hover:border-[#98E7D2] transition-colors">
-    <div class="p-4">
-    <div class="flex items-center justify-between mb-3">
-    <span class="text-gray-500 text-[10px] truncate max-w-[120px]">Premier League</span>
-    <div class="flex items-center gap-2">
-    <button class="focus:outline-none transition-colors">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-3.5 h-3.5" style="color: rgb(75, 85, 99);">
-    <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
-    </path>
-    </svg>
-    </button>
-    <span class="flex items-center gap-1 text-[10px] bg-red-600/20 text-red-400 border border-red-600/30 px-1.5 py-0.5 rounded">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-radio w-2.5 h-2.5 animate-pulse">
-    <path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9">
-    </path>
-    <path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5">
-    </path>
-    <circle cx="12" cy="12" r="2">
-    </circle>
-    <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5">
-    </path>
-    <path d="M19.1 4.9C23 8.8 23 15.1 19.1 19">
-    </path>
-    </svg>LIVE</span>
-    </div>
-    </div>
-    <div class="flex items-center justify-between gap-2 mb-4">
-    <div class="flex flex-col items-center gap-1.5 flex-1">
-    <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[10px] text-gray-300 font-semibold">ARS</span>
-    </div>
-    <span class="text-white text-[10px] text-center leading-tight">Arsenal</span>
-    </div>
-    <div class="text-center flex-shrink-0">
-    <div class="text-[#98E7D2] text-xl font-bold leading-none">1 - 0</div>
-    <div class="text-gray-500 text-[10px] mt-0.5">Live 78'</div>
-    </div>
-    <div class="flex flex-col items-center gap-1.5 flex-1">
-    <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[10px] text-gray-300 font-semibold">CHE</span>
-    </div>
-    <span class="text-white text-[10px] text-center leading-tight">Chelsea</span>
-    </div>
-    </div>
-    <button class="w-full py-1.5 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]">Place Bet</button>
-    </div>
-    </div>
-    <div class="cursor-pointer bg-[#1a2128] border border-gray-800 rounded-xl hover:border-[#98E7D2] transition-colors">
-    <div class="p-4">
-    <div class="flex items-center justify-between mb-3">
-    <span class="text-gray-500 text-[10px] truncate max-w-[120px]">Serie A</span>
-    <div class="flex items-center gap-2">
-    <button class="focus:outline-none transition-colors">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star w-3.5 h-3.5" style="color: rgb(75, 85, 99);">
-    <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z">
-    </path>
-    </svg>
-    </button>
-    <span class="flex items-center gap-1 text-[10px] bg-red-600/20 text-red-400 border border-red-600/30 px-1.5 py-0.5 rounded">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-radio w-2.5 h-2.5 animate-pulse">
-    <path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9">
-    </path>
-    <path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5">
-    </path>
-    <circle cx="12" cy="12" r="2">
-    </circle>
-    <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5">
-    </path>
-    <path d="M19.1 4.9C23 8.8 23 15.1 19.1 19">
-    </path>
-    </svg>LIVE</span>
-    </div>
-    </div>
-    <div class="flex items-center justify-between gap-2 mb-4">
-    <div class="flex flex-col items-center gap-1.5 flex-1">
-    <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[10px] text-gray-300 font-semibold">JUV</span>
-    </div>
-    <span class="text-white text-[10px] text-center leading-tight">Juventus</span>
-    </div>
-    <div class="text-center flex-shrink-0">
-    <div class="text-[#98E7D2] text-xl font-bold leading-none">0 - 0</div>
-    <div class="text-gray-500 text-[10px] mt-0.5">Live 23'</div>
-    </div>
-    <div class="flex flex-col items-center gap-1.5 flex-1">
-    <div class="w-9 h-9 rounded-full bg-[#0f1419] border border-gray-700 flex items-center justify-center">
-    <span class="text-[10px] text-gray-300 font-semibold">INT</span>
-    </div>
-    <span class="text-white text-[10px] text-center leading-tight">Inter Milan</span>
+    <span class="text-white text-[10px] text-center leading-tight">{{ m.away.name }}</span>
     </div>
     </div>
     <button class="w-full py-1.5 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]">Place Bet</button>
     </div>
     </div>
     </div>
-    <div class="cms-load-more-wrap flex justify-center mt-8">
-    <button type="button" class="cms-load-more-button px-8 py-3 rounded-lg transition-colors">Load More</button>
+    <div v-if="loads < MAX_LOADS" class="cms-load-more-wrap flex justify-center mt-8">
+    <button type="button" class="cms-load-more-button px-8 py-3 rounded-lg transition-colors" @click="loadMore">Load More</button>
     </div>
     </div>
     </section>

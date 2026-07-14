@@ -42,22 +42,32 @@ const filteredVendors = computed(() => {
   const s = q.value.trim().toLowerCase();
   return vendors.value.filter((v) => !s || v.toLowerCase().includes(s));
 });
+// Load More:每次 +12,最多 3 次(與靜態版 category-load-more.js 一致)
+const MAX_LOADS = 3;
+const loads = ref(0);
 const games = computed(() => {
   const provider = selectedProvider.value;
+  const base = props.direct ? 30 : 24;
+  const total = base + loads.value * 12;
   const list = props.direct
-    ? Array.from({ length: 30 }, (_, i) => ({ provider: vendors.value[i % vendors.value.length]!, i }))
-    : (provider ? Array.from({ length: 24 }, (_, i) => ({ provider, i })) : []);
+    ? Array.from({ length: total }, (_, i) => ({ provider: vendors.value[i % vendors.value.length]!, i }))
+    : (provider ? Array.from({ length: total }, (_, i) => ({ provider, i })) : []);
   const s = q.value.trim().toLowerCase();
   return s ? list.filter((g) => g.provider.toLowerCase().includes(s)) : list;
 });
+function loadMore() {
+  if (loads.value < MAX_LOADS) loads.value++;
+}
 
 function back() {
   // 從遊戲列表回到本分類的廠商格
   active.value = null;
+  loads.value = 0;
   if (routeProvider.value) router.replace({ query: {} });
 }
 function openVendor(v: string) {
   active.value = v;
+  loads.value = 0;
   if (import.meta.client) window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
@@ -109,8 +119,8 @@ function openVendor(v: string) {
         </div>
       </div>
 
-      <div v-if="!showingVendors" class="cms-load-more-wrap flex justify-center mt-8">
-        <button type="button" class="cms-load-more-button px-8 py-3 rounded-lg transition-colors">Load More</button>
+      <div v-if="!showingVendors && loads < MAX_LOADS" class="cms-load-more-wrap flex justify-center mt-8">
+        <button type="button" class="cms-load-more-button px-8 py-3 rounded-lg transition-colors" @click="loadMore">Load More</button>
       </div>
     </div>
   </section>
