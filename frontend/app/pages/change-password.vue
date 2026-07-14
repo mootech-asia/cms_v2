@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 
 const isTxn = useRoute().query.type === 'txn';
+const PASSWORD_RE = /^[\x21-\x7E]{5,16}$/;
 const newPw = ref('');
 const confirmPw = ref('');
 const showNew = ref(false);
@@ -14,7 +15,7 @@ const modal = ref<Modal>(null);
 function submit() {
   if (!ready.value) return;
   const a = newPw.value;
-  if (a.length < 5 || a.length > 16) { modal.value = { type: 'warning', message: 'Length must be 5-16 characters.' }; return; }
+  if (!PASSWORD_RE.test(a)) { modal.value = { type: 'warning', message: 'Use 5-16 visible ASCII characters (letters, numbers, symbols).' }; return; }
   if (a !== confirmPw.value) { modal.value = { type: 'warning', message: 'The two passwords do not match.' }; return; }
   modal.value = { type: 'success', onConfirm: () => { newPw.value = ''; confirmPw.value = ''; } };
 }
@@ -42,7 +43,7 @@ function closeModal() {
             <input class="mf-input" :type="showConfirm ? 'text' : 'password'" v-model="confirmPw" placeholder="Confirm your password">
             <button type="button" class="mf-eye" @click="showConfirm = !showConfirm"><AppIcon name="eye" /></button>
           </div>
-          <p class="mf-hint">★Length must be 5-16 characters.</p>
+          <p class="mf-hint">★Use 5-16 visible ASCII characters (letters, numbers, symbols)</p>
           <button type="button" class="mf-submit" :class="{ ready }" :disabled="!ready" @click="submit"><span>Submit</span></button>
           <NuxtLink to="/security" class="mf-back"><span>Back</span></NuxtLink>
         </div>
