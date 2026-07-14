@@ -2,6 +2,23 @@
 import { ref } from 'vue';
 const root = ref<HTMLElement | null>(null);
 useMemberPage(root);
+
+const banks = ref([
+  { num: '**** **** **** 1234', name: 'KB Bank' },
+  { num: '**** **** **** 5678', name: 'Shinhan Bank' },
+  { num: '**** **** **** 9012', name: 'Woori Bank' },
+]);
+const bankIdx = ref(0);
+function prevBank() {
+  if (banks.value.length) bankIdx.value = (bankIdx.value - 1 + banks.value.length) % banks.value.length;
+}
+function nextBank() {
+  if (banks.value.length) bankIdx.value = (bankIdx.value + 1) % banks.value.length;
+}
+function deleteBank() {
+  banks.value.splice(bankIdx.value, 1);
+  if (bankIdx.value >= banks.value.length) bankIdx.value = Math.max(0, banks.value.length - 1);
+}
 </script>
 
 <template>
@@ -190,8 +207,26 @@ useMemberPage(root);
     </div>
     </div>
     <div class="bg-[#1a2128] border border-gray-800 rounded-lg p-4 md:p-6">
-    <h3 class="text-white text-lg font-semibold mb-4">Banking Details</h3>
+    <div class="flex items-center justify-between mb-4">
+    <h3 class="text-white text-lg font-semibold">Banking Details</h3>
+    <div class="flex items-center gap-2">
+    <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-[#2a3138] text-gray-400 hover:text-white transition-colors" aria-label="Previous bank account" @click="prevBank">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+    <path d="m15 18-6-6 6-6">
+    </path>
+    </svg>
+    </button>
+    <span class="text-gray-400 text-sm">{{ banks.length ? bankIdx + 1 : 0 }}/{{ banks.length }}</span>
+    <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-[#2a3138] text-gray-400 hover:text-white transition-colors" aria-label="Next bank account" @click="nextBank">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+    <path d="m9 18 6-6-6-6">
+    </path>
+    </svg>
+    </button>
+    </div>
+    </div>
     <div class="space-y-3">
+    <template v-if="banks.length">
     <div class="flex items-center gap-3 text-gray-300 text-sm md:text-base">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card w-5 h-5 text-gray-500 flex-shrink-0">
     <rect width="20" height="14" x="2" y="5" rx="2">
@@ -199,7 +234,7 @@ useMemberPage(root);
     <line x1="2" x2="22" y1="10" y2="10">
     </line>
     </svg>
-    <span>**** **** **** 1234</span>
+    <span>{{ banks[bankIdx].num }}</span>
     </div>
     <div class="flex items-center gap-3 text-gray-300 text-sm md:text-base">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-building w-5 h-5 text-gray-500 flex-shrink-0">
@@ -226,8 +261,20 @@ useMemberPage(root);
     <path d="M8 14h.01">
     </path>
     </svg>
-    <span>KB Bank</span>
+    <span>{{ banks[bankIdx].name }}</span>
+    <button class="ml-auto text-gray-500 hover:text-white transition-colors" aria-label="Delete bank account" @click="deleteBank">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+    <path d="M3 6h18">
+    </path>
+    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6">
+    </path>
+    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2">
+    </path>
+    </svg>
+    </button>
     </div>
+    </template>
+    <p v-else class="text-gray-500 text-sm md:text-base">No bank account</p>
     <button class="text-[#98E7D2] hover:text-[#CBE8E4] text-sm transition-colors">+ Add New Bank Account</button>
     </div>
     </div>

@@ -52,3 +52,40 @@ document.addEventListener('click', (e) => {
 
 document.addEventListener('input', updateDepositNextState);
 document.addEventListener('page:rendered', updateDepositNextState);
+
+// --- Banking Details 簡易編輯(分頁/刪除) ---
+const bankAccounts = [
+  { num: '**** **** **** 1234', name: 'KB Bank' },
+  { num: '**** **** **** 5678', name: 'Shinhan Bank' },
+  { num: '**** **** **** 9012', name: 'Woori Bank' },
+];
+let bankIdx = 0;
+
+function renderBankCard() {
+  const card = document.querySelector('#container .bk-card');
+  if (!card) return;
+  const total = bankAccounts.length;
+  if (bankIdx >= total) bankIdx = Math.max(0, total - 1);
+  card.querySelector('.bk-idx').textContent = total ? bankIdx + 1 : 0;
+  card.querySelector('.bk-total').textContent = total;
+  card.querySelector('.bk-rows').style.display = total ? '' : 'none';
+  card.querySelector('.bk-empty').style.display = total ? 'none' : '';
+  if (total) {
+    card.querySelector('.bk-num').textContent = bankAccounts[bankIdx].num;
+    card.querySelector('.bk-name').textContent = bankAccounts[bankIdx].name;
+  }
+}
+
+document.addEventListener('click', (e) => {
+  const prev = e.target.closest('.bk-prev');
+  const next = e.target.closest('.bk-next');
+  const del = e.target.closest('.bk-del');
+  if (!prev && !next && !del) return;
+  const total = bankAccounts.length;
+  if (prev && total) bankIdx = (bankIdx - 1 + total) % total;
+  if (next && total) bankIdx = (bankIdx + 1) % total;
+  if (del && total) bankAccounts.splice(bankIdx, 1);
+  renderBankCard();
+});
+
+document.addEventListener('page:rendered', renderBankCard);
