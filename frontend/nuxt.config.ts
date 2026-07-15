@@ -39,12 +39,14 @@ export default defineNuxtConfig({
         '/', '/hot-games', '/mini-games', '/slot', '/sport', '/live', '/fish', '/promotion',
         '/account', '/deposit', '/withdrawal', '/personal-info', '/profit-loss', '/security',
         '/support', '/account-record', '/betting-record', '/deposit-record', '/withdrawal-record',
-        '/about', '/change-password', '/banking-details',
+        '/about', '/change-password', '/banking-details', '/ui-kit',
       ],
     },
   },
   app: {
     head: {
+      /* 全站固定深色;PrimeVue preset 的 darkModeSelector 綁定此 class */
+      htmlAttrs: { class: 'dark-mode' },
       link: [
         { rel: 'stylesheet', href: '/figma.css' },
         { rel: 'stylesheet', href: '/tokens.css' },

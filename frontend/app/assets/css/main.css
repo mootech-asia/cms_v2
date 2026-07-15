@@ -20,6 +20,17 @@
     @apply cursor-not-allowed bg-none bg-ink-4 text-ink-2;
   }
 
+  /* 按鈕尺寸(與 variant 正交,UiButton size prop 對應) */
+  .btn-sm {
+    @apply h-9 px-4 text-body;
+  }
+  .btn-md {
+    @apply h-11 px-6 text-body;
+  }
+  .btn-lg {
+    @apply h-12 px-8 text-body-lg;
+  }
+
   /* 次要按鈕:深底描邊 */
   .btn-ghost {
     @apply inline-flex items-center justify-center rounded-ui border border-line bg-surface-deep font-semibold text-ink transition-colors;
@@ -54,6 +65,9 @@
   .input-ui:disabled {
     @apply cursor-not-allowed bg-surface-2 text-ink-4;
   }
+  .input-ui-invalid {
+    @apply border-danger;
+  }
 
   /* mint 左槓區塊標題(取代 .pm-title/.wm-section-title/inline 共 11 份) */
   .section-title {
@@ -77,5 +91,8 @@
   }
   .pill-bad {
     @apply inline-block rounded-full px-2.5 py-1 text-note font-bold leading-none bg-danger/10 text-danger;
+  }
+  .pill-neutral {
+    @apply inline-block rounded-full px-2.5 py-1 text-note font-bold leading-none bg-surface-2 text-ink-3;
   }
 }
