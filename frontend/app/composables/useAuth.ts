@@ -2,7 +2,7 @@
  * Login / Register modal + logged-in state — ports js/auth.js.
  * State is shared app-wide via Nuxt useState so it persists across routes.
  */
-export type AuthMode = 'login' | 'register' | null;
+export type AuthMode = 'login' | 'register' | 'forgot' | null;
 
 export function useAuth() {
   const loggedIn = useState<boolean>('auth:loggedIn', () => false);

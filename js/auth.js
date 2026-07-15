@@ -7,11 +7,11 @@ const A_BTN = 'width:100%;padding:13px;border:0;border-radius:10px;cursor:pointe
 const A_LINK = 'color:#98E7D2;font-weight:700;cursor:pointer;text-decoration:none';
 const EYE_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>';
 
-function field(label, type, placeholder, eye) {
+function field(label, type, placeholder, eye, name) {
   const pad = eye ? 'padding-right:44px' : '';
   return `<label style="${A_LABEL}">${label}</label>
-    <div style="position:relative;margin-bottom:16px">
-      <input type="${type}" placeholder="${placeholder}" style="${A_INPUT};${pad}">
+    <div style="position:relative;margin-bottom:16px" data-fw="${name}">
+      <input data-f="${name}" type="${type}" placeholder="${placeholder}" style="${A_INPUT};${pad}">
       ${eye ? `<button data-eye type="button" style="position:absolute;top:50%;right:12px;transform:translateY(-50%);background:none;border:0;color:#9ca3af;cursor:pointer;padding:0;display:flex">${EYE_SVG}</button>` : ''}
     </div>`;
 }
@@ -19,33 +19,88 @@ function field(label, type, placeholder, eye) {
 function authBody(mode) {
   if (mode === 'register') {
     return `
-      ${field('Username', 'text', 'Enter your username')}
-      ${field('Password', 'password', 'Enter your password', true)}
-      ${field('Confirm Password', 'password', 'Confirm your password', true)}
-      ${field('Email', 'email', 'Enter your email')}
-      ${field('Real Name', 'text', 'Enter your real name')}
-      ${field('Mobile Number', 'tel', 'Enter your mobile number')}
+      ${field('Username', 'text', 'Enter your username', false, 'username')}
+      ${field('Password', 'password', 'Enter your password', true, 'password')}
+      ${field('Confirm Password', 'password', 'Confirm your password', true, 'confirm')}
+      ${field('Email', 'email', 'Enter your email', false, 'email')}
+      ${field('Real Name', 'text', 'Enter your real name', false, 'realname')}
+      ${field('Mobile Number', 'tel', 'Enter your mobile number', false, 'mobile')}
       <button data-submit style="${A_BTN}">Next Step</button>
       <p style="text-align:center;color:#9ca3af;font-size:14px;margin:16px 0 2px">Already have an account? <a data-goto="login" style="${A_LINK}">Login</a></p>`;
   }
   if (mode === 'forgot') {
     return `
       <p style="color:#9ca3af;font-size:14px;line-height:1.5;margin:0 0 20px">Enter your username and email address to receive password reset instructions.</p>
-      ${field('Username', 'text', 'Enter your username')}
-      ${field('Email', 'email', 'Enter your email')}
+      ${field('Username', 'text', 'Enter your username', false, 'username')}
+      ${field('Email', 'email', 'Enter your email', false, 'email')}
       <button data-submit style="${A_BTN}">Send Reset Link</button>
       <p style="text-align:center;color:#9ca3af;font-size:14px;margin:16px 0 2px">Remember your password? <a data-goto="login" style="${A_LINK}">Back to Login</a></p>`;
   }
   // login
   return `
-    ${field('Username', 'text', 'Enter your username')}
-    ${field('Password', 'password', 'Enter your password', true)}
+    ${field('Username', 'text', 'Enter your username', false, 'username')}
+    ${field('Password', 'password', 'Enter your password', true, 'password')}
     <div style="display:flex;justify-content:space-between;align-items:center;margin:-2px 0 18px;font-size:14px">
       <label style="color:#9ca3af;display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" style="accent-color:#98E7D2">Remember me</label>
       <a data-goto="forgot" style="${A_LINK};font-weight:600">Forgot Password?</a>
     </div>
     <button data-submit style="${A_BTN}">Login</button>
     <p style="text-align:center;color:#9ca3af;font-size:14px;margin:16px 0 2px">Don't have an account? <a data-goto="register" style="${A_LINK}">Register</a></p>`;
+}
+
+// === 欄位驗證(與會員區文案一致:密碼 5-16、兩次密碼需相同) ===
+const A_RULES = {
+  login: ['username', 'password'],
+  register: ['username', 'password', 'confirm', 'email', 'realname', 'mobile'],
+  forgot: ['username', 'email'],
+};
+
+function authFieldError(name, value, values) {
+  const v = value.trim();
+  switch (name) {
+    case 'username':
+      if (!v) return 'Please enter your username.';
+      if (v.length < 3 || v.length > 16) return 'Username must be 3-16 characters.';
+      return '';
+    case 'password':
+      if (value.length < 5 || value.length > 16) return 'Length must be 5-16 characters.';
+      return '';
+    case 'confirm':
+      if (value !== values.password) return 'The two passwords do not match.';
+      return '';
+    case 'email':
+      if (!/^\S+@\S+\.\S+$/.test(v)) return 'Please enter a valid email address.';
+      return '';
+    case 'realname':
+      if (!v) return 'Please enter your real name.';
+      return '';
+    case 'mobile':
+      if (!/^\+?[0-9][0-9 -]{6,14}$/.test(v)) return 'Please enter a valid mobile number.';
+      return '';
+    default:
+      return '';
+  }
+}
+
+function validateAuth(o, mode) {
+  const body = o.querySelector('[data-body]');
+  body.querySelectorAll('[data-err]').forEach((el) => el.remove());
+  body.querySelectorAll('[data-f]').forEach((inp) => { inp.style.borderColor = '#2a3441'; });
+  const values = {};
+  body.querySelectorAll('[data-f]').forEach((inp) => { values[inp.dataset.f] = inp.value; });
+  let firstBad = null;
+  (A_RULES[mode] || []).forEach((name) => {
+    const msg = authFieldError(name, values[name] || '', values);
+    if (!msg) return;
+    const wrap = body.querySelector(`[data-fw="${name}"]`);
+    const inp = wrap && wrap.querySelector('[data-f]');
+    if (!wrap) return;
+    if (inp) inp.style.borderColor = '#F87171';
+    wrap.insertAdjacentHTML('afterend', `<p data-err style="color:#F87171;font-size:13px;margin:-10px 0 12px">${msg}</p>`);
+    if (!firstBad && inp) firstBad = inp;
+  });
+  if (firstBad) firstBad.focus();
+  return !firstBad;
 }
 
 const A_TITLE = { login: 'Login', register: 'Register', forgot: 'Forgot Password' };
@@ -80,6 +135,7 @@ function openAuthModal(mode) {
     const go = ev.target.closest('[data-goto]');
     if (go) { renderAuth(o, go.dataset.goto); return; }
     if (ev.target.closest('[data-submit]')) {
+      if (!validateAuth(o, o.dataset.mode)) return;
       if (o.dataset.mode === 'forgot') {
         o.querySelector('[data-body]').innerHTML = `
           <p style="text-align:center;color:#98E7D2;font-size:15px;font-weight:600;margin:8px 0 6px">Reset link sent</p>
