@@ -1,5 +1,6 @@
 <script setup lang="ts">
-const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
+// Browse 開會員選單左抽屜(與靜態版一致);右上漢堡才是行銷主選單
+const memberMenuOpen = useState<boolean>('ui:memberMenuOpen', () => false);
 const route = useRoute();
 const activeClass = (path: string) =>
   route.path === path ? 'text-[#98E7D2]' : 'text-gray-400';
@@ -8,7 +9,7 @@ const activeClass = (path: string) =>
 <template>
   <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-[#0a0e1a] border-t border-gray-800 z-50">
     <div class="grid grid-cols-5 h-16">
-      <button class="flex flex-col items-center justify-center gap-1 text-gray-400 transition-all" @click="mobileOpen = true">
+      <button class="flex flex-col items-center justify-center gap-1 text-gray-400 transition-all" @click="memberMenuOpen = true">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu w-6 h-6"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
         <span class="text-xs">Browse</span>
       </button>
@@ -30,4 +31,5 @@ const activeClass = (path: string) =>
       </NuxtLink>
     </div>
   </nav>
+  <MemberMenuDrawer />
 </template>
