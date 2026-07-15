@@ -4,5 +4,5 @@ const records = useRecordsStore();
 </script>
 
 <template>
-  <RecordPage v-bind="records.withdrawal" />
+  <RecordPage record-key="withdrawal" v-bind="records.withdrawal" />
 </template>

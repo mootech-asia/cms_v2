@@ -25,7 +25,7 @@ function backToList() {
 
 <template>
   <div>
-    <div v-if="!detail" class="hero-band py-16 md:py-20">
+    <div v-if="!detail" class="bg-g-hero py-16 md:py-20">
       <div class="container mx-auto px-4 text-center">
         <h1 class="text-4xl md:text-7xl text-white mb-4">PROMOTIONS</h1>
       </div>
@@ -50,7 +50,7 @@ function backToList() {
           >
             <div class="promo-card-art relative h-32 overflow-hidden">
               <div class="absolute inset-0 flex items-center justify-center">
-                <span class="fw-800 select-none text-primary text-[54px] tracking-[0.12em] opacity-[0.07]">PROMO!</span>
+                <span class="font-extrabold select-none text-primary text-[54px] tracking-[0.12em] opacity-[0.07]">PROMO!</span>
               </div>
               <div class="absolute top-2 right-3 flex flex-col items-end gap-[3px]">
                 <div class="h-[26px] w-[26px] rounded-full bg-gradient-to-br from-primary-soft to-primary opacity-[0.85]"></div>
@@ -59,7 +59,7 @@ function backToList() {
               </div>
               <div class="absolute inset-0 flex flex-col justify-center px-4">
                 <p class="text-xs mb-1.5 text-primary tracking-[0.2em]">SPECIAL OFFER</p>
-                <p class="text-gradient-primary text-2xl fw-800 tracking-[0.06em]">PROMOTION</p>
+                <p class="text-gradient-primary text-2xl font-extrabold tracking-[0.06em]">PROMOTION</p>
               </div>
             </div>
             <div class="p-6">
@@ -77,7 +77,7 @@ function backToList() {
 
         <!-- 詳情 -->
         <div v-else class="mx-auto max-w-[1180px] text-ink">
-          <button class="cms-back-button mb-[22px] text-base md:mb-7 md:text-[15px]" type="button" aria-label="Back" @click="backToList">
+          <button class="btn-back mb-[22px] text-base md:mb-7 md:text-[15px]" type="button" aria-label="Back" @click="backToList">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg>
             <span>Back</span>
           </button>

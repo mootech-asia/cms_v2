@@ -7,9 +7,9 @@ useMemberPage(root);
 
 <template>
   <div ref="root" class="flex flex-col">
-    <h1 class="text-white text-3xl mb-8 w-full">Customer Service</h1>
-    <div class="bg-[#1a2128] border border-gray-800 rounded-lg p-8 text-center w-full">
-    <p class="text-gray-400">Coming Soon</p>
+    <h1 class="text-ink text-3xl mb-8 w-full">Customer Service</h1>
+    <div class="bg-surface border border-line-soft rounded-lg p-8 text-center w-full">
+    <p class="text-ink-3">Coming Soon</p>
     </div>
   </div>
 </template>

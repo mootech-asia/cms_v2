@@ -22,7 +22,7 @@ const links = [
 </script>
 
 <template>
-  <aside class="hidden md:block w-64 flex-shrink-0 bg-[#1a2128] border-r border-gray-800 sticky top-0 h-screen overflow-y-auto">
+  <aside class="hidden md:block w-64 flex-shrink-0 bg-surface border-r border-line-soft sticky top-0 h-screen overflow-y-auto">
     <nav class="p-4 space-y-2">
       <NuxtLink
         v-for="[label, to, icon] in links"
@@ -30,13 +30,13 @@ const links = [
         :to="to"
         class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all"
         :class="current === to
-          ? 'bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2] text-gray-900 font-semibold'
-          : 'text-gray-300 hover:bg-[#0f1419] hover:text-white'"
+          ? 'bg-g-primary text-on-primary font-semibold'
+          : 'text-ink-2 hover:bg-surface-deep hover:text-ink'"
       >
         <AppIcon :name="icon" class="w-5 h-5 flex-shrink-0" />
         <span class="text-sm">{{ label }}</span>
       </NuxtLink>
-      <button class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-[#0f1419] hover:text-white">
+      <button class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-ink-2 hover:bg-surface-deep hover:text-ink">
         <AppIcon name="chat" class="w-5 h-5 flex-shrink-0" />
         <span class="text-sm">Customer Service</span>
       </button>

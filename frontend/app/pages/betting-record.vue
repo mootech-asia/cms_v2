@@ -4,5 +4,5 @@ const records = useRecordsStore();
 </script>
 
 <template>
-  <RecordPage v-bind="records.betting" />
+  <RecordPage record-key="betting" v-bind="records.betting" />
 </template>

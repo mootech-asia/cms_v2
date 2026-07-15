@@ -4,5 +4,5 @@ const records = useRecordsStore();
 </script>
 
 <template>
-  <RecordPage v-bind="records.profitLoss" />
+  <RecordPage record-key="profitLoss" v-bind="records.profitLoss" />
 </template>

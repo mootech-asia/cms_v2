@@ -35,17 +35,34 @@ const faqItems = [
   { title: 'How do I deposit?', content: 'Placeholder answer — implementation skipped by spec (1-B.3).' },
   { title: 'How long does withdrawal take?', content: 'Placeholder answer — implementation skipped by spec (1-B.3).' },
 ]
+
+/** R3 皮膚驗證:即時切換 app/assets/css/themes/*.css,證明「改一支 theme 檔 = 整站換皮」 */
+const siteStore = useSiteStore()
+const skins = [
+  { key: 'win100', label: 'WIN100(預設)' },
+  { key: 'aurora', label: 'Aurora(示範皮)' },
+]
 </script>
 
 <template>
   <div class="min-h-screen bg-surface-deep">
   <div class="mx-auto max-w-5xl space-y-8 px-4 pb-16 pt-8">
-    <header>
-      <h1 class="text-h1 font-bold text-ink">UI Kit</h1>
-      <p class="mt-1 text-body text-ink-3">
-        基礎元件層視驗頁 — 元件位於 <code class="text-primary">app/components/ui/</code>,
-        樣式規則位於 <code class="text-primary">assets/css/main.css</code> 與 Win100 preset。
-      </p>
+    <header class="flex flex-wrap items-start justify-between gap-4">
+      <div>
+        <h1 class="text-h1 font-bold text-ink">UI Kit</h1>
+        <p class="mt-1 text-body text-ink-3">
+          基礎元件層視驗頁 — 元件位於 <code class="text-primary">app/components/ui/</code>,
+          樣式規則位於 <code class="text-primary">assets/css/main.css</code> 與 Win100 preset。
+        </p>
+      </div>
+      <div class="flex shrink-0 items-center gap-2 rounded-ui border border-line-soft bg-surface p-1">
+        <button
+          v-for="s in skins" :key="s.key" type="button"
+          class="rounded-ui px-3 py-1.5 text-note font-semibold transition-colors"
+          :class="siteStore.skin === s.key ? 'bg-g-primary text-on-primary' : 'text-ink-3 hover:text-ink'"
+          @click="siteStore.setSkin(s.key)"
+        >{{ s.label }}</button>
+      </div>
     </header>
 
     <!-- Theme tokens -->

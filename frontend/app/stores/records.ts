@@ -26,6 +26,8 @@ export type RecordConfig = {
 
 const STATUS_OPTIONS = ['All', 'Pending', 'Approved', 'Rejected'];
 
+export type RecordKey = 'betting' | 'deposit' | 'withdrawal' | 'account' | 'profitLoss';
+
 export const useRecordsStore = defineStore('records', {
   state: () => ({
     betting: {
@@ -138,4 +140,10 @@ export const useRecordsStore = defineStore('records', {
       ],
     } as RecordConfig,
   }),
+  actions: {
+    /** 篩選列 Confirm / 自動更新倒數歸零共用的佔位取數;實站接 API 後在這裡打 GET 換頁 */
+    refresh(_page: RecordKey) {
+      // 佔位:目前 rows 皆為 mock,不做任何事。
+    },
+  },
 });

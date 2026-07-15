@@ -3,21 +3,30 @@ import { definePreset } from '@primevue/themes';
 
 /**
  * PrimeVue 品牌 preset(規範 1-B.4:元件樣式集中於此調整)。
- * primary 對齊 tailwind.config 的 primary(#98E7D2),
- * dark surface 對齊面板綠黑階。
+ * 值讀 app/assets/css/themes/win100.css 的 CSS 變數(R3 皮膚層單一來源),
+ * 與 tailwind.config 的 primary/surface 同步換皮 — 不在這裡寫死 hex。
+ * 變數存的是「R G B」三個數字,這裡用 rgb(var(x)) 包成合法顏色值
+ * (PrimeVue 不像 Tailwind 有透明度修飾語法,不需要 <alpha-value>)。
  */
+function rgbVar(name: string) {
+  return `rgb(var(${name}))`;
+}
+
 const Win100 = definePreset(Aura, {
   semantic: {
     primary: {
-      50: '#F0FBF8', 100: '#DCF5EE', 200: '#CBE8E4', 300: '#B2EDDC', 400: '#A5EAD7',
-      500: '#98E7D2', 600: '#7FDFC4', 700: '#5ED0AF', 800: '#3DBD98', 900: '#2A9678', 950: '#1C6450',
+      50: rgbVar('--c-primary-50'), 100: rgbVar('--c-primary-100'), 200: rgbVar('--c-primary-200'),
+      300: rgbVar('--c-primary-300'), 400: rgbVar('--c-primary-400'), 500: rgbVar('--c-primary-500'),
+      600: rgbVar('--c-primary-600'), 700: rgbVar('--c-primary-700'), 800: rgbVar('--c-primary-800'),
+      900: rgbVar('--c-primary-900'), 950: rgbVar('--c-primary-950'),
     },
     colorScheme: {
       dark: {
         surface: {
-          0: '#FFFFFF', 50: '#D1D5DB', 100: '#9CA3AF', 200: '#6B7280', 300: '#4B5563',
-          400: '#374151', 500: '#2A3138', 600: '#232B36', 700: '#1F2937', 800: '#1A2128',
-          900: '#0F1419', 950: '#0A0E12',
+          0: rgbVar('--c-surface-0'), 50: rgbVar('--c-surface-50'), 100: rgbVar('--c-surface-100'),
+          200: rgbVar('--c-surface-200'), 300: rgbVar('--c-surface-300'), 400: rgbVar('--c-surface-400'),
+          500: rgbVar('--c-surface-500'), 600: rgbVar('--c-surface-600'), 700: rgbVar('--c-surface-700'),
+          800: rgbVar('--c-surface-800'), 900: rgbVar('--c-surface-900'), 950: rgbVar('--c-surface-950'),
         },
       },
     },
@@ -29,6 +38,13 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss', '@primevue/nuxt-module'],
+  /* 皮膚層(R3):CSS 變數檔案,先於 Tailwind 編譯產物載入。
+     兩份都常駐(無額外請求切換),用 <html data-theme="..."> 切換生效皮膚;
+     新增皮膚 = 複製一份、改值、加進這個陣列(見 app/assets/css/themes/aurora.css)。 */
+  css: [
+    '~/assets/css/themes/win100.css',
+    '~/assets/css/themes/aurora.css',
+  ],
   tailwindcss: {
     cssPath: '~/assets/css/main.css',
   },
@@ -45,12 +61,9 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      /* 全站固定深色;PrimeVue preset 的 darkModeSelector 綁定此 class */
-      htmlAttrs: { class: 'dark-mode' },
-      link: [
-        { rel: 'stylesheet', href: '/figma.css' },
-        { rel: 'stylesheet', href: '/tokens.css' },
-      ],
+      /* 全站固定深色;PrimeVue preset 的 darkModeSelector 綁定此 class。
+         data-theme 預設 win100,由 app.vue 綁定 site store 的 skin 即時切換。 */
+      htmlAttrs: { class: 'dark-mode', 'data-theme': 'win100' },
     },
   },
   primevue: {

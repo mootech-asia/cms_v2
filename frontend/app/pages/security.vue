@@ -7,24 +7,24 @@ useMemberPage(root);
 
 <template>
   <div ref="root" class="flex flex-col items-center">
-    <h1 class="text-white text-3xl mb-8 w-full">Security Center</h1>
+    <h1 class="text-ink text-3xl mb-8 w-full">Security Center</h1>
     <div class="w-full max-w-4xl">
-    <h2 class="text-gray-400 text-sm font-semibold uppercase tracking-wider mb-2">Last login</h2>
-    <div class="bg-[#1a2128] border border-gray-800 rounded-lg p-4 mb-6">
+    <h2 class="text-ink-3 text-sm font-semibold uppercase tracking-wider mb-2">Last login</h2>
+    <div class="bg-surface border border-line-soft rounded-lg p-4 mb-6">
     <div class="flex items-center justify-between py-2">
-    <span class="text-white text-sm">Time</span>
-    <span class="text-gray-400 text-sm">2026/04/21 13:29:25</span>
+    <span class="text-ink text-sm">Time</span>
+    <span class="text-ink-3 text-sm">2026/04/21 13:29:25</span>
     </div>
-    <div class="border-t border-gray-700 my-1">
+    <div class="border-t border-line my-1">
     </div>
     <div class="flex items-center justify-between py-2">
-    <span class="text-white text-sm">IP Address</span>
-    <span class="text-gray-400 text-sm">125.227.44.193</span>
+    <span class="text-ink text-sm">IP Address</span>
+    <span class="text-ink-3 text-sm">125.227.44.193</span>
     </div>
     </div>
-    <h2 class="text-gray-400 text-sm font-semibold uppercase tracking-wider mb-2">Security Setting</h2>
-    <div class="bg-[#1a2128] border border-gray-800 rounded-lg overflow-hidden">
-    <NuxtLink to="/personal-info" class="flex items-center justify-between p-4 border-b border-gray-800 hover:bg-[#0f1419] cursor-pointer">
+    <h2 class="text-ink-3 text-sm font-semibold uppercase tracking-wider mb-2">Security Setting</h2>
+    <div class="bg-surface border border-line-soft rounded-lg overflow-hidden">
+    <NuxtLink to="/personal-info" class="flex items-center justify-between p-4 border-b border-line-soft hover:bg-surface-deep cursor-pointer">
     <div class="flex items-center gap-3">
     <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: rgba(152, 231, 210, 0.15);">
     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: rgb(152, 231, 210);">
@@ -33,13 +33,13 @@ useMemberPage(root);
     </svg>
     </div>
     <div>
-    <div class="text-white text-sm font-semibold">Personal Info</div>
-    <div class="text-gray-500 text-xs mt-0.5">Complete your personal profile</div>
+    <div class="text-ink text-sm font-semibold">Personal Info</div>
+    <div class="text-ink-4 text-xs mt-0.5">Complete your personal profile</div>
     </div>
     </div>
-    <span class="text-gray-500 text-sm whitespace-nowrap flex-shrink-0">Not set ›</span>
+    <span class="text-ink-4 text-sm whitespace-nowrap flex-shrink-0">Not set ›</span>
     </NuxtLink>
-    <NuxtLink to="/change-password" class="flex items-center justify-between p-4 border-b border-gray-800 hover:bg-[#0f1419] cursor-pointer">
+    <NuxtLink to="/change-password" class="flex items-center justify-between p-4 border-b border-line-soft hover:bg-surface-deep cursor-pointer">
     <div class="flex items-center gap-3">
     <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: rgba(152, 231, 210, 0.15);">
     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: rgb(152, 231, 210);">
@@ -48,13 +48,13 @@ useMemberPage(root);
     </svg>
     </div>
     <div>
-    <div class="text-white text-sm font-semibold">Change Login Password</div>
-    <div class="text-gray-500 text-xs mt-0.5">Recommended letter and number combination</div>
+    <div class="text-ink text-sm font-semibold">Change Login Password</div>
+    <div class="text-ink-4 text-xs mt-0.5">Recommended letter and number combination</div>
     </div>
     </div>
-    <span class="text-gray-500 text-sm whitespace-nowrap flex-shrink-0">Not set ›</span>
+    <span class="text-ink-4 text-sm whitespace-nowrap flex-shrink-0">Not set ›</span>
     </NuxtLink>
-    <NuxtLink to="/change-password?type=txn" class="flex items-center justify-between p-4 border-b border-gray-800 hover:bg-[#0f1419] cursor-pointer">
+    <NuxtLink to="/change-password?type=txn" class="flex items-center justify-between p-4 border-b border-line-soft hover:bg-surface-deep cursor-pointer">
     <div class="flex items-center gap-3">
     <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: rgba(152, 231, 210, 0.15);">
     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: rgb(152, 231, 210);">
@@ -63,13 +63,13 @@ useMemberPage(root);
     </svg>
     </div>
     <div>
-    <div class="text-white text-sm font-semibold">Change Transaction Password</div>
-    <div class="text-gray-500 text-xs mt-0.5">Set a password to improve the security of fund operations</div>
+    <div class="text-ink text-sm font-semibold">Change Transaction Password</div>
+    <div class="text-ink-4 text-xs mt-0.5">Set a password to improve the security of fund operations</div>
     </div>
     </div>
-    <span class="text-gray-500 text-sm whitespace-nowrap flex-shrink-0">Not set ›</span>
+    <span class="text-ink-4 text-sm whitespace-nowrap flex-shrink-0">Not set ›</span>
     </NuxtLink>
-    <NuxtLink to="/banking-details" class="flex items-center justify-between p-4 border-b border-gray-800 hover:bg-[#0f1419] cursor-pointer">
+    <NuxtLink to="/banking-details" class="flex items-center justify-between p-4 border-b border-line-soft hover:bg-surface-deep cursor-pointer">
     <div class="flex items-center gap-3">
     <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: rgba(152, 231, 210, 0.15);">
     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: rgb(152, 231, 210);">
@@ -78,13 +78,13 @@ useMemberPage(root);
     </svg>
     </div>
     <div>
-    <div class="text-white text-sm font-semibold">Banking Details</div>
-    <div class="text-gray-500 text-xs mt-0.5">Recommended letter and number combination</div>
+    <div class="text-ink text-sm font-semibold">Banking Details</div>
+    <div class="text-ink-4 text-xs mt-0.5">Recommended letter and number combination</div>
     </div>
     </div>
-    <span class="text-gray-500 text-sm whitespace-nowrap flex-shrink-0">Not set ›</span>
+    <span class="text-ink-4 text-sm whitespace-nowrap flex-shrink-0">Not set ›</span>
     </NuxtLink>
-    <div class="flex items-center justify-between p-4 hover:bg-[#0f1419] cursor-pointer">
+    <div class="flex items-center justify-between p-4 hover:bg-surface-deep cursor-pointer">
     <div class="flex items-center gap-3">
     <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style="background-color: rgba(152, 231, 210, 0.15);">
     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: rgb(152, 231, 210);">
@@ -93,11 +93,11 @@ useMemberPage(root);
     </svg>
     </div>
     <div>
-    <div class="text-white text-sm font-semibold">Logout</div>
-    <div class="text-gray-500 text-xs mt-0.5">Logout safely</div>
+    <div class="text-ink text-sm font-semibold">Logout</div>
+    <div class="text-ink-4 text-xs mt-0.5">Logout safely</div>
     </div>
     </div>
-    <span class="text-gray-500 text-sm whitespace-nowrap flex-shrink-0">Not set ›</span>
+    <span class="text-ink-4 text-sm whitespace-nowrap flex-shrink-0">Not set ›</span>
     </div>
     </div>
     </div>

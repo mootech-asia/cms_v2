@@ -42,7 +42,7 @@ function selectBank(b: string) {
 }
 function submit() {
   if (!formReady.value) return;
-  bankStore.accounts.push({ bank: bank.value, num: maskCard(cardNum.value), holder: 'M＊＊＊＊＊＊＊', bindDate: new Date().toISOString().slice(0, 10) });
+  bankStore.addAccount({ bank: bank.value, num: maskCard(cardNum.value) });
   modal.value = { type: 'success', onConfirm: () => { view.value = 'list'; } };
 }
 function closeModal(confirmed: boolean) {

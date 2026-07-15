@@ -76,7 +76,7 @@ function openVendor(v: string) {
   <section class="py-8 bg-surface-deep min-h-[400px]">
     <div class="container mx-auto px-4">
       <div v-if="showBack" class="pb-[18px]">
-        <button type="button" class="cms-back-button" @click="back">
+        <button type="button" class="btn-back" @click="back">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg>
           <span>Back</span>
         </button>

@@ -6,9 +6,10 @@
  * 表格皮膚:main.css 的 .record-table(蓋過主題)+ 各欄 pt 對齊。
  */
 import { computed, ref } from 'vue';
-import type { RecordColumn, RecordRow } from '~/stores/records';
+import type { RecordColumn, RecordKey, RecordRow } from '~/stores/records';
 
 const props = defineProps<{
+  recordKey: RecordKey;
   title: string;
   columns: RecordColumn[];
   rows: RecordRow[];
@@ -16,6 +17,11 @@ const props = defineProps<{
   total?: { label: string; value: string };
   autoRefresh?: boolean;
 }>();
+
+const recordsStore = useRecordsStore();
+function onConfirm() {
+  recordsStore.refresh(props.recordKey);
+}
 
 const range = ref<Date | Date[] | null>(null);
 const status = ref('All');
@@ -70,7 +76,7 @@ function columnPt(col: RecordColumn) {
 
 <template>
   <div class="flex w-full flex-col">
-    <h1 class="mb-8 w-full text-3xl text-white">{{ title }}</h1>
+    <h1 class="mb-8 w-full text-3xl text-ink">{{ title }}</h1>
 
     <div class="mb-4 flex w-full flex-wrap items-center gap-2">
       <div v-if="statusOptions?.length" class="w-36 shrink-0">
@@ -79,8 +85,8 @@ function columnPt(col: RecordColumn) {
       <div class="w-full min-w-0 sm:w-64">
         <UiDatePicker v-model="range" selection-mode="range" placeholder="YYYY-MM-DD ~ YYYY-MM-DD" />
       </div>
-      <button type="button" class="btn-primary h-10 px-6 text-body">Confirm</button>
-      <AutoRefreshTimer v-if="autoRefresh" class="ml-auto" />
+      <button type="button" class="btn-primary h-10 px-6 text-body" @click="onConfirm">Confirm</button>
+      <AutoRefreshTimer v-if="autoRefresh" class="ml-auto" @refresh="onConfirm" />
     </div>
 
     <div class="w-full overflow-hidden rounded-xl border border-line-soft">

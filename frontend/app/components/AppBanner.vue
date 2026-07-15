@@ -1,16 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue';
-
-interface Banner {
-  id: number; badge: string; title: string; highlight: string;
-  sub: string; cta: string; accent: string; bg: string;
-}
-
-const banners: Banner[] = [
-  { id: 1, badge: 'WEEKLY RELOAD', title: 'Bonus', highlight: '50%', sub: 'EVERY MONDAY & FRIDAY', cta: 'Claim Now', accent: '#98E7D2', bg: 'linear-gradient(to right,#0a1f18,#0f2a1e,#0f1419)' },
-  { id: 2, badge: 'FIRST DEPOSIT', title: 'Fever', highlight: '100%', sub: 'BONUS UP TO RM 500', cta: 'Deposit Now', accent: '#B9DE5A', bg: 'linear-gradient(to right,#0a1f14,#0f2a1a,#0f1419)' },
-  { id: 3, badge: 'VIP EXCLUSIVE', title: 'Unlock', highlight: 'VIP', sub: 'CASHBACK · REBATE · PRIORITY SUPPORT', cta: 'Join VIP', accent: '#4ADE80', bg: 'linear-gradient(to right,#0a2415,#10331d,#0f1419)' },
-];
+import { banners } from '~/config/mock/home';
 
 const idx = ref(0);
 const b = computed(() => banners[idx.value]!);
