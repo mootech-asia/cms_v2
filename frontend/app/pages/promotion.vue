@@ -25,11 +25,7 @@ function backToList() {
 
 <template>
   <div>
-    <div v-if="!detail" class="bg-g-hero py-16 md:py-20">
-      <div class="container mx-auto px-4 text-center">
-        <h1 class="text-4xl md:text-7xl text-white mb-4">PROMOTIONS</h1>
-      </div>
-    </div>
+    <CategoryHero v-if="!detail" title="PROMOTIONS" />
 
     <section
       class="bg-surface-deep"

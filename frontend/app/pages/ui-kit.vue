@@ -42,6 +42,15 @@ const skins = [
   { key: 'win100', label: 'WIN100(預設)' },
   { key: 'aurora', label: 'Aurora(示範皮)' },
 ]
+
+/** R4 變體型錄:每區塊目前選中的 variant key(缺省 v1) */
+import { BLOCKS, type BlockKey } from '~/config/blocks'
+const variantPick = reactive<Record<string, string>>({})
+/** 需要 props 的區塊在型錄中的示範值 */
+const VARIANT_DEMO_PROPS: Partial<Record<BlockKey, Record<string, unknown>>> = {
+  'category-hero': { title: 'HOT GAMES' },
+  'member-card': { bank: 'KB Bank', accountTail: '＊＊＊＊1234', holder: 'M＊＊＊＊＊＊＊', bindDate: '2025-08-14' },
+}
 </script>
 
 <template>
@@ -168,6 +177,32 @@ const skins = [
     <UiCard title="UiSectionTitle / UiCard">
       <UiSectionTitle text="區塊標題(.section-title)" />
       <p class="mt-3 text-body text-ink-3">本頁每個區塊即 UiCard(title + padded)。</p>
+    </UiCard>
+
+    <!-- ======== 區塊變體型錄(R4) ======== -->
+    <header class="pt-8">
+      <h2 class="text-h1 font-bold text-ink">區塊變體型錄</h2>
+      <p class="mt-1 text-body text-ink-3">
+        登錄表 <code class="text-primary">app/config/blocks.ts</code> — 每個區塊的變體吃同一份內容
+        (<code class="text-primary">config/mock/home.ts</code> / props)與同一套皮膚,只換版面。
+        選擇變體即時渲染於下方(內容同首頁)。
+      </p>
+    </header>
+
+    <UiCard v-for="(def, key) in BLOCKS" :key="key" :title="`${def.label}(${key})`">
+      <div class="mb-4 flex flex-wrap items-center gap-2">
+        <button
+          v-for="(comp, vk) in def.variants" :key="vk" type="button"
+          class="rounded-ui border px-3 py-1.5 text-note font-semibold transition-colors"
+          :class="(variantPick[key] ?? 'v1') === vk
+            ? 'border-transparent bg-g-primary text-on-primary'
+            : 'border-line-soft bg-surface-deep text-ink-3 hover:text-ink'"
+          @click="variantPick[key] = vk"
+        >{{ vk }}</button>
+      </div>
+      <div class="overflow-hidden rounded-xl border border-line-soft bg-surface-deep">
+        <component :is="def.variants[variantPick[key] ?? 'v1']" v-bind="VARIANT_DEMO_PROPS[key]" />
+      </div>
     </UiCard>
   </div>
   </div>

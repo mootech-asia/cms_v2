@@ -191,6 +191,20 @@
     .rewards-bar .rk-fill { animation: none; }
   }
 
+  /* home/TickerV2 直向單筆輪播:淡入淡出 + 小幅位移 */
+  .tkv2-enter-active,
+  .tkv2-leave-active {
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  .tkv2-enter-from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .tkv2-leave-to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
   /* banking-details.vue + change-password.vue 共用「會員表單卡」(取代兩頁 mf-* scoped 區塊) */
   .mf-wrap { max-width: 56rem; margin: 0 auto; width: 100%; }
   .mf-card { @apply card-ui w-full; padding: 24px; max-width: 56rem; margin: 0 auto; box-sizing: border-box; }

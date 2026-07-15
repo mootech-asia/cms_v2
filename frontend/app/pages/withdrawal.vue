@@ -69,17 +69,12 @@ function submitWithdraw() {
                 <h2 class="accts-title">My Bank Accounts <span>{{ boundAccounts.length ? Math.min(acctIdx, boundAccounts.length - 1) + 1 : 0 }} / {{ boundAccounts.length }}</span></h2>
                 <button type="button" class="accts-nav" aria-label="Next" @click="nextAcct"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg></button>
               </div>
-              <div class="bound-card relative overflow-hidden rounded-2xl">
-                <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1200 320" preserveAspectRatio="none" fill="none">
-                  <path d="M0,232 C380,162 780,300 1200,92" stroke="rgba(190,245,225,0.18)" stroke-width="1.2" />
-                  <path d="M0,275 C380,205 740,330 1200,120" stroke="rgba(190,245,225,0.10)" stroke-width="1.2" />
-                </svg>
-                <div class="relative bound-inner">
-                  <div class="bound-pill">{{ boundAcct?.bank || 'Bank Name' }}</div>
-                  <div class="bound-num"><p class="bn-label">Account number</p><p class="bn-value">{{ acctTail }}</p></div>
-                  <div class="bound-foot"><span class="bound-name">{{ boundAcct?.holder || 'M＊＊＊＊＊＊＊' }}</span><span class="bound-date">Bind Date<br><b>{{ boundAcct?.bindDate || '—' }}</b></span></div>
-                </div>
-              </div>
+              <MemberCard
+                :bank="boundAcct?.bank"
+                :account-tail="acctTail"
+                :holder="boundAcct?.holder"
+                :bind-date="boundAcct?.bindDate"
+              />
               <button class="refresh flex items-center gap-2 mt-4 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /><path d="M8 16H3v5" /></svg>
                 <span class="text-sm">Refresh</span>

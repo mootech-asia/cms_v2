@@ -35,11 +35,7 @@ function loadMore() {
 
 <template>
   <div ref="root">
-    <div class="bg-g-hero py-20">
-    <div class="container mx-auto px-4 text-center">
-    <h1 class="text-5xl md:text-7xl text-white mb-4">SPORTS BETTING</h1>
-    </div>
-    </div>
+    <CategoryHero title="SPORTS BETTING" />
     <section class="py-8 bg-surface-deep min-h-[400px]">
     <div class="container mx-auto px-4">
     <div class="flex items-center gap-8 border-b border-gray-800 mb-8">
