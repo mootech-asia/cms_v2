@@ -1,8 +1,17 @@
+<script setup lang="ts">
+import { BLOCKS } from '~/config/blocks';
+
+/** chrome(header/footer)變體由 site store 驅動,後台(R5 /studio)可切換 */
+const siteStore = useSiteStore();
+const headerComp = computed(() => BLOCKS['site-header'].variants[siteStore.chrome.header] ?? BLOCKS['site-header'].variants.v1);
+const footerComp = computed(() => BLOCKS['site-footer'].variants[siteStore.chrome.footer] ?? BLOCKS['site-footer'].variants.v1);
+</script>
+
 <template>
   <div class="min-h-screen overflow-x-hidden bg-surface-deep">
-    <AppHeader />
+    <component :is="headerComp" />
     <slot />
-    <AppFooter />
+    <component :is="footerComp" />
     <MobileBottomNav />
   </div>
 </template>

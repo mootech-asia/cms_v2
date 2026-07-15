@@ -9,6 +9,8 @@ import type { SectionConfig } from '~/config/blocks';
 export const useSiteStore = defineStore('site', {
   state: () => ({
     skin: 'win100',
+    /** 全站 chrome(header/footer)使用的變體 — layouts/default.vue 讀這裡 */
+    chrome: { header: 'v1', footer: 'v1' },
     pages: {
       home: {
         sections: [
@@ -47,6 +49,10 @@ export const useSiteStore = defineStore('site', {
     /** 後台:換膚(R3 接 themes/*.css) */
     setSkin(skin: string) {
       this.skin = skin;
+    },
+    /** 後台:全站 chrome 變體(header/footer) */
+    setChrome(part: 'header' | 'footer', variant: string) {
+      this.chrome[part] = variant;
     },
   },
 });

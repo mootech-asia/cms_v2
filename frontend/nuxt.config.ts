@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url';
 import Aura from '@primevue/themes/aura';
 import { definePreset } from '@primevue/themes';
 
@@ -49,6 +50,12 @@ export default defineNuxtConfig({
     cssPath: '~/assets/css/main.css',
   },
   nitro: {
+    /* 皮膚原始檔以 /themes/<key>.css 曝露(R5 /studio 匯出模板包用)—
+       repo 內仍只有 assets/css/themes/ 一份來源;raw import 走不通,
+       因為 Vite 對 .css specifier 一律套 CSS pipeline(?inline&used)。 */
+    publicAssets: [
+      { baseURL: 'themes', dir: fileURLToPath(new URL('./app/assets/css/themes', import.meta.url)) },
+    ],
     prerender: {
       crawlLinks: true,
       routes: [
