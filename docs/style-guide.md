@@ -79,10 +79,10 @@
 
 ## 6. 共用元件規格(改規格 = 改所有副本)
 
-### Back 按鈕(規格源頭:`js/back-buttons.js`)
+### Back 按鈕(單一來源:`css/tokens.css` 的 `.cms-back-button`)
 - 40px 高 pill、`border:1px solid rgba(152,231,210,.24)`、底 `#1A2128`、文字 `#FFF` 15px/800
 - hover/focus:`--g-primary` 漸層底、文字 `#0F1419`、`translateY(-1px)` + mint 陰影
-- 副本位置:`back-buttons.js`(靜態自動套)、`VendorBrowser.vue`、`promotion.vue`
+- 靜態:`js/back-buttons.js` 執行期自動掛 class;**Nuxt:元件直接寫 `class="cms-back-button"`,禁止自寫 idle/hover**
 - 出現規則:**只在第二層視圖**(廠商遊戲列表、promotion 詳情);頂層分類頁與會員頁**不放**頂部 Back
 
 ### Load More 按鈕(規格源頭:`js/category-load-more.js`)

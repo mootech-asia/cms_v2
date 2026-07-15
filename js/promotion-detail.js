@@ -10,6 +10,10 @@
     map[promo.id] = promo;
     return map;
   }, {});
+  const TITLE_TO_ID = PROMOS.reduce((map, promo) => {
+    map[promo.title] = promo.id;
+    return map;
+  }, {});
 
   function escapeHtml(value) {
     const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
@@ -34,11 +38,8 @@
       .promotion-clickable{cursor:pointer}
       .promotion-clickable:focus-visible{outline:2px solid #98E7D2;outline-offset:3px}
       .promotion-detail-page{max-width:1180px;margin:0 auto;color:#fff}
-      .promotion-detail-back{display:inline-flex;align-items:center;gap:8px;margin-bottom:28px;border:1px solid rgba(152,231,210,.22);background:#1a2128;color:#fff;border-radius:8px;padding:10px 15px;font-size:16px;font-weight:800;line-height:1;cursor:pointer;transition:background-color .16s ease,border-color .16s ease,color .16s ease}
-      .promotion-detail-back:hover,.promotion-detail-back:focus-visible{background:#304242;border-color:rgba(170,229,211,.38);color:#AAE5D3;outline:none}
-      .promotion-detail-back svg{width:19px;height:19px;stroke-width:3}
+      .promotion-detail-back{margin-bottom:28px}
       .promotion-detail-heading{display:inline-flex;align-items:center;margin:0;color:#fff;font-size:30px;font-weight:800;line-height:1}
-      .promotion-detail-heading:after{content:"";display:block;width:56px;height:3px;margin-left:14px;border-radius:999px;background:linear-gradient(90deg,#CBE8E4,#98E7D2)}
       .promotion-detail-shell{display:flex;flex-direction:column;align-items:center;gap:28px}
       .promotion-detail-poster{position:relative;width:min(100%,760px);overflow:hidden;border:1px solid rgba(152,231,210,.26);border-radius:8px;background:linear-gradient(180deg,#1a2128 0%,#141c24 58%,#101820 100%);box-shadow:0 24px 70px rgba(0,0,0,.34);padding:46px 54px 42px;text-align:center}
       .promotion-detail-poster:before{content:"";position:absolute;inset:20px;border:1px solid rgba(152,231,210,.12);border-radius:6px;pointer-events:none}
@@ -125,7 +126,7 @@
 
     target.innerHTML = `
       <div class="promotion-detail-page">
-        <button class="promotion-detail-back" type="button" aria-label="Back">
+        <button class="promotion-detail-back cms-back-button" type="button" aria-label="Back">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           <span>Back</span>
         </button>
@@ -174,8 +175,30 @@
     if (back) back.addEventListener('click', () => { location.hash = '#/promotion'; });
   }
 
+  // 首頁 Promotion 卡片:點 Detail 進對應詳情頁
+  function bindHomeCards() {
+    [...document.querySelectorAll('#container button')]
+      .filter((b) => (b.textContent || '').trim() === 'Detail' && !b.dataset.promotionBound)
+      .forEach((btn) => {
+        let box = btn.parentElement;
+        let title = null;
+        while (box && !title) {
+          title = [...box.querySelectorAll('h3')].map((h) => h.textContent.trim()).find((t) => TITLE_TO_ID[t]);
+          if (!title) box = box.parentElement;
+        }
+        if (!title) return;
+        btn.dataset.promotionBound = 'true';
+        btn.type = 'button';
+        btn.addEventListener('click', (event) => {
+          event.preventDefault();
+          goToDetail(TITLE_TO_ID[title]);
+        });
+      });
+  }
+
   document.addEventListener('page:rendered', (event) => {
     const detail = event.detail || {};
+    if (detail.slug === 'home') { bindHomeCards(); return; }
     if (detail.slug !== 'promotion') return;
 
     if (detail.query && detail.query.detail) renderDetail(detail.query.detail);

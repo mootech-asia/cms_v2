@@ -1,3 +1,11 @@
+<script setup lang="ts">
+// Detail → promotion 詳情頁(id 對應 js/promotion-detail.js 的 PROMOS)
+const router = useRouter();
+function goDetail(id: string) {
+  router.push({ path: '/promotion', query: { detail: id } });
+}
+</script>
+
 <template>
 <section class="py-6 bg-[#1a2128]">
 <div class="container mx-auto px-4">
@@ -55,7 +63,7 @@
 <div class="p-4">
 <h3 class="text-white text-sm mb-3 text-center">RioBet Casino</h3>
 <div class="space-y-2">
-<button class="w-full px-3 py-2 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 flex items-center justify-center bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]">Detail</button>
+<button class="w-full px-3 py-2 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 flex items-center justify-center bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]" @click="goDetail('riobet-casino')">Detail</button>
 </div>
 </div>
 </div>
@@ -80,7 +88,7 @@
 <div class="p-4">
 <h3 class="text-white text-sm mb-3 text-center">BitStarz Casino</h3>
 <div class="space-y-2">
-<button class="w-full px-3 py-2 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 flex items-center justify-center bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]">Detail</button>
+<button class="w-full px-3 py-2 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 flex items-center justify-center bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]" @click="goDetail('bitstarz-casino')">Detail</button>
 </div>
 </div>
 </div>
@@ -105,7 +113,7 @@
 <div class="p-4">
 <h3 class="text-white text-sm mb-3 text-center">IceCasino</h3>
 <div class="space-y-2">
-<button class="w-full px-3 py-2 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 flex items-center justify-center bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]">Detail</button>
+<button class="w-full px-3 py-2 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 flex items-center justify-center bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]" @click="goDetail('icecasino')">Detail</button>
 </div>
 </div>
 </div>
@@ -130,7 +138,7 @@
 <div class="p-4">
 <h3 class="text-white text-sm mb-3 text-center">Gamdom Casino</h3>
 <div class="space-y-2">
-<button class="w-full px-3 py-2 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 flex items-center justify-center bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]">Detail</button>
+<button class="w-full px-3 py-2 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 flex items-center justify-center bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]" @click="goDetail('gamdom-casino')">Detail</button>
 </div>
 </div>
 </div>
@@ -158,7 +166,7 @@
 <div class="p-4">
 <h3 class="text-white text-sm mb-3 text-center">RioBet Casino</h3>
 <div class="space-y-2">
-<button class="w-full px-3 py-2 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 flex items-center justify-center bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]">Detail</button>
+<button class="w-full px-3 py-2 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 flex items-center justify-center bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]" @click="goDetail('riobet-casino')">Detail</button>
 </div>
 </div>
 </div>
@@ -185,7 +193,7 @@
 <div class="p-4">
 <h3 class="text-white text-sm mb-3 text-center">BitStarz Casino</h3>
 <div class="space-y-2">
-<button class="w-full px-3 py-2 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 flex items-center justify-center bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]">Detail</button>
+<button class="w-full px-3 py-2 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 flex items-center justify-center bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]" @click="goDetail('bitstarz-casino')">Detail</button>
 </div>
 </div>
 </div>
@@ -212,7 +220,7 @@
 <div class="p-4">
 <h3 class="text-white text-sm mb-3 text-center">IceCasino</h3>
 <div class="space-y-2">
-<button class="w-full px-3 py-2 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 flex items-center justify-center bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]">Detail</button>
+<button class="w-full px-3 py-2 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 flex items-center justify-center bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]" @click="goDetail('icecasino')">Detail</button>
 </div>
 </div>
 </div>
@@ -239,7 +247,7 @@
 <div class="p-4">
 <h3 class="text-white text-sm mb-3 text-center">Gamdom Casino</h3>
 <div class="space-y-2">
-<button class="w-full px-3 py-2 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 flex items-center justify-center bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]">Detail</button>
+<button class="w-full px-3 py-2 rounded-lg text-xs text-gray-900 transition-opacity hover:opacity-90 flex items-center justify-center bg-gradient-to-r from-[#CBE8E4] to-[#98E7D2]" @click="goDetail('gamdom-casino')">Detail</button>
 </div>
 </div>
 </div>

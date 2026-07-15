@@ -116,3 +116,10 @@
 .pt-16{padding-top:4rem}
 .pb-10{padding-bottom:2.5rem}
 .placeholder-gray-600::placeholder{color:#4B5563}
+
+/* Back 按鈕統一規格(單一來源;與 js/back-buttons.js 的執行期 normalizer 相同值。
+   Nuxt 元件一律直接掛 .cms-back-button,不得再自寫 idle/hover) */
+.cms-back-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;min-height:40px;padding:0 14px;border-radius:8px;border:1px solid rgba(152,231,210,.24);background:#1a2128;color:#fff;font-size:15px;font-weight:800;line-height:1;cursor:pointer;text-decoration:none;box-shadow:none;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease}
+.cms-back-button:hover,.cms-back-button:focus-visible{background:linear-gradient(90deg,#CBE8E4,#98E7D2);border-color:transparent;color:#0f1419;box-shadow:0 8px 20px rgba(152,231,210,.18);transform:translateY(-1px);outline:none}
+.cms-back-button:active{transform:translateY(0);box-shadow:none}
+.cms-back-button svg{width:18px;height:18px;stroke-width:2.8;flex:0 0 auto}
