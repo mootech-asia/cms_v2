@@ -8,6 +8,7 @@ const active = ref('mini');
 const games = computed(() => tabs.find((t) => t.key === active.value)!.games);
 const rail = ref<HTMLElement | null>(null);
 const routes: Record<string, string> = Object.fromEntries(tabs.map((t) => [t.key, t.route]));
+const mediaSrc = (src: string) => (/^(https?:)?\/\//.test(src) ? src : withBase(src));
 
 const tabClass = (key: string) =>
   key === active.value
@@ -17,14 +18,26 @@ const tabClass = (key: string) =>
 async function selectTab(key: string) {
   active.value = key;
   await nextTick();
-  rail.value?.scrollTo({ left: 0, behavior: 'smooth' });
+  rail.value?.scrollTo({ left: 0, behavior: 'auto' });
 }
 
-function moveRail(direction: number) {
-  rail.value?.scrollBy({
-    left: direction * Math.max(260, rail.value.clientWidth * 0.75),
-    behavior: 'smooth',
-  });
+function moveRail(direction: -1 | 1) {
+  const el = rail.value;
+  if (!el) return;
+
+  const card = el.querySelector<HTMLElement>('[data-game-card]');
+  const gap = Number.parseFloat(getComputedStyle(el).columnGap) || 12;
+  const cardWidth = card?.offsetWidth || 128;
+  const visibleCards = Math.max(1, Math.floor((el.clientWidth + gap) / (cardWidth + gap)));
+  const jump = (cardWidth + gap) * visibleCards;
+  const maxScroll = Math.max(0, el.scrollWidth - el.clientWidth);
+  if (maxScroll <= 1) return;
+
+  const target = direction > 0
+    ? (el.scrollLeft >= maxScroll - 2 ? 0 : Math.min(maxScroll, el.scrollLeft + jump))
+    : (el.scrollLeft <= 2 ? maxScroll : Math.max(0, el.scrollLeft - jump));
+
+  el.scrollTo({ left: target, behavior: 'smooth' });
 }
 </script>
 
@@ -35,6 +48,7 @@ function moveRail(direction: number) {
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div class="grid grid-cols-3 md:flex md:items-center md:gap-8">
             <button
+              type="button"
               class="pb-2 transition-colors relative flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-2"
               :class="tabClass('mini')"
               @click="selectTab('mini')"
@@ -46,6 +60,7 @@ function moveRail(direction: number) {
               </div>
             </button>
             <button
+              type="button"
               class="pb-2 transition-colors relative flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-2"
               :class="tabClass('slot')"
               @click="selectTab('slot')"
@@ -57,6 +72,7 @@ function moveRail(direction: number) {
               </div>
             </button>
             <button
+              type="button"
               class="pb-2 transition-colors relative flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-2"
               :class="tabClass('live')"
               @click="selectTab('live')"
@@ -70,20 +86,20 @@ function moveRail(direction: number) {
           </div>
           <div class="flex items-center justify-end gap-2">
             <NuxtLink class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" :to="routes[active]">Show all</NuxtLink>
-            <button aria-label="Previous games" class="text-ink-3 hover:text-ink p-1.5 border border-line rounded transition-colors" @click="moveRail(-1)">
+            <button type="button" aria-label="Previous games" class="text-ink-3 hover:text-ink p-1.5 border border-line rounded transition-colors" @click="moveRail(-1)">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left w-4 h-4"><path d="m15 18-6-6 6-6"></path></svg>
             </button>
-            <button aria-label="Next games" class="text-ink-3 hover:text-ink p-1.5 border border-line rounded transition-colors" @click="moveRail(1)">
+            <button type="button" aria-label="Next games" class="text-ink-3 hover:text-ink p-1.5 border border-line rounded transition-colors" @click="moveRail(1)">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right w-4 h-4"><path d="m9 18 6-6-6-6"></path></svg>
             </button>
           </div>
         </div>
       </div>
       <div class="overflow-hidden">
-        <div ref="rail" :key="active" class="flex overflow-x-auto gap-3 snap-x snap-mandatory scrollbar-hide pb-4 animate-slideIn">
-          <div v-for="g in games" :key="g.title" class="flex-shrink-0 w-28 md:w-32 snap-start cursor-pointer group">
+        <div ref="rail" class="flex scroll-smooth overflow-x-auto gap-3 snap-x snap-mandatory scrollbar-hide pb-4 animate-slideIn">
+          <div v-for="g in games" :key="g.title" data-game-card class="flex-shrink-0 w-28 md:w-32 snap-start cursor-pointer group">
             <div class="w-28 h-28 md:w-32 md:h-32 rounded-lg overflow-hidden border-2 border-line group-hover:border-primary transition-colors">
-              <img :src="withBase(g.img)" :alt="g.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+              <img :src="mediaSrc(g.img)" :alt="g.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" :style="{ objectPosition: g.focalPoint || 'center' }" loading="lazy">
             </div>
             <h3 class="text-ink text-xs md:text-sm text-center mt-2 truncate">{{ g.title }}</h3>
           </div>
