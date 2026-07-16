@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { BLOCKS, type BlockKey } from '~/config/blocks';
 import { TEMPLATE } from '~/config/template';
-import { THEME_KEYS, fetchThemeSource } from '~/utils/themes';
+import { THEME_KEYS, fetchThemeSource, themeLabel } from '~/utils/themes';
 import {
   type DraftConfig, buildDraft, applyDraft, writeDraft,
 } from '~/utils/studio-draft';
@@ -162,7 +162,7 @@ const exportPack = async () => {
               class="seg-btn"
               :class="{ active: draft.skin === k }"
               @click="draft.skin = k"
-            >{{ k }}</button>
+            >{{ themeLabel(k) }}</button>
           </div>
         </section>
 
