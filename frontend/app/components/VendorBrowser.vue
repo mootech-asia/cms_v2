@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { LIVE_CASINO_OPERATION_MEDIA } from '~/config/operational-media';
+import { CATEGORY_VENDOR_OPERATION_MEDIA } from '~/config/operational-media';
 
 const props = defineProps<{ title: string; kind: string; direct?: boolean }>();
 const route = useRoute();
@@ -20,26 +20,25 @@ const LIVE_VENDORS = [
   'N2 Live', 'Ho Gaming', 'Bet Games', 'Skywind Live', 'CQ9 Live', 'PP Live Deluxe',
   'Royal Gaming', 'Lucky Streak', 'Betradar Live', 'Xpro Gaming', 'Winfinity', 'Atmosfera',
 ];
-const PHOTOS = [
-  'photo-1604028297236-42130c7dcc3a__w-400', 'photo-1604028296525-8304e1a4969f__w-400',
-  'photo-1534620780923-1ce0db377c3f__w-400', 'photo-1590336225155-d7e19a3a954f__w-400',
-  'photo-1771775606196-70dccc0d9bde__w-400', 'photo-1525018667593-176858caed6a__w-400',
-];
-const photo = (i: number) => `/_external/images.unsplash.com/${PHOTOS[((i % PHOTOS.length) + PHOTOS.length) % PHOTOS.length]}`;
-
 const LIVE_GAME_NAMES = [
   'Lightning Roulette', 'VIP Baccarat', 'Speed Blackjack', 'Dragon Tiger',
   'Casino Hold’em', 'Immersive Roulette', 'No Commission Baccarat', 'Sic Bo Live',
   'Power Blackjack', 'Golden Roulette', 'Baccarat Control Squeeze', 'Three Card Poker',
 ];
 const isLive = computed(() => props.kind === 'live');
-const liveMedia = (i: number) => {
-  const list = LIVE_CASINO_OPERATION_MEDIA.tables;
+const categoryMedia = computed(() => {
+  if (props.kind === 'live') return CATEGORY_VENDOR_OPERATION_MEDIA.live;
+  if (props.kind === 'fish') return CATEGORY_VENDOR_OPERATION_MEDIA.fish;
+  if (props.kind === 'mini-games') return CATEGORY_VENDOR_OPERATION_MEDIA.miniGames;
+  return CATEGORY_VENDOR_OPERATION_MEDIA.slot;
+});
+const operationalMedia = (i: number) => {
+  const list = categoryMedia.value;
   return list[((i % list.length) + list.length) % list.length]!;
 };
 const gameTitle = (i: number) => isLive.value ? LIVE_GAME_NAMES[i % LIVE_GAME_NAMES.length]! : 'Game Name';
-const gameImage = (i: number) => isLive.value ? liveMedia(i).image : photo(i);
-const gameFocalPoint = (i: number) => isLive.value ? liveMedia(i).focalPoint : 'center';
+const gameImage = (i: number) => operationalMedia(i).image;
+const gameFocalPoint = (i: number) => operationalMedia(i).focalPoint;
 const mediaSrc = (src: string) => /^(https?:)?\/\//.test(src) ? src : withBase(src);
 const hideBrokenMedia = (event: Event) => {
   (event.currentTarget as HTMLImageElement).hidden = true;
@@ -123,18 +122,16 @@ function openVendor(v: string) {
           class="vnd-card group relative isolate min-h-[136px] overflow-hidden"
           @click="openVendor(v)"
         >
-          <template v-if="isLive">
-            <img
-              :src="mediaSrc(liveMedia(i).image)"
-              alt=""
-              aria-hidden="true"
-              class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-              :style="{ objectPosition: liveMedia(i).focalPoint }"
-              loading="lazy"
-              @error="hideBrokenMedia"
-            >
-            <div class="absolute inset-0 bg-gradient-to-t from-surface-deep via-surface-deep/70 to-surface-deep/10" />
-          </template>
+          <img
+            :src="mediaSrc(operationalMedia(i).image)"
+            alt=""
+            aria-hidden="true"
+            class="vnd-card-media absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            :style="{ objectPosition: operationalMedia(i).focalPoint }"
+            loading="lazy"
+            @error="hideBrokenMedia"
+          >
+          <div class="vnd-card-scrim absolute inset-0" />
           <span class="relative z-[1] flex h-full w-full flex-col items-center justify-end gap-2 p-4">
             <span class="vnd-name">{{ v }}</span>
             <span

@@ -16,24 +16,24 @@ export interface OperationalMedia {
 
 export const HOME_OPERATION_MEDIA = {
   esports: {
-    image: pexels(30111700),
-    focalPoint: '72% 38%',
-    source: 'https://www.pexels.com/photo/female-gamer-focused-on-esports-competition-30111700/',
+    image: pexels(7862503),
+    focalPoint: '68% 50%',
+    source: 'https://www.pexels.com/photo/woman-using-a-computer-7862503/',
   },
   luxury: {
-    image: pexels(33935175),
-    focalPoint: '72% 34%',
-    source: 'https://www.pexels.com/photo/elegant-woman-in-evening-gown-with-pearls-33935175/',
+    image: pexels(32100316),
+    focalPoint: '76% 28%',
+    source: 'https://www.pexels.com/photo/elegant-woman-in-black-sequin-evening-gown-32100316/',
   },
   finance: {
-    image: pexels(34482105),
-    focalPoint: '68% 50%',
-    source: 'https://www.pexels.com/photo/hands-using-smartphone-for-crypto-trading-analysis-34482105/',
+    image: pexels(36755611),
+    focalPoint: '70% 48%',
+    source: 'https://www.pexels.com/photo/stock-trader-analyzing-market-data-on-screen-36755611/',
   },
   worldFootball: {
-    image: pexels(19918607),
-    focalPoint: '50% 52%',
-    source: 'https://www.pexels.com/photo/people-on-stadium-during-soccer-game-19918607/',
+    image: pexels(30651230),
+    focalPoint: '60% 52%',
+    source: 'https://www.pexels.com/photo/illuminated-soccer-stadium-at-night-with-crowd-30651230/',
   },
 } satisfies Record<string, OperationalMedia>;
 
@@ -78,12 +78,37 @@ export const LIVE_CASINO_OPERATION_MEDIA = {
   ],
 } satisfies { hero: OperationalMedia; tables: OperationalMedia[] };
 
+/** 各分類廠商選擇與遊戲卡片共用的營運底圖。 */
+export const CATEGORY_VENDOR_OPERATION_MEDIA = {
+  live: LIVE_CASINO_OPERATION_MEDIA.tables,
+  slot: [
+    { image: pexels(29825627), focalPoint: '58% 50%', source: 'https://www.pexels.com/photo/vibrant-slot-machines-in-casino-night-scene-29825627/' },
+    { image: pexels(7594128), focalPoint: '50% 52%', source: 'https://www.pexels.com/photo/a-roulette-table-inside-a-casino-7594128/' },
+    { image: pexels(7594183), focalPoint: '50% 50%', source: 'https://www.pexels.com/photo/close-up-photo-of-casino-roulette-7594183/' },
+    { image: pexels(7594310), focalPoint: '55% 40%', source: 'https://www.pexels.com/photo/playing-cards-on-baccarat-table-7594310/' },
+    { image: pexels(6664128), focalPoint: '50% 48%', source: 'https://www.pexels.com/photo/man-displaying-cards-in-casino-6664128/' },
+    { image: pexels(27568815), focalPoint: '62% 50%', source: 'https://www.pexels.com/photo/gaming-27568815/' },
+  ],
+  fish: [
+    { image: pexels(5955036), focalPoint: '58% 48%', source: 'https://www.pexels.com/photo/blue-fish-in-the-ocean-5955036/' },
+    { image: pexels(32824677), focalPoint: '50% 52%', source: 'https://www.pexels.com/photo/vibrant-tropical-fish-in-underwater-aquarium-32824677/' },
+    { image: pexels(13070714), focalPoint: '54% 50%', source: 'https://www.pexels.com/photo/underwater-photo-of-a-school-of-tropical-fish-13070714/' },
+    { image: pexels(18528202), focalPoint: '46% 52%', source: 'https://www.pexels.com/photo/a-large-aquarium-with-many-different-fish-18528202/' },
+  ],
+  miniGames: [
+    { image: pexels(27568815), focalPoint: '62% 50%', source: 'https://www.pexels.com/photo/gaming-27568815/' },
+    { image: pexels(7561836), focalPoint: '60% 46%', source: 'https://www.pexels.com/photo/woman-playing-a-virtual-reality-game-with-a-vr-headset-7561836/' },
+    { image: pexels(7862503), focalPoint: '68% 50%', source: 'https://www.pexels.com/photo/woman-using-a-computer-7862503/' },
+    { image: pexels(36755611), focalPoint: '70% 48%', source: 'https://www.pexels.com/photo/stock-trader-analyzing-market-data-on-screen-36755611/' },
+  ],
+} satisfies Record<string, OperationalMedia[]>;
+
 export const CATEGORY_HERO_MEDIA = {
   hotGames: {
-    image: pexels(30111700),
-    focalPoint: '72% 38%',
+    image: pexels(7862503),
+    focalPoint: '68% 50%',
     eyebrow: 'TRENDING NOW',
-    source: 'https://www.pexels.com/photo/female-gamer-focused-on-esports-competition-30111700/',
+    source: 'https://www.pexels.com/photo/woman-using-a-computer-7862503/',
   },
   sport: {
     image: pexels(30651230),
