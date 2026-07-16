@@ -115,7 +115,7 @@ const cryptoReady = computed(() => Number(cryptoAmount.value.replace(/[^\d]/g, '
       <button
         v-for="item in gateways"
         :key="item.id"
-        class="!min-w-0 flex-1 basis-[calc(50%-6px)] md:basis-0"
+        class="!min-w-0 flex-1 basis-[48%] md:basis-0"
         :class="{ active: gateway === item.id }"
         @click="gateway = item.id"
       >
@@ -127,7 +127,7 @@ const cryptoReady = computed(() => Number(cryptoAmount.value.replace(/[^\d]/g, '
       <button
         v-for="item in availablePaymentMethods"
         :key="item.id"
-        class="!min-w-0 flex-1 basis-[calc(50%-6px)] md:basis-0"
+        class="!min-w-0 flex-1 basis-[48%] md:basis-0"
         :class="{ active: method === item.id }"
         @click="method = item.id"
       >
