@@ -25,6 +25,10 @@ onUnmounted(() => { if (timer) clearInterval(timer); });
       <div
         class="relative flex min-h-[240px] items-center overflow-hidden rounded-xl border border-line-soft md:col-span-2 banner-art"
       >
+        <template v-if="b.img">
+          <img :src="withBase(b.img)" :alt="b.title" class="absolute inset-0 h-full w-full object-cover">
+          <div class="absolute inset-0 bg-scrim/40" />
+        </template>
         <div class="relative z-10 px-6 py-8 md:px-10">
           <div
             class="mb-3 inline-flex rounded border border-primary/25 bg-primary/10 px-3 py-1"
@@ -44,12 +48,16 @@ onUnmounted(() => { if (timer) clearInterval(timer); });
       <div class="grid grid-rows-3 gap-3">
         <button
           v-for="(s, i) in banners" :key="s.id" type="button"
-          class="banner-art flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition-colors"
+          class="banner-art relative flex items-center gap-3 overflow-hidden rounded-xl border px-4 py-3 text-left transition-colors"
           :class="i === idx ? 'border-primary' : 'border-line-soft hover:border-line'"
           @click="go(i)"
         >
-          <span class="text-h2 font-black leading-none text-primary">{{ s.highlight }}</span>
-          <span class="min-w-0">
+          <template v-if="s.img">
+            <img :src="withBase(s.img)" :alt="s.title" class="absolute inset-0 h-full w-full object-cover">
+            <div class="absolute inset-0 bg-scrim/50" />
+          </template>
+          <span class="relative z-10 text-h2 font-black leading-none text-primary">{{ s.highlight }}</span>
+          <span class="relative z-10 min-w-0">
             <span class="block truncate text-body font-semibold text-ink">{{ s.title }}</span>
             <span class="block truncate text-micro tracking-wide2 text-ink-3">{{ s.badge }}</span>
           </span>

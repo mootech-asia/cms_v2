@@ -13,6 +13,8 @@ export interface Banner {
   highlight: string;
   sub: string;
   cta: string;
+  /** 選配:客戶上傳的底圖(未設時顯示 token 藝術面 .banner-art) */
+  img?: string;
 }
 
 export const banners: Banner[] = [

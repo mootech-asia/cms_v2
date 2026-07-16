@@ -117,10 +117,20 @@ const save = () => {
           <div class="space-y-4 pt-2">
             <p class="text-note text-ink-4">首頁 Banner 輪播 — 文案編輯、上架/下架、順序調整,即時反映到站點(色彩/版面屬皮膚與變體,由模板控制)。</p>
             <UiCard v-for="(b, bi) in content.banners" :key="b.id" :title="`Slide ${bi + 1} — ${b.badge}`">
-              <div class="mb-3 flex items-center justify-end gap-1 text-ink-4">
-                <button type="button" class="px-1 hover:text-ink disabled:opacity-30" :disabled="bi === 0" title="上移" @click="content.moveBanner(bi, bi - 1)">↑</button>
-                <button type="button" class="px-1 hover:text-ink disabled:opacity-30" :disabled="bi === content.banners.length - 1" title="下移" @click="content.moveBanner(bi, bi + 1)">↓</button>
-                <button type="button" class="px-1 hover:text-danger" title="下架此 Banner" @click="content.removeBanner(b.id)">✕</button>
+              <div class="mb-3 flex items-center justify-between gap-2">
+                <div class="flex min-w-0 items-center gap-2">
+                  <img v-if="b.img" :src="withBase(b.img)" :alt="b.title" class="h-10 w-16 shrink-0 rounded-lg border border-line-soft object-cover">
+                  <span v-else class="flex h-10 w-16 shrink-0 items-center justify-center rounded-lg bg-surface-2 text-note text-ink-4">藝術面</span>
+                  <label class="seg-btn shrink-0 cursor-pointer" title="上架/更換底圖">
+                    換圖<input type="file" accept="image/*" class="hidden" @change="readImage($event, (d) => content.updateBanner(b.id, { img: d }))">
+                  </label>
+                  <button v-if="b.img" type="button" class="seg-btn shrink-0" title="移除底圖,回復預設藝術面" @click="content.updateBanner(b.id, { img: undefined })">移除圖片</button>
+                </div>
+                <div class="flex shrink-0 items-center gap-1 text-ink-4">
+                  <button type="button" class="px-1 hover:text-ink disabled:opacity-30" :disabled="bi === 0" title="上移" @click="content.moveBanner(bi, bi - 1)">↑</button>
+                  <button type="button" class="px-1 hover:text-ink disabled:opacity-30" :disabled="bi === content.banners.length - 1" title="下移" @click="content.moveBanner(bi, bi + 1)">↓</button>
+                  <button type="button" class="px-1 hover:text-danger" title="下架此 Banner" @click="content.removeBanner(b.id)">✕</button>
+                </div>
               </div>
               <div class="grid gap-3 md:grid-cols-2">
                 <label class="block">

@@ -21,6 +21,10 @@ onUnmounted(() => { if (timer) clearInterval(timer); });
 <template>
   <section class="relative w-full overflow-hidden bg-surface-deep" style="min-height:280px">
     <div class="relative flex min-h-[280px] items-center justify-center text-center banner-art">
+      <template v-if="b.img">
+        <img :src="withBase(b.img)" :alt="b.title" class="absolute inset-0 h-full w-full object-cover">
+        <div class="absolute inset-0 bg-scrim/40" />
+      </template>
       <div class="relative z-10 mx-auto max-w-md px-4 py-8">
         <div
           class="mx-auto mb-4 inline-flex rounded-full border border-primary/25 bg-primary/10 px-4 py-1"

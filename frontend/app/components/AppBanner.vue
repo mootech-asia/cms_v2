@@ -26,8 +26,14 @@ const arrow = 'width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.4
 <template>
   <section class="relative w-full overflow-hidden" style="min-height:280px;touch-action:pan-y" @touchstart="onStart" @touchend="onEnd">
     <div class="banner-art relative" :style="{ minHeight: '280px' }">
-      <div class="banner-art-grid absolute inset-0" />
-      <div class="banner-art-glow absolute left-0 top-0 w-64 h-full" />
+      <template v-if="b.img">
+        <img :src="withBase(b.img)" :alt="b.title" class="absolute inset-0 h-full w-full object-cover">
+        <div class="absolute inset-0 bg-scrim/40" />
+      </template>
+      <template v-else>
+        <div class="banner-art-grid absolute inset-0" />
+        <div class="banner-art-glow absolute left-0 top-0 w-64 h-full" />
+      </template>
       <div class="relative container mx-auto px-4 flex items-center" style="min-height:280px">
         <div class="w-full max-w-lg py-8 md:py-10 z-10">
           <div class="inline-block px-3 py-1 rounded mb-3 bg-primary/10 border border-primary/25">
