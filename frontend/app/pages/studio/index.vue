@@ -152,10 +152,8 @@ const exportPack = async () => {
           <div class="flex flex-wrap gap-2">
             <button
               v-for="k in THEME_KEYS" :key="k" type="button"
-              class="rounded-ui border px-3 py-1.5 text-note font-semibold transition-colors"
-              :class="draft.skin === k
-                ? 'border-transparent bg-g-primary text-on-primary'
-                : 'border-line-soft bg-surface-deep text-ink-3 hover:text-ink'"
+              class="seg-btn"
+              :class="{ active: draft.skin === k }"
               @click="draft.skin = k"
             >{{ k }}</button>
           </div>
@@ -169,8 +167,8 @@ const exportPack = async () => {
             <span class="flex gap-1">
               <button
                 v-for="vk in variantKeys(`site-${part}`)" :key="vk" type="button"
-                class="rounded px-2 py-0.5 text-note font-semibold transition-colors"
-                :class="draft.chrome[part] === vk ? 'bg-g-primary text-on-primary' : 'text-ink-4 hover:text-ink'"
+                class="seg-btn-sm"
+                :class="{ active: draft.chrome[part] === vk }"
                 @click="draft.chrome[part] = vk"
               >{{ vk }}</button>
             </span>
@@ -223,8 +221,8 @@ const exportPack = async () => {
                 <span class="flex gap-1">
                   <button
                     v-for="vk in variantKeys(s.block)" :key="vk" type="button"
-                    class="rounded px-2 py-0.5 text-note font-semibold transition-colors"
-                    :class="(s.variant ?? 'v1') === vk ? 'bg-g-primary text-on-primary' : 'text-ink-4 hover:text-ink'"
+                    class="seg-btn-sm"
+                    :class="{ active: (s.variant ?? 'v1') === vk }"
                     @click="s.variant = vk"
                   >{{ vk }}</button>
                 </span>
@@ -255,8 +253,8 @@ const exportPack = async () => {
           <span class="flex gap-1">
             <button
               v-for="w in (['desktop', 'mobile'] as const)" :key="w" type="button"
-              class="rounded-ui px-3 py-1 text-note font-semibold transition-colors"
-              :class="previewWidth === w ? 'bg-g-primary text-on-primary' : 'text-ink-3 hover:text-ink'"
+              class="seg-btn border-0 bg-transparent"
+              :class="{ active: previewWidth === w }"
               @click="previewWidth = w"
             >{{ w === 'desktop' ? '桌機' : '手機 390' }}</button>
           </span>

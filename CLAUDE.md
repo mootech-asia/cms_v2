@@ -26,6 +26,10 @@
 5. 絕不擅自建議使用者切換主對話模型。
 
 ## 慣例
+- **復用鐵則(業主 2026-07-16,寫入 DNA)**:已有統一形式的視覺**一律復用既有定義**
+  (main.css @layer components 的共用 class / Ui 元件),**禁止新增等價樣式**;
+  需要新視覺時先抽成一份共用定義再使用,發現等價的舊寫法要一併改用同一份
+  (現有共用件例:btn-*/input-ui/card-ui/pill-*/mode-tabs/dd-panel/seg-btn/mf-modal)。
 - 分支:主線 = `main`;依 session 指定分支開發後併回;commit message 英文、聚焦動機。
 - 樣式:只用 theme token(tailwind.config.ts 讀 `themes/*.css`),禁任意值色碼、禁 Tailwind 內建色、
   禁 scoped CSS;共用視覺進 `assets/css/main.css` @layer components(同一視覺 = 一份定義)。

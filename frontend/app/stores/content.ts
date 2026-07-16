@@ -2,8 +2,10 @@ import { defineStore } from 'pinia';
 import {
   banners as bannerSeed,
   promoCards as promoSeed,
+  hotGames as gameSeed,
   type Banner,
   type PromoCard,
+  type HotGame,
 } from '~/config/mock/home';
 
 /**
@@ -17,6 +19,7 @@ export const useContentStore = defineStore('content', {
   state: () => ({
     banners: JSON.parse(JSON.stringify(bannerSeed)) as Banner[],
     promoCards: JSON.parse(JSON.stringify(promoSeed)) as PromoCard[],
+    hotGames: JSON.parse(JSON.stringify(gameSeed)) as HotGame[],
     /** 最近一次(占位)儲存時間,admin 顯示用 */
     savedAt: null as string | null,
   }),
@@ -43,6 +46,22 @@ export const useContentStore = defineStore('content', {
       if (to < 0 || to >= this.promoCards.length || !this.promoCards[from]) return;
       const [p] = this.promoCards.splice(from, 1);
       this.promoCards.splice(to, 0, p!);
+    },
+    /** 遊戲管理(R6 追加 2026-07-16:上架/編輯含換圖/下架/排序) */
+    addGame(g: HotGame) {
+      this.hotGames.push({ ...g });
+    },
+    updateGame(index: number, patch: Partial<HotGame>) {
+      const g = this.hotGames[index];
+      if (g) Object.assign(g, patch);
+    },
+    removeGame(index: number) {
+      this.hotGames.splice(index, 1);
+    },
+    moveGame(from: number, to: number) {
+      if (to < 0 || to >= this.hotGames.length || !this.hotGames[from]) return;
+      const [g] = this.hotGames.splice(from, 1);
+      this.hotGames.splice(to, 0, g!);
     },
     /** 占位:正式環境接 API 寫回 */
     save() {

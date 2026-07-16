@@ -107,8 +107,7 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
           <div v-if="langOpen" class="fixed inset-0 z-[999]" @click="langOpen = false"></div>
           <div
             v-if="langOpen"
-            class="absolute right-0 top-full z-[1000] bg-surface border border-line-soft"
-            style="margin-top:6px;border-radius:10px;padding:6px;min-width:140px;box-shadow:0 12px 30px rgba(0,0,0,.45)"
+            class="dd-panel right-0"
           >
             <div
               v-for="l in langs" :key="l.code"
@@ -132,8 +131,7 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
           </NuxtLink>
           <div
             v-show="openDd === item.label"
-            class="absolute left-0 top-full z-[1000] bg-surface border border-line-soft"
-            style="margin-top:6px;border-radius:10px;padding:6px;min-width:160px;box-shadow:0 12px 30px rgba(0,0,0,.45)"
+            class="dd-panel left-0 min-w-[160px]"
             @mouseenter="showDd(item.label)" @mouseleave="hideDd"
           >
             <NuxtLink
@@ -165,8 +163,7 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
           <div v-if="langOpen" class="fixed inset-0 z-[999]" @click="langOpen = false"></div>
           <div
             v-if="langOpen"
-            class="absolute right-0 top-full z-[1000] bg-surface border border-line-soft"
-            style="margin-top:6px;border-radius:10px;padding:6px;min-width:140px;box-shadow:0 12px 30px rgba(0,0,0,.45)"
+            class="dd-panel right-0"
           >
             <div
               v-for="l in langs" :key="l.code"
@@ -234,7 +231,7 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
             </template>
             <div v-else>
               <button style="display:block;width:100%;text-align:left;padding:12px 14px;background:none;border:0;color:#fff;cursor:pointer;font-weight:600;font-size:15px" @click="mobileOpen = false; openAuth('login')">Login</button>
-              <button style="width:100%;padding:12px 14px;border-radius:10px;border:0;background:linear-gradient(90deg,#CBE8E4,#98E7D2);color:#0f1622;cursor:pointer;font-weight:700;font-size:15px;margin-top:4px" @click="mobileOpen = false; openAuth('register')">Register</button>
+              <button class="btn-primary w-full" style="padding:12px 14px;font-size:15px;margin-top:4px" @click="mobileOpen = false; openAuth('register')">Register</button>
             </div>
           </div>
         </div>

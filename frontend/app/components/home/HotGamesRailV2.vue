@@ -3,7 +3,7 @@
  * HotGamesRail 變體 v2:固定網格(取代 v1 的水平捲動軌道),
  * 吃同一份 config/mock/home.ts hotGames 內容與皮膚 token,一次顯示全部項目。
  */
-import { hotGames } from '~/config/mock/home'
+const { hotGames } = useContentStore();
 </script>
 
 <template>

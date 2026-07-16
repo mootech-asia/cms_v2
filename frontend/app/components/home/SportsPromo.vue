@@ -51,7 +51,7 @@ import { sportsMatches } from '~/config/mock/home'
           </button>
         </div>
       </div>
-      <div class="relative rounded-xl overflow-hidden mb-4" style="background: linear-gradient(135deg, rgb(10, 32, 16) 0%, rgb(20, 53, 32) 30%, rgb(26, 74, 40) 60%, rgb(15, 42, 24) 100%); min-height: 160px;">
+      <div class="media-hero-art relative rounded-xl overflow-hidden mb-4" style="min-height: 160px;">
         <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle, rgba(185, 222, 90, 0.4) 1px, transparent 1px); background-size: 20px 20px;">
         </div>
         <div class="absolute top-4 left-4 flex items-center gap-2">

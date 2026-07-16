@@ -58,7 +58,7 @@ const showSuccess = ref(false);
     </div>
     </div>
     <div class="flex justify-center mb-3">
-    <span class="text-xs px-3 py-1 rounded-full" style="background-color: rgba(152, 231, 210, 0.15); color: rgb(152, 231, 210);">We care about your privacy</span>
+    <span class="text-xs px-3 py-1 rounded-full bg-primary/15 text-primary">We care about your privacy</span>
     </div>
     <p class="text-ink-4 text-xs text-center mb-4 leading-relaxed">All the user data are encrypted to ensure your personal privacy is protected. For updates to your personal info, please contact support.</p>
     <button class="w-full py-3 rounded-lg font-semibold mb-2 bg-g-primary text-on-primary hover:opacity-90 transition-opacity" @click="showSuccess = true">Submit</button>

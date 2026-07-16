@@ -23,23 +23,20 @@ onUnmounted(() => { if (timer) clearInterval(timer); });
     <div class="container mx-auto grid gap-3 px-4 py-4 md:grid-cols-3">
       <!-- 主打 slide -->
       <div
-        class="relative flex min-h-[240px] items-center overflow-hidden rounded-xl border border-line-soft md:col-span-2"
-        :style="{ background: b.bg, transition: 'background .7s' }"
+        class="relative flex min-h-[240px] items-center overflow-hidden rounded-xl border border-line-soft md:col-span-2 banner-art"
       >
         <div class="relative z-10 px-6 py-8 md:px-10">
           <div
-            class="mb-3 inline-flex rounded px-3 py-1"
-            :style="{ background: b.accent + '22', border: `1px solid ${b.accent}44` }"
+            class="mb-3 inline-flex rounded border border-primary/25 bg-primary/10 px-3 py-1"
           >
-            <span class="text-note tracking-wide2" :style="{ color: b.accent }">{{ b.badge }}</span>
+            <span class="text-note tracking-wide2 text-primary">{{ b.badge }}</span>
           </div>
           <p class="text-h1 leading-tight text-ink md:text-display">{{ b.title }}</p>
-          <p class="text-5xl font-black leading-none md:text-7xl" :style="{ color: b.accent }">{{ b.highlight }}</p>
+          <p class="text-5xl font-black leading-none md:text-7xl text-primary">{{ b.highlight }}</p>
           <p class="mt-3 text-note tracking-wide2 text-ink-3">{{ b.sub }}</p>
           <button
             type="button"
             class="btn-primary btn-md mt-5"
-            :style="{ background: `linear-gradient(135deg, ${b.accent}, ${b.accent})` }"
           >{{ b.cta }}</button>
         </div>
       </div>
@@ -47,12 +44,11 @@ onUnmounted(() => { if (timer) clearInterval(timer); });
       <div class="grid grid-rows-3 gap-3">
         <button
           v-for="(s, i) in banners" :key="s.id" type="button"
-          class="flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition-colors"
+          class="banner-art flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition-colors"
           :class="i === idx ? 'border-primary' : 'border-line-soft hover:border-line'"
-          :style="{ background: s.bg }"
           @click="go(i)"
         >
-          <span class="text-h2 font-black leading-none" :style="{ color: s.accent }">{{ s.highlight }}</span>
+          <span class="text-h2 font-black leading-none text-primary">{{ s.highlight }}</span>
           <span class="min-w-0">
             <span class="block truncate text-body font-semibold text-ink">{{ s.title }}</span>
             <span class="block truncate text-micro tracking-wide2 text-ink-3">{{ s.badge }}</span>

@@ -68,6 +68,52 @@
     @apply border-l-4 border-accent pl-3 text-h2 font-semibold text-accent;
   }
 
+  /* 下拉面板 — header 語言/導覽下拉 + SkinSwitcher 共用(同一視覺 = 一份定義;
+     復用鐵則 2026-07-16:等價樣式禁止重複定義) */
+  .dd-panel {
+    @apply absolute top-full z-[1000] border border-line-soft bg-surface;
+    margin-top: 6px;
+    border-radius: 10px;
+    padding: 6px;
+    min-width: 140px;
+    box-shadow: 0 12px 30px rgb(0 0 0 / .45);
+  }
+
+  /* 膠囊切換鈕 — ui-kit/studio/admin 的皮膚、變體、視口切換共用 */
+  .seg-btn {
+    @apply rounded-ui border border-line-soft bg-surface-deep px-3 py-1.5 text-note font-semibold text-ink-3 transition-colors;
+  }
+  .seg-btn:hover { @apply text-ink; }
+  .seg-btn.active { @apply border-transparent bg-g-primary text-on-primary; }
+  .seg-btn-sm {
+    @apply rounded border-0 bg-transparent px-2 py-0.5 text-note font-semibold text-ink-4 transition-colors;
+  }
+  .seg-btn-sm:hover { @apply text-ink; }
+  .seg-btn-sm.active { @apply bg-g-primary text-on-primary; }
+
+  /* 裝飾底圖系列 — banner/賽事 hero 等大面積「氛圍底」共用(業主 2026-07-16:
+     一律中性 token 化,不得寫死色相,切換 skin 才不違和) */
+  .banner-art {
+    background: linear-gradient(105deg, rgb(var(--c-primary-faint)) 0%, rgb(var(--c-surface)) 55%, rgb(var(--c-bg)) 100%);
+  }
+  .banner-art-grid {
+    opacity: .1;
+    background-image:
+      linear-gradient(rgb(var(--c-primary) / .3) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--c-primary) / .3) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .banner-art-glow {
+    opacity: .2;
+    background: radial-gradient(at left center, rgb(var(--c-primary)) 0%, transparent 70%);
+  }
+  .media-hero-art {
+    background: linear-gradient(135deg, rgb(var(--c-primary-faint)) 0%, rgb(var(--c-surface-2)) 45%, rgb(var(--c-bg)) 100%);
+  }
+  .text-glow-primary {
+    text-shadow: 0 0 40px rgb(var(--c-primary) / .53);
+  }
+
   /* 卡片容器 */
   .card-ui {
     @apply rounded-xl border border-line-soft bg-surface;
@@ -114,7 +160,7 @@
     @apply whitespace-nowrap border-x-0 border-b-0 border-t border-solid border-line-soft px-4 py-3.5 text-body tabular-nums;
   }
 
-  /* 紀錄頁底部合計列(取代 5 頁 inline .total-bar;琥珀/藏青為刻意保留的原色) */
+  /* 紀錄頁底部合計列(取代 5 頁 inline .total-bar;2026-07-16 業主指示改跟膚:gold/surface token) */
   .record-total-bar {
     position: fixed;
     left: 0;
@@ -125,9 +171,9 @@
     align-items: center;
     justify-content: space-between;
     padding: 12px 24px;
-    background: rgb(13 27 42);
-    border-top: 1px solid rgb(245 158 11 / 0.3);
-    color: rgb(245 158 11);
+    background: rgb(var(--c-surface));
+    border-top: 1px solid rgb(var(--c-gold) / 0.3);
+    color: rgb(var(--c-gold));
     font-weight: 600;
   }
   @media (min-width: 768px) {
@@ -146,7 +192,8 @@
   /* account.vue:歡迎卡深綠漸層背景(也用於 withdrawal 的 wallet-empty) */
   .account-hero-bg,
   .wallet-empty {
-    background: linear-gradient(105deg, rgb(22 63 52) 0%, rgb(15 42 35) 28%, rgb(11 24 21) 55%, rgb(10 14 18) 100%);
+    /* 同 .banner-art 的中性化原則:token 合成,換膚跟色 */
+    background: linear-gradient(105deg, rgb(var(--c-primary-faint)) 0%, rgb(var(--c-surface)) 40%, rgb(var(--c-bg)) 100%);
   }
 
   /* account.vue:Rewards 進度條(取代 .rk-rw scoped 區塊,--rk-pct 由 inline style 逐例設定) */
@@ -155,24 +202,24 @@
     position: relative;
     margin-top: 20px;
     padding-top: 18px;
-    border-top: 1px solid rgb(152 231 210 / 0.18); /* primary */
+    border-top: 1px solid rgb(var(--c-primary) / 0.18);
   }
   .rewards-bar .rk-rw-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
-  .rewards-bar .rk-rw-label { color: #c3d0cb; font-size: 12.5px; } /* 查無對應 token,保留原色 */
+  .rewards-bar .rk-rw-label { @apply text-ink-3; font-size: 12.5px; }
   .rewards-bar .rk-track { height: 8px; border-radius: 99px; background: rgb(255 255 255 / 0.12); overflow: hidden; }
   .rewards-bar .rk-fill {
     height: 100%;
     width: var(--rk-pct);
     border-radius: 99px;
-    background: linear-gradient(90deg, #CBE8E4, #98E7D2); /* = bg-g-primary */
-    box-shadow: 0 0 10px rgb(152 231 210 / 0.4);
+    background: var(--g-primary);
+    box-shadow: 0 0 10px rgb(var(--c-primary) / 0.4);
     animation: rk-grow 0.9s cubic-bezier(.22,.61,.36,1) both;
   }
   @keyframes rk-grow {
     from { width: 0; }
     to { width: var(--rk-pct); }
   }
-  .rewards-bar .rk-meta { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; margin-top: 9px; font-size: 13px; color: #c3d0cb; }
+  .rewards-bar .rk-meta { @apply text-ink-3; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; margin-top: 9px; font-size: 13px; }
   .rewards-bar .rk-cur { justify-self: start; white-space: nowrap; }
   .rewards-bar .rk-cur b { @apply text-primary-soft; font-weight: 700; }
   .rewards-bar .rk-pts { justify-self: center; @apply text-primary-soft; font-weight: 700; }
@@ -183,6 +230,19 @@
   .rewards-bar .rk-dot-bronze { @apply bg-gold; }
   @media (prefers-reduced-motion: reduce) {
     .rewards-bar .rk-fill { animation: none; }
+  }
+
+  /* home/Ticker v1 水平跑馬燈:內容渲染兩份、位移 -50% 無縫循環
+     (animate-ticker 的唯一定義 — R3 移除舊 css 檔時遺失,2026-07-16 修復) */
+  .animate-ticker {
+    animation: ticker-scroll 30s linear infinite;
+  }
+  .animate-ticker:hover {
+    animation-play-state: paused;
+  }
+  @keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
   }
 
   /* home/TickerV2 直向單筆輪播:淡入淡出 + 小幅位移 */
@@ -405,16 +465,21 @@
 
   /* 促銷卡片頂部裝飾底(深綠三階漸層,無對應 token 色) */
   .promo-card-art {
-    background: linear-gradient(135deg, #091d14 0%, #0d2a1e 50%, #0a1a12 100%);
+    /* 中性化(2026-07-16):token 合成,換膚跟色 */
+    background: linear-gradient(135deg, rgb(var(--c-primary-faint)) 0%, rgb(var(--c-surface)) 50%, rgb(var(--c-bg)) 100%);
   }
-  /* 裝飾光點中間那顆的漸層終點色非 token(其餘兩顆用 primary-soft/primary utility) */
+  .promo-card-art-dot {
+    border-radius: 50%;
+    background: linear-gradient(135deg, theme('colors.primary.soft'), theme('colors.primary.DEFAULT'));
+  }
   .promo-card-art-dot-mid {
-    background: linear-gradient(135deg, theme('colors.primary.DEFAULT'), #6dd5bd);
+    border-radius: 50%;
+    background: linear-gradient(135deg, theme('colors.primary.DEFAULT'), theme('colors.primary.soft'));
   }
 
-  /* 促銷詳情頁海報卡背景(深綠黑三階漸層,無對應 token 色) */
+  /* 促銷詳情頁海報卡背景(surface 三階;中性化 2026-07-16) */
   .promotion-detail-poster-bg {
-    background: linear-gradient(180deg, #1a2128 0%, #141c24 58%, #101820 100%);
+    background: linear-gradient(180deg, rgb(var(--c-surface)) 0%, rgb(var(--c-surface-700)) 58%, rgb(var(--c-bg)) 100%);
   }
 
   /* AuthModal 輸入框/按鈕/連結(登入/註冊/忘記密碼共用) */
@@ -694,11 +759,11 @@
 
   /* 帳戶刪除專用危險確認彈窗:深色卡片 + 紅色刪除動作 */
   .mf-modal.mf-modal-danger {
-    width: 540px;
+    width: 400px;
     max-width: calc(100vw - 32px);
-    padding: 48px 42px 38px;
+    padding: 28px 24px 24px;
     border: 1px solid rgb(94 116 142 / 0.42);
-    border-radius: 24px;
+    border-radius: 16px;
     background: rgb(9 16 28);
   }
   .mf-modal.mf-modal-danger::before {
@@ -706,25 +771,25 @@
     padding: 1px;
   }
   .mf-modal-danger .mf-modal-icon {
-    width: 72px;
-    height: 72px;
-    margin-bottom: 28px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 14px;
     border: 1px solid rgb(255 92 104 / 0.55);
     background: rgb(255 92 104 / 0.12);
   }
   .mf-modal-danger .mf-modal-icon svg {
-    width: 34px;
-    height: 34px;
+    width: 24px;
+    height: 24px;
     color: rgb(255 102 112);
   }
   .mf-modal-danger .mf-modal-title {
-    margin-bottom: 20px;
-    font-size: 30px;
-    line-height: 1.15;
+    margin-bottom: 8px;
+    font-size: 20px;
+    line-height: 1.2;
   }
   .mf-modal-danger-msg {
-    margin-bottom: 34px;
-    font-size: 18px;
+    margin-bottom: 20px;
+    font-size: 14px;
     line-height: 1.55;
   }
   .mf-modal-danger-msg strong {
@@ -733,16 +798,19 @@
   .mf-modal-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 10px;
   }
   .mf-modal-btn.danger-cancel,
   .mf-modal-btn.danger-confirm {
-    min-height: 56px;
-    border-radius: 14px;
-    font-size: 17px;
+    min-height: 44px;
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 10px;
   }
   .mf-modal-btn.danger-cancel {
-    @apply border-line bg-surface-deep text-ink-2;
+    /* bg-none 必須:基底 .mf-modal-btn 的 bg-g-primary 是背景「圖」,
+       只覆寫背景色蓋不掉,淡字會壓在薄荷漸層上看不清 */
+    @apply border-line bg-surface-deep bg-none text-ink-2;
     border-width: 1px;
     border-style: solid;
   }

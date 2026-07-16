@@ -111,11 +111,11 @@ const cryptoReady = computed(() => Number(cryptoAmount.value.replace(/[^\d]/g, '
   <div>
     <h1 class="text-ink text-2xl md:text-3xl mb-6 md:mb-8">Deposit</h1>
 
-    <div v-show="step === 'form'" class="payment-tabs !mb-3 flex-wrap md:flex-nowrap">
+    <!-- 閘道商選擇:底線頁簽(與 withdrawal 的 .mode-tabs 同一份定義) -->
+    <div v-show="step === 'form'" class="mode-tabs flex-wrap gap-x-6 gap-y-1 md:gap-x-8">
       <button
         v-for="item in gateways"
         :key="item.id"
-        class="!min-w-0 flex-1 basis-[48%] md:basis-0"
         :class="{ active: gateway === item.id }"
         @click="gateway = item.id"
       >

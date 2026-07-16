@@ -12,9 +12,9 @@ const loaders = import.meta.glob('../assets/css/themes/*.css');
 
 /** 皮膚顯示名稱(業主命名;新皮膚檔未列入時以檔名顯示) */
 export const THEME_LABELS: Record<string, string> = {
-  win100: '翡翠綠',
-  aurora: '繽紛紫',
-  noir: '尊爵黑金',
+  win100: 'Emerald',
+  aurora: 'Aurora',
+  noir: 'Noir Gold',
 };
 export const themeLabel = (key: string) => THEME_LABELS[key] ?? key;
 

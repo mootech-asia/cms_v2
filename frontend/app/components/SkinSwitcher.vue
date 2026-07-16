@@ -28,8 +28,7 @@ const pick = (k: string) => {
     <div v-if="open" class="fixed inset-0 z-[999]" @click="open = false" />
     <div
       v-if="open"
-      class="absolute right-0 top-full z-[1000] border border-line-soft bg-surface"
-      style="margin-top:6px;border-radius:10px;padding:6px;min-width:140px;box-shadow:0 12px 30px rgba(0,0,0,.45)"
+      class="dd-panel right-0"
     >
       <div
         v-for="k in THEME_KEYS" :key="k"

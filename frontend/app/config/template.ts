@@ -9,7 +9,7 @@ export interface TemplateClientScope {
   /** 鎖定的區塊 id(不可隱藏、不可移動 — 模板的版面錨點) */
   lockedSections: string[];
   /** 可編輯的內容範圍 */
-  editable: { banners: boolean; promos: boolean };
+  editable: { banners: boolean; promos: boolean; games: boolean };
 }
 
 export const TEMPLATE = {
@@ -17,6 +17,6 @@ export const TEMPLATE = {
   client: {
     skins: ['win100', 'aurora', 'noir'],
     lockedSections: ['banner'],
-    editable: { banners: true, promos: true },
+    editable: { banners: true, promos: true, games: true },
   } satisfies TemplateClientScope,
 };

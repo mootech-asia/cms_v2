@@ -66,8 +66,8 @@ const VARIANT_DEMO_PROPS: Partial<Record<BlockKey, Record<string, unknown>>> = {
       <div class="flex shrink-0 items-center gap-2 rounded-ui border border-line-soft bg-surface p-1">
         <button
           v-for="s in skins" :key="s.key" type="button"
-          class="rounded-ui px-3 py-1.5 text-note font-semibold transition-colors"
-          :class="siteStore.skin === s.key ? 'bg-g-primary text-on-primary' : 'text-ink-3 hover:text-ink'"
+          class="seg-btn border-0 bg-transparent"
+          :class="{ active: siteStore.skin === s.key }"
           @click="siteStore.setSkin(s.key)"
         >{{ s.label }}</button>
       </div>
@@ -192,10 +192,8 @@ const VARIANT_DEMO_PROPS: Partial<Record<BlockKey, Record<string, unknown>>> = {
       <div class="mb-4 flex flex-wrap items-center gap-2">
         <button
           v-for="(comp, vk) in def.variants" :key="vk" type="button"
-          class="rounded-ui border px-3 py-1.5 text-note font-semibold transition-colors"
-          :class="(variantPick[key] ?? 'v1') === vk
-            ? 'border-transparent bg-g-primary text-on-primary'
-            : 'border-line-soft bg-surface-deep text-ink-3 hover:text-ink'"
+          class="seg-btn"
+          :class="{ active: (variantPick[key] ?? 'v1') === vk }"
           @click="variantPick[key] = vk"
         >{{ vk }}</button>
       </div>

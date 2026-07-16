@@ -45,20 +45,20 @@ function goDetail(id: string) {
 </div>
 <div class="hidden md:grid md:grid-cols-4 gap-3">
 <div v-for="p in promoCards" :key="p.id" class="bg-surface-deep border border-line-soft rounded-xl overflow-hidden hover:border-primary transition-colors cursor-pointer group">
-<div class="relative h-28 overflow-hidden" style="background: linear-gradient(135deg, rgb(9, 29, 20) 0%, rgb(13, 42, 30) 50%, rgb(10, 26, 18) 100%);">
+<div class="promo-card-art relative h-28 overflow-hidden">
 <div class="absolute inset-0 flex items-center justify-center">
 <span class="font-extrabold select-none text-primary" style="font-size: 54px; letter-spacing: 0.12em; opacity: 0.07;">PROMO!</span>
 </div>
 <div class="absolute top-2 right-3 flex flex-col items-end" style="gap: 3px;">
-<div style="width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, rgb(203, 232, 228), rgb(152, 231, 210)); opacity: 0.85;">
+<div class="promo-card-art-dot" style="width: 26px; height: 26px; opacity: 0.85;">
 </div>
-<div style="width: 16px; height: 16px; border-radius: 50%; background: linear-gradient(135deg, rgb(152, 231, 210), rgb(109, 213, 189)); opacity: 0.6; margin-right: 10px;">
+<div class="promo-card-art-dot-mid" style="width: 16px; height: 16px; opacity: 0.6; margin-right: 10px;">
 </div>
-<div style="width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, rgb(203, 232, 228), rgb(152, 231, 210)); opacity: 0.45; margin-right: 2px;">
+<div class="promo-card-art-dot" style="width: 20px; height: 20px; opacity: 0.45; margin-right: 2px;">
 </div>
 </div>
 <div class="absolute inset-0 flex flex-col justify-center px-4">
-<p class="text-xs mb-1.5" style="color: rgb(152, 231, 210); letter-spacing: 0.2em;">SPECIAL OFFER</p>
+<p class="text-xs mb-1.5 text-primary" style="letter-spacing: 0.2em;">SPECIAL OFFER</p>
 <p class="text-gradient-primary text-2xl font-extrabold tracking-wide2">PROMOTION</p>
 </div>
 </div>
@@ -73,20 +73,20 @@ function goDetail(id: string) {
 <div class="flex md:hidden overflow-x-auto gap-3 snap-x snap-mandatory scrollbar-hide pb-2">
 <div v-for="p in promoCards" :key="p.id" class="flex-shrink-0 snap-start" style="width: 220px;">
 <div class="bg-surface-deep border border-line-soft rounded-xl overflow-hidden hover:border-primary transition-colors cursor-pointer group">
-<div class="relative h-28 overflow-hidden" style="background: linear-gradient(135deg, rgb(9, 29, 20) 0%, rgb(13, 42, 30) 50%, rgb(10, 26, 18) 100%);">
+<div class="promo-card-art relative h-28 overflow-hidden">
 <div class="absolute inset-0 flex items-center justify-center">
 <span class="font-extrabold select-none text-primary" style="font-size: 54px; letter-spacing: 0.12em; opacity: 0.07;">PROMO!</span>
 </div>
 <div class="absolute top-2 right-3 flex flex-col items-end" style="gap: 3px;">
-<div style="width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, rgb(203, 232, 228), rgb(152, 231, 210)); opacity: 0.85;">
+<div class="promo-card-art-dot" style="width: 26px; height: 26px; opacity: 0.85;">
 </div>
-<div style="width: 16px; height: 16px; border-radius: 50%; background: linear-gradient(135deg, rgb(152, 231, 210), rgb(109, 213, 189)); opacity: 0.6; margin-right: 10px;">
+<div class="promo-card-art-dot-mid" style="width: 16px; height: 16px; opacity: 0.6; margin-right: 10px;">
 </div>
-<div style="width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, rgb(203, 232, 228), rgb(152, 231, 210)); opacity: 0.45; margin-right: 2px;">
+<div class="promo-card-art-dot" style="width: 20px; height: 20px; opacity: 0.45; margin-right: 2px;">
 </div>
 </div>
 <div class="absolute inset-0 flex flex-col justify-center px-4">
-<p class="text-xs mb-1.5" style="color: rgb(152, 231, 210); letter-spacing: 0.2em;">SPECIAL OFFER</p>
+<p class="text-xs mb-1.5 text-primary" style="letter-spacing: 0.2em;">SPECIAL OFFER</p>
 <p class="text-gradient-primary text-2xl font-extrabold tracking-wide2">PROMOTION</p>
 </div>
 </div>

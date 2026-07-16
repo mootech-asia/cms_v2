@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { hotGames } from '~/config/mock/home'
+const { hotGames } = useContentStore();
 const track = ref<HTMLElement | null>(null)
 </script>
 

@@ -32,7 +32,7 @@ import { sportsMatches } from '~/config/mock/home'
           </svg>View All Live</a>
       </div>
 
-      <div class="relative mb-4 overflow-hidden rounded-xl" style="background: linear-gradient(135deg, rgb(10, 32, 16) 0%, rgb(20, 53, 32) 30%, rgb(26, 74, 40) 60%, rgb(15, 42, 24) 100%); min-height: 150px;">
+      <div class="media-hero-art relative mb-4 overflow-hidden rounded-xl" style="min-height: 150px;">
         <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle, rgba(185, 222, 90, 0.4) 1px, transparent 1px); background-size: 20px 20px;" />
         <div class="absolute left-4 top-4 flex items-center gap-2">
           <div class="flex h-8 w-8 items-center justify-center rounded-full bg-g-primary">

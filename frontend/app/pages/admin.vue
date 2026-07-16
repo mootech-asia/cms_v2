@@ -19,6 +19,7 @@ const tab = ref('content');
 const tabs = [
   ...(scope.editable.banners ? [{ label: '內容文案', value: 'content' }] : []),
   ...(scope.editable.promos ? [{ label: '促銷管理', value: 'promos' }] : []),
+  ...(scope.editable.games ? [{ label: '遊戲管理', value: 'games' }] : []),
   { label: '版面區塊', value: 'layout' },
   ...(scope.skins.length ? [{ label: '皮膚', value: 'skin' }] : []),
 ];
@@ -42,6 +43,28 @@ const addPromo = () => {
   if (!name) return;
   content.addPromo(name);
   newPromo.value = '';
+};
+
+// ---- 遊戲管理(上架/編輯含換圖/下架/排序) ----
+const newGame = reactive({ title: '', provider: '', bonus: '', img: '' });
+const addGame = () => {
+  if (!newGame.title.trim()) return;
+  content.addGame({
+    title: newGame.title.trim(),
+    provider: newGame.provider.trim() || '—',
+    bonus: newGame.bonus.trim() || 'BONUS 1.0',
+    img: newGame.img.trim() || content.hotGames[0]?.img || '',
+  });
+  Object.assign(newGame, { title: '', provider: '', bonus: '', img: '' });
+};
+/** 換圖:本機檔轉 dataURL(純 UI 占位;正式環境改上傳 API 回寫網址) */
+const pickImage = (index: number, e: Event) => {
+  const file = (e.target as HTMLInputElement).files?.[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => content.updateGame(index, { img: String(reader.result) });
+  reader.readAsDataURL(file);
+  (e.target as HTMLInputElement).value = '';
 };
 
 // ---- 占位儲存 ----
@@ -122,6 +145,41 @@ const save = () => {
           </div>
         </template>
 
+        <!-- 遊戲管理:上架 / 換圖 / 下架 / 排序 -->
+        <template #games>
+          <div class="space-y-3 pt-2">
+            <p class="text-note text-ink-4">Hot Games 遊戲牆 — 上架、換圖(貼網址或上傳本機圖)、排序、下架,即時反映到站點。</p>
+            <ul class="space-y-2">
+              <li
+                v-for="(g, i) in content.hotGames" :key="`${g.title}-${i}`"
+                class="flex items-center gap-3 rounded-ui border border-line-soft bg-surface p-2.5"
+              >
+                <img :src="withBase(g.img)" :alt="g.title" class="h-14 w-11 shrink-0 rounded-lg border border-line-soft object-cover">
+                <div class="grid min-w-0 flex-1 grid-cols-1 gap-2 md:grid-cols-3">
+                  <UiInput :model-value="g.title" placeholder="遊戲名稱" @update:model-value="content.updateGame(i, { title: $event as string })" />
+                  <UiInput :model-value="g.provider" placeholder="供應商" @update:model-value="content.updateGame(i, { provider: $event as string })" />
+                  <UiInput :model-value="g.bonus" placeholder="Bonus 標籤" @update:model-value="content.updateGame(i, { bonus: $event as string })" />
+                </div>
+                <label class="seg-btn shrink-0 cursor-pointer" :title="'更換圖片'">
+                  換圖<input type="file" accept="image/*" class="hidden" @change="pickImage(i, $event)">
+                </label>
+                <span class="flex shrink-0 gap-1 text-ink-4">
+                  <button type="button" class="px-1 hover:text-ink disabled:opacity-30" :disabled="i === 0" title="上移" @click="content.moveGame(i, i - 1)">↑</button>
+                  <button type="button" class="px-1 hover:text-ink disabled:opacity-30" :disabled="i === content.hotGames.length - 1" title="下移" @click="content.moveGame(i, i + 1)">↓</button>
+                </span>
+                <button type="button" class="shrink-0 px-1 text-ink-4 hover:text-danger" title="下架" @click="content.removeGame(i)">✕</button>
+              </li>
+            </ul>
+            <div class="grid grid-cols-1 items-center gap-2 rounded-ui border border-line bg-surface p-2.5 md:grid-cols-5">
+              <UiInput v-model="newGame.title" placeholder="新遊戲名稱 *" />
+              <UiInput v-model="newGame.provider" placeholder="供應商" />
+              <UiInput v-model="newGame.bonus" placeholder="Bonus 標籤" />
+              <UiInput v-model="newGame.img" placeholder="圖片網址(可留空)" />
+              <UiButton label="上架遊戲" size="sm" :disabled="!newGame.title.trim()" @click="addGame" />
+            </div>
+          </div>
+        </template>
+
         <!-- 版面區塊:開關 + 排序(限模板授權) -->
         <template #layout>
           <div class="space-y-3 pt-2">
@@ -167,10 +225,8 @@ const save = () => {
             <div class="flex flex-wrap gap-2">
               <button
                 v-for="k in scope.skins" :key="k" type="button"
-                class="rounded-ui border px-4 py-2 text-body font-semibold transition-colors"
-                :class="siteStore.skin === k
-                  ? 'border-transparent bg-g-primary text-on-primary'
-                  : 'border-line-soft bg-surface text-ink-3 hover:text-ink'"
+                class="seg-btn"
+                :class="{ active: siteStore.skin === k }"
                 @click="siteStore.setSkin(k)"
               >{{ k }}</button>
             </div>

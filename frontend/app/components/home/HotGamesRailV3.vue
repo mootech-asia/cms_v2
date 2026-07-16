@@ -5,7 +5,7 @@
  * 每列顯示較少項目(2 手機 / 4 桌面),bonus/provider 改為圖片下方常駐資訊列
  * (不靠 hover 顯示),對觸控裝置更友善。
  */
-import { hotGames } from '~/config/mock/home'
+const { hotGames } = useContentStore();
 </script>
 
 <template>
