@@ -5,6 +5,7 @@
 - 模板工廠(工具/規範主要驅動)= `mootech-asia/cms_system`;本版本的編輯在本 repo,工具演進回工廠。
 - 舊靜態站已自 main 移除,**凍結於 `gh-pages` 分支**續服現行網址(mootech-asia.github.io/cms_v2),
   **不得刪除 gh-pages、不得恢復 push-main 鏡像 Pages 的 workflow**;退場時點由業主決定。
+- **目前交接紀錄:**`docs/handoff-2026-07-16.md`(先讀;含已完成改動、未驗證項目與待續清單)。
 - 驗收紀錄:`docs/rebuild-plan.md`;token 對照:`docs/style-guide.md`;
   完整規範見工廠 repo `cms_system/docs/template-guide.md`。
 
