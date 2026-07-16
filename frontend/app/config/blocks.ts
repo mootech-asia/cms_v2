@@ -59,8 +59,13 @@ function web3Variant(
   version: string,
   base: Component,
 ): Component {
+  const blockName = block
+    .split('-')
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join('');
+
   return defineComponent({
-    name: `Web3${block.replace(/(^|-)(\\w)/g, (_match, _dash, letter: string) => letter.toUpperCase())}${version.toUpperCase()}`,
+    name: `Web3${blockName}${version.toUpperCase()}`,
     inheritAttrs: false,
     setup(_props, { attrs, slots }) {
       return () => h(
