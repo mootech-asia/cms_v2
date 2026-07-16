@@ -41,11 +41,6 @@ function goDetail(id: string) {
             <div class="absolute inset-0 flex items-center justify-center">
               <span class="font-extrabold select-none text-primary" style="font-size: 54px; letter-spacing: 0.12em; opacity: 0.07;">PROMO!</span>
             </div>
-            <div class="absolute top-2 right-3 flex flex-col items-end" style="gap: 3px;">
-              <div class="promo-card-art-dot" style="width: 26px; height: 26px; opacity: 0.85;" />
-              <div class="promo-card-art-dot-mid" style="width: 16px; height: 16px; opacity: 0.6; margin-right: 10px;" />
-              <div class="promo-card-art-dot" style="width: 20px; height: 20px; opacity: 0.45; margin-right: 2px;" />
-            </div>
             <div class="absolute inset-0 flex flex-col justify-center px-4">
               <p class="text-xs mb-1.5 text-primary" style="letter-spacing: 0.2em;">SPECIAL OFFER</p>
               <p class="text-gradient-primary text-2xl font-extrabold tracking-wide2">PROMOTION</p>
