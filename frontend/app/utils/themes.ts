@@ -16,6 +16,7 @@ export const THEME_LABELS: Record<string, string> = {
   aurora: 'Aurora',
   noir: 'Noir Gold',
   'fashion-blue': 'Fashion Blue',
+  'rose-graphite': 'Rose Graphite',
 };
 export const themeLabel = (key: string) => THEME_LABELS[key] ?? key;
 

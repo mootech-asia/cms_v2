@@ -15,7 +15,7 @@ export interface TemplateClientScope {
 export const TEMPLATE = {
   name: 'win100',
   client: {
-    skins: ['win100', 'aurora', 'noir', 'fashion-blue'],
+    skins: ['win100', 'aurora', 'noir', 'fashion-blue', 'rose-graphite'],
     lockedSections: ['banner'],
     editable: { banners: true, promos: true, games: true, siteName: true },
   } satisfies TemplateClientScope,
