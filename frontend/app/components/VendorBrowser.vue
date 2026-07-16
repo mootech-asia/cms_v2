@@ -109,7 +109,7 @@ function openVendor(v: string) {
           class="group cursor-pointer overflow-hidden rounded-lg border border-line-soft bg-surface transition-colors hover:border-primary"
         >
           <div class="aspect-[4/3] relative overflow-hidden">
-            <img :src="photo(g.i)" alt="Game Name" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+            <img :src="withBase(photo(g.i))" alt="Game Name" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
           </div>
           <div class="p-4">
             <h3 class="mb-1 truncate text-ink">Game Name</h3>

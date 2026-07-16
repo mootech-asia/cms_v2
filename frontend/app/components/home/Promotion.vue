@@ -28,7 +28,7 @@ function goDetail(id: string) {
 </h2>
 </div>
 <div class="flex items-center gap-1 md:gap-2">
-<a class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" href="/promotion">Show all</a>
+<a class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" :href="withBase('/promotion')">Show all</a>
 <button class="text-ink-3 hover:text-ink p-1 md:p-1.5 border border-line rounded transition-colors">
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left w-3 h-3 md:w-4 md:h-4">
 <path d="m15 18-6-6 6-6">

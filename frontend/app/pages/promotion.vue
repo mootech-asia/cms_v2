@@ -83,7 +83,7 @@ function backToList() {
               class="promotion-detail-poster-bg relative w-full max-w-[760px] overflow-hidden rounded-lg border border-primary/[0.26] shadow-[0_24px_70px_rgba(0,0,0,0.34)] px-[22px] pt-9 pb-8 text-center md:px-[54px] md:pt-[46px] md:pb-[42px] before:content-[''] before:pointer-events-none before:absolute before:inset-3 before:rounded-md before:border before:border-primary/[0.12] md:before:inset-5"
             >
               <div class="relative z-[1] flex min-h-[640px] flex-col items-center justify-between gap-[26px] md:min-h-[680px]">
-                <img class="h-[42px] object-contain mix-blend-lighten" src="/logo.png" alt="WIN100%">
+                <img class="h-[42px] object-contain mix-blend-lighten" :src="withBase('/logo.png')" alt="WIN100%">
                 <div>
                   <p class="m-0 text-primary text-body font-extrabold tracking-[0.22em] uppercase">Special Offer</p>
                   <h3 class="text-gradient-primary mt-2 text-[36px] md:text-[50px] font-extrabold leading-[1.08] tracking-normal">{{ detail.headline }}</h3>

@@ -67,6 +67,10 @@ export default defineNuxtConfig({
     },
   },
   app: {
+    /* 預設 root '/';部署到子路徑(如 GitHub Pages 的 /cms_v2/)時用
+       NUXT_APP_BASE_URL 於 build 時覆寫 — 在 config 期讀 env 才會同時
+       套到 Vite base(import.meta.env.BASE_URL,withBase() 依賴它)。 */
+    baseURL: process.env.NUXT_APP_BASE_URL || '/',
     head: {
       /* 全站固定深色;PrimeVue preset 的 darkModeSelector 綁定此 class。
          data-theme 預設 win100,由 app.vue 綁定 site store 的 skin 即時切換。 */

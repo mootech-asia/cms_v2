@@ -87,7 +87,7 @@ function moveRail(direction: number) {
         <div ref="rail" :key="active" class="flex overflow-x-auto gap-3 snap-x snap-mandatory scrollbar-hide pb-4 animate-slideIn">
           <div v-for="g in games" :key="g.title" class="flex-shrink-0 w-28 md:w-32 snap-start cursor-pointer group">
             <div class="w-28 h-28 md:w-32 md:h-32 rounded-lg overflow-hidden border-2 border-line group-hover:border-primary transition-colors">
-              <img :src="g.img" :alt="g.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+              <img :src="withBase(g.img)" :alt="g.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
             </div>
             <h3 class="text-ink text-xs md:text-sm text-center mt-2 truncate">{{ g.title }}</h3>
           </div>

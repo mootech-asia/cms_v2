@@ -16,7 +16,7 @@ const track = ref<HTMLElement | null>(null)
           <span class="text-base md:text-lg">Hot Games</span>
         </h2>
         <div class="flex items-center gap-2">
-          <a class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" href="/hot-games">Show all</a>
+          <a class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" :href="withBase('/hot-games')">Show all</a>
           <button class="text-ink-3 hover:text-ink p-1.5 border border-line rounded transition-colors" @click="track?.scrollBy({ left: -300, behavior: 'smooth' })">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left w-4 h-4">
               <path d="m15 18-6-6 6-6">
@@ -34,7 +34,7 @@ const track = ref<HTMLElement | null>(null)
       <div ref="track" class="flex overflow-x-auto gap-3 snap-x snap-mandatory scrollbar-hide pb-2">
         <div v-for="g in hotGames" :key="g.title" class="flex-shrink-0 w-[130px] md:w-[150px] snap-start cursor-pointer group">
           <div class="relative rounded-xl overflow-hidden bg-surface" style="height: 170px;">
-            <img :src="g.img" :alt="g.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            <img :src="withBase(g.img)" :alt="g.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
             <div class="absolute top-2 left-2 bg-scrim/70 text-ink text-[10px] px-2 py-0.5 rounded">{{ g.bonus }}</div>
             <div class="absolute inset-0 bg-scrim/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
               <button class="bg-g-primary text-on-primary text-xs px-3 py-1.5 rounded-lg">Play Now</button>

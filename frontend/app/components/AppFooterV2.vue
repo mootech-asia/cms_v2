@@ -3,7 +3,7 @@
     <div class="container mx-auto px-4">
       <div class="grid grid-cols-1 gap-8 md:grid-cols-3 md:items-start md:text-left text-center">
         <div class="flex flex-col items-center md:items-start">
-          <img src="/logo.png" alt="WIN100% Logo" class="h-12 mix-blend-lighten mb-3">
+          <img :src="withBase('/logo.png')" alt="WIN100% Logo" class="h-12 mix-blend-lighten mb-3">
           <p class="text-ink-4 text-xs">Play responsibly, play with us.</p>
         </div>
         <div class="max-w-md mx-auto md:mx-0">

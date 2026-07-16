@@ -19,12 +19,12 @@ import { hotGames } from '~/config/mock/home'
           </svg>
           <span class="text-base md:text-lg">Hot Games</span>
         </h2>
-        <a class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" href="/hot-games">Show all</a>
+        <a class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" :href="withBase('/hot-games')">Show all</a>
       </div>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div v-for="g in hotGames" :key="g.title" class="cursor-pointer group rounded-xl overflow-hidden border border-line-soft bg-surface-deep hover:border-primary transition-colors">
           <div class="relative overflow-hidden" style="height: 220px;">
-            <img :src="g.img" :alt="g.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            <img :src="withBase(g.img)" :alt="g.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
           </div>
           <div class="flex items-center justify-between gap-2 px-3 py-2 bg-surface-2">
             <div class="min-w-0">

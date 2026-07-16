@@ -22,7 +22,7 @@ import { sportsMatches } from '~/config/mock/home'
           </svg>
           <span class="text-base md:text-lg">Live Sport</span>
         </h2>
-        <a class="flex items-center gap-1.5 rounded border border-line px-3 py-1.5 text-xs text-ink-3 transition-colors hover:text-ink" href="/sport">
+        <a class="flex items-center gap-1.5 rounded border border-line px-3 py-1.5 text-xs text-ink-3 transition-colors hover:text-ink" :href="withBase('/sport')">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-3 w-3 text-primary">
             <path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9" />
             <path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5" />

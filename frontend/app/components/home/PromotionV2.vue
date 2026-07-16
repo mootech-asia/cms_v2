@@ -24,7 +24,7 @@ function goDetail(id: string) {
           </svg>
           <span class="text-sm md:text-lg">Promotion</span>
         </h2>
-        <a class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" href="/promotion">Show all</a>
+        <a class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" :href="withBase('/promotion')">Show all</a>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div v-for="p in promoCards" :key="p.id" class="bg-surface-deep border border-line-soft rounded-xl overflow-hidden hover:border-primary transition-colors cursor-pointer group">

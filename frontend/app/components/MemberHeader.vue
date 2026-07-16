@@ -28,7 +28,7 @@ const isActive = (to: string) => (to === '/' ? route.path === '/' : route.path.s
     <div class="px-4">
       <div class="flex items-center h-16">
         <NuxtLink class="flex items-center gap-3 text-ink-2 hover:text-ink transition-colors" to="/">
-          <img src="/logo.png" alt="Casino Logo" class="h-10 mix-blend-lighten">
+          <img :src="withBase('/logo.png')" alt="Casino Logo" class="h-10 mix-blend-lighten">
         </NuxtLink>
         <div class="md:hidden ml-auto flex items-center gap-3">
           <div class="relative">
@@ -59,7 +59,7 @@ const isActive = (to: string) => (to === '/' ? route.path === '/' : route.path.s
       <div v-if="menuOpen" class="fixed inset-0 z-[10001]" style="background:rgba(0,0,0,.6)" @click.self="menuOpen = false">
         <div class="absolute inset-0 flex flex-col overflow-hidden bg-surface pb-16">
           <div class="flex justify-between items-center h-[76px] min-[400px]:h-[92px] px-6 border-b border-line-soft flex-shrink-0">
-            <img src="/logo.png" alt="Casino Logo" class="h-12 mix-blend-lighten">
+            <img :src="withBase('/logo.png')" alt="Casino Logo" class="h-12 mix-blend-lighten">
             <button class="text-ink-2 hover:text-ink" aria-label="Close menu" @click="menuOpen = false">
               <AppIcon name="x" class="w-7 h-7" />
             </button>

@@ -40,7 +40,7 @@ const pillClass = (key: string) =>
       <div :key="active" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3 animate-slideIn">
         <div v-for="g in games" :key="g.title" class="cursor-pointer group">
           <div class="aspect-square rounded-lg overflow-hidden border-2 border-line group-hover:border-primary transition-colors">
-            <img :src="g.img" :alt="g.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+            <img :src="withBase(g.img)" :alt="g.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
           </div>
           <h3 class="text-ink text-xs text-center mt-2 truncate">{{ g.title }}</h3>
         </div>

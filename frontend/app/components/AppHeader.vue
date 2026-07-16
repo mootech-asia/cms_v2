@@ -63,7 +63,7 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
     <!-- desktop -->
     <div class="hidden md:flex items-stretch container mx-auto px-4">
       <NuxtLink class="flex items-center pr-6 flex-shrink-0" to="/">
-        <img src="/logo.png" alt="Casino Logo" class="h-10 mix-blend-lighten">
+        <img :src="withBase('/logo.png')" alt="Casino Logo" class="h-10 mix-blend-lighten">
       </NuxtLink>
       <div class="flex flex-col flex-1">
         <div class="flex items-center justify-end gap-3 py-2 text-sm min-h-[44px]">
@@ -147,7 +147,7 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
     <!-- mobile -->
     <div class="flex md:hidden items-center justify-between h-16 px-4">
       <NuxtLink class="whitespace-nowrap flex-shrink-0" to="/">
-        <img src="/logo.png" alt="Casino Logo" class="h-10 mix-blend-lighten">
+        <img :src="withBase('/logo.png')" alt="Casino Logo" class="h-10 mix-blend-lighten">
       </NuxtLink>
       <div class="flex items-center gap-3">
         <div class="relative">
@@ -179,7 +179,7 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
       <div v-if="mobileOpen" class="fixed inset-0 z-[10001]" style="background:rgba(0,0,0,.6)" @click.self="mobileOpen = false">
         <div class="absolute inset-0 flex flex-col overflow-hidden bg-surface pb-16">
           <div class="flex justify-between items-center h-[76px] min-[400px]:h-[92px] px-6 border-b border-line-soft flex-shrink-0">
-            <img src="/logo.png" alt="Casino Logo" class="h-12 mix-blend-lighten">
+            <img :src="withBase('/logo.png')" alt="Casino Logo" class="h-12 mix-blend-lighten">
             <button class="text-ink-2 hover:text-ink" aria-label="Close menu" @click="mobileOpen = false">
               <AppIcon name="x" class="w-7 h-7" />
             </button>

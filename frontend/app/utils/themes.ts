@@ -16,7 +16,7 @@ export const THEME_KEYS = Object.keys(loaders)
 
 /** 取皮膚原始 CSS(R5 匯出模板包用) */
 export async function fetchThemeSource(key: string): Promise<string> {
-  const res = await fetch(`/themes/${key}.css`);
+  const res = await fetch(withBase(`/themes/${key}.css`));
   if (!res.ok) throw new Error(`theme fetch failed: ${key} (${res.status})`);
   return res.text();
 }

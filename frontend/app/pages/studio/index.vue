@@ -65,7 +65,7 @@ const onDrop = () => {
 
 // ---- 預覽 ----
 const previewWidth = ref<'desktop' | 'mobile'>('desktop');
-const previewSrc = computed(() => `/studio/preview?page=${page.value}`);
+const previewSrc = computed(() => withBase(`/studio/preview?page=${page.value}`));
 const iframeEl = ref<HTMLIFrameElement | null>(null);
 
 // ---- 套用 / 重設 / 匯出 ----

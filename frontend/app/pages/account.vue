@@ -101,8 +101,8 @@ function closeBankModal(confirmed: boolean) {
     <div class="bg-surface border border-line-soft rounded-lg p-4 md:p-6">
     <h3 class="text-ink text-lg font-semibold mb-4">Quick Actions</h3>
     <div class="space-y-3">
-    <a class="block w-full bg-g-primary text-on-primary py-3 rounded-lg hover:opacity-90 transition-opacity font-semibold text-center text-sm md:text-base" href="/deposit">Deposit Now</a>
-    <a class="block w-full bg-surface-2 text-ink py-3 rounded-lg hover:opacity-90 transition-opacity text-center text-sm md:text-base" href="/withdrawal">Withdraw</a>
+    <a class="block w-full bg-g-primary text-on-primary py-3 rounded-lg hover:opacity-90 transition-opacity font-semibold text-center text-sm md:text-base" :href="withBase('/deposit')">Deposit Now</a>
+    <a class="block w-full bg-surface-2 text-ink py-3 rounded-lg hover:opacity-90 transition-opacity text-center text-sm md:text-base" :href="withBase('/withdrawal')">Withdraw</a>
     </div>
     </div>
     <div class="bg-surface border border-line-soft rounded-lg p-4 md:p-6">
@@ -174,7 +174,7 @@ function closeBankModal(confirmed: boolean) {
     </div>
     </template>
     <p v-else class="text-ink-4 text-sm md:text-base">No bank account</p>
-    <a class="text-primary hover:text-primary-soft text-sm transition-colors" href="/banking-details?add=1">+ Add New Bank Account</a>
+    <a class="text-primary hover:text-primary-soft text-sm transition-colors" :href="withBase('/banking-details?add=1')">+ Add New Bank Account</a>
     </div>
     </div>
     </div>

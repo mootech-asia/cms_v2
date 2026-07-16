@@ -17,12 +17,12 @@ import { hotGames } from '~/config/mock/home'
           </svg>
           <span class="text-base md:text-lg">Hot Games</span>
         </h2>
-        <a class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" href="/hot-games">Show all</a>
+        <a class="text-ink-3 hover:text-ink text-xs px-3 py-1.5 border border-line rounded transition-colors" :href="withBase('/hot-games')">Show all</a>
       </div>
       <div class="grid grid-cols-3 md:grid-cols-5 gap-3">
         <div v-for="g in hotGames" :key="g.title" class="cursor-pointer group">
           <div class="relative rounded-xl overflow-hidden bg-surface" style="height: 170px;">
-            <img :src="g.img" :alt="g.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            <img :src="withBase(g.img)" :alt="g.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
             <div class="absolute top-2 left-2 bg-scrim/70 text-ink text-[10px] px-2 py-0.5 rounded">{{ g.bonus }}</div>
             <div class="absolute inset-0 bg-scrim/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
               <button class="bg-g-primary text-on-primary text-xs px-3 py-1.5 rounded-lg">Play Now</button>
