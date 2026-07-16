@@ -16,6 +16,13 @@ const scope = TEMPLATE.client;
 const siteStore = useSiteStore();
 const content = useContentStore();
 
+const IMAGE_GUIDE = {
+  banner: '建議尺寸：1920 × 640 px（3:1；JPG、PNG 或 WebP）',
+  promo: '建議尺寸：1200 × 450 px（8:3；JPG、PNG 或 WebP）',
+  hotGame: '建議尺寸：900 × 1200 px（3:4；JPG、PNG 或 WebP）',
+  catalogGame: '建議尺寸：800 × 800 px（1:1；JPG、PNG 或 WebP）',
+} as const;
+
 const tab = ref('content');
 const tabs = [
   ...(scope.editable.banners ? [{ label: '內容文案', value: 'content' }] : []),
@@ -118,13 +125,16 @@ const save = () => {
             <p class="text-note text-ink-4">首頁 Banner 輪播 — 文案編輯、上架/下架、順序調整,即時反映到站點(色彩/版面屬皮膚與變體,由模板控制)。</p>
             <UiCard v-for="(b, bi) in content.banners" :key="b.id" :title="`Slide ${bi + 1} — ${b.badge}`">
               <div class="mb-3 flex items-center justify-between gap-2">
-                <div class="flex min-w-0 items-center gap-2">
-                  <img v-if="b.img" :src="withBase(b.img)" :alt="b.title" class="h-10 w-16 shrink-0 rounded-lg border border-line-soft object-cover">
-                  <span v-else class="flex h-10 w-16 shrink-0 items-center justify-center rounded-lg bg-surface-2 text-note text-ink-4">藝術面</span>
-                  <label class="seg-btn shrink-0 cursor-pointer" title="上架/更換底圖">
-                    換圖<input type="file" accept="image/*" class="hidden" @change="readImage($event, (d) => content.updateBanner(b.id, { img: d }))">
-                  </label>
-                  <button v-if="b.img" type="button" class="seg-btn shrink-0" title="移除底圖,回復預設藝術面" @click="content.updateBanner(b.id, { img: undefined })">移除圖片</button>
+                <div class="min-w-0">
+                  <div class="flex min-w-0 items-center gap-2">
+                    <img v-if="b.img" :src="withBase(b.img)" :alt="b.title" class="h-10 w-16 shrink-0 rounded-lg border border-line-soft object-cover">
+                    <span v-else class="flex h-10 w-16 shrink-0 items-center justify-center rounded-lg bg-surface-2 text-note text-ink-4">藝術面</span>
+                    <label class="seg-btn shrink-0 cursor-pointer" :title="IMAGE_GUIDE.banner">
+                      換圖<input type="file" accept="image/jpeg,image/png,image/webp" class="hidden" @change="readImage($event, (d) => content.updateBanner(b.id, { img: d }))">
+                    </label>
+                    <button v-if="b.img" type="button" class="seg-btn shrink-0" title="移除底圖,回復預設藝術面" @click="content.updateBanner(b.id, { img: undefined })">移除圖片</button>
+                  </div>
+                  <p class="mt-1.5 text-[11px] leading-4 text-ink-4">{{ IMAGE_GUIDE.banner }}</p>
                 </div>
                 <div class="flex shrink-0 items-center gap-1 text-ink-4">
                   <button type="button" class="px-1 hover:text-ink disabled:opacity-30" :disabled="bi === 0" title="上移" @click="content.moveBanner(bi, bi - 1)">↑</button>
@@ -171,9 +181,12 @@ const save = () => {
                 <img v-if="p.img" :src="withBase(p.img)" :alt="p.name" class="h-10 w-10 shrink-0 rounded-lg border border-line-soft object-cover">
                 <span v-else class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-surface-2 text-note text-ink-4">無圖</span>
                 <UiInput :model-value="p.name" class="flex-1" @update:model-value="content.updatePromo(p.id, $event as string)" />
-                <label class="seg-btn shrink-0 cursor-pointer" title="新增/更換圖片">
-                  換圖<input type="file" accept="image/*" class="hidden" @change="readImage($event, (d) => content.patchPromo(p.id, { img: d }))">
-                </label>
+                <div class="shrink-0">
+                  <label class="seg-btn block cursor-pointer text-center" :title="IMAGE_GUIDE.promo">
+                    換圖<input type="file" accept="image/jpeg,image/png,image/webp" class="hidden" @change="readImage($event, (d) => content.patchPromo(p.id, { img: d }))">
+                  </label>
+                  <p class="mt-1 max-w-[190px] text-right text-[10px] leading-4 text-ink-4">{{ IMAGE_GUIDE.promo }}</p>
+                </div>
                 <button type="button" class="px-1 text-ink-4 hover:text-ink disabled:opacity-30" :disabled="i === 0" title="上移" @click="content.movePromo(i, i - 1)">↑</button>
                 <button type="button" class="px-1 text-ink-4 hover:text-ink disabled:opacity-30" :disabled="i === content.promoCards.length - 1" title="下移" @click="content.movePromo(i, i + 1)">↓</button>
                 <button type="button" class="px-1 text-ink-4 hover:text-danger" title="移除促銷" @click="content.removePromo(p.id)">✕</button>
@@ -208,9 +221,12 @@ const save = () => {
                   <UiInput :model-value="g.provider" placeholder="供應商" @update:model-value="content.updateGame(i, { provider: $event as string })" />
                   <UiInput :model-value="g.bonus" placeholder="Bonus 標籤" @update:model-value="content.updateGame(i, { bonus: $event as string })" />
                 </div>
-                <label class="seg-btn shrink-0 cursor-pointer" :title="'更換圖片'">
-                  換圖<input type="file" accept="image/*" class="hidden" @change="pickImage(i, $event)">
-                </label>
+                <div class="shrink-0">
+                  <label class="seg-btn block cursor-pointer text-center" :title="IMAGE_GUIDE.hotGame">
+                    換圖<input type="file" accept="image/jpeg,image/png,image/webp" class="hidden" @change="pickImage(i, $event)">
+                  </label>
+                  <p class="mt-1 max-w-[190px] text-right text-[10px] leading-4 text-ink-4">{{ IMAGE_GUIDE.hotGame }}</p>
+                </div>
                 <span class="flex shrink-0 gap-1 text-ink-4">
                   <button type="button" class="px-1 hover:text-ink disabled:opacity-30" :disabled="i === 0" title="上移" @click="content.moveGame(i, i - 1)">↑</button>
                   <button type="button" class="px-1 hover:text-ink disabled:opacity-30" :disabled="i === content.hotGames.length - 1" title="下移" @click="content.moveGame(i, i + 1)">↓</button>
@@ -222,7 +238,10 @@ const save = () => {
               <UiInput v-model="newGame.title" placeholder="新遊戲名稱 *" />
               <UiInput v-model="newGame.provider" placeholder="供應商" />
               <UiInput v-model="newGame.bonus" placeholder="Bonus 標籤" />
-              <UiInput v-model="newGame.img" placeholder="圖片網址(可留空)" />
+              <div>
+                <UiInput v-model="newGame.img" placeholder="圖片網址(可留空)" />
+                <p class="mt-1 text-[10px] leading-4 text-ink-4">{{ IMAGE_GUIDE.hotGame }}</p>
+              </div>
               <UiButton label="上架遊戲" size="sm" :disabled="!newGame.title.trim()" @click="addGame" />
             </div>
 
@@ -234,9 +253,12 @@ const save = () => {
               >
                 <img :src="withBase(g.img)" :alt="g.title" class="h-12 w-12 shrink-0 rounded-lg border border-line-soft object-cover">
                 <UiInput :model-value="g.title" class="min-w-0 flex-1" placeholder="遊戲名稱" @update:model-value="content.updateCatalogGame(gameCat, i, { title: $event as string })" />
-                <label class="seg-btn shrink-0 cursor-pointer" title="更換圖片">
-                  換圖<input type="file" accept="image/*" class="hidden" @change="readImage($event, (d) => content.updateCatalogGame(gameCat, i, { img: d }))">
-                </label>
+                <div class="shrink-0">
+                  <label class="seg-btn block cursor-pointer text-center" :title="IMAGE_GUIDE.catalogGame">
+                    換圖<input type="file" accept="image/jpeg,image/png,image/webp" class="hidden" @change="readImage($event, (d) => content.updateCatalogGame(gameCat, i, { img: d }))">
+                  </label>
+                  <p class="mt-1 max-w-[190px] text-right text-[10px] leading-4 text-ink-4">{{ IMAGE_GUIDE.catalogGame }}</p>
+                </div>
                 <span class="flex shrink-0 gap-1 text-ink-4">
                   <button type="button" class="px-1 hover:text-ink disabled:opacity-30" :disabled="i === 0" title="上移" @click="content.moveCatalogGame(gameCat, i, i - 1)">↑</button>
                   <button type="button" class="px-1 hover:text-ink disabled:opacity-30" :disabled="i === activeCatGames.length - 1" title="下移" @click="content.moveCatalogGame(gameCat, i, i + 1)">↓</button>
@@ -246,7 +268,10 @@ const save = () => {
             </ul>
             <div v-if="gameCat !== 'hot'" class="grid grid-cols-1 items-center gap-2 rounded-ui border border-line bg-surface p-2.5 md:grid-cols-3">
               <UiInput v-model="newCatGame.title" placeholder="新遊戲名稱 *" />
-              <UiInput v-model="newCatGame.img" placeholder="圖片網址(可留空)" />
+              <div>
+                <UiInput v-model="newCatGame.img" placeholder="圖片網址(可留空)" />
+                <p class="mt-1 text-[10px] leading-4 text-ink-4">{{ IMAGE_GUIDE.catalogGame }}</p>
+              </div>
               <UiButton label="上架遊戲" size="sm" :disabled="!newCatGame.title.trim()" @click="addCatGame" />
             </div>
           </div>
