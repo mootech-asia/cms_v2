@@ -2,13 +2,14 @@
 
 ## 專案速覽
 - 本 repo = **WIN100 模板交付版**:`frontend/`(Nuxt 4 + PrimeVue + Tailwind + Pinia,純 UI、邏輯占位)。
-- 模板工廠(工具/規範主要驅動)= `mootech-asia/cms_system`;本版本的編輯在本 repo,工具演進回工廠。
+- **工廠已整併回本 repo(業主 2026-07-17)**:`templates/starter/`(起新模板骨架)與
+  `docs/template-guide.md`(模板開發規範)都在這裡;`mootech-asia/cms_system` 已廢除待刪。
 - GitHub Pages 正式站由 `gh-pages` 分支提供(mootech-asia.github.io/cms_system_v2);
   `main` 先建置到 `pages-candidate`,完成驗證後才可升級正式分支;不得刪除既有備份分支。
 - **最新接手入口:**`docs/CLAUDE-HANDOFF-LATEST.md`(先讀;含目前正式站、分支 SHA、部署流程與最新驗證)。
 - **歷史交接紀錄:**`docs/handoff-2026-07-16.md`(需要追查早期改動時再讀)。
 - 驗收紀錄:`docs/rebuild-plan.md`;token 對照:`docs/style-guide.md`;
-  完整規範見工廠 repo `cms_system/docs/template-guide.md`。
+  完整規範:`docs/template-guide.md`。
 
 ## 省 token 守則(必守)
 1. **截圖能省則省**:deviceScaleFactor 1、寬 ≤1280、只截判斷所需的頁;

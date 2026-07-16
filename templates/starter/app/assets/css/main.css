@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   元件規則層(規範 1-B.1:CSS 放在適合 Tailwind 的地方)
+   同一視覺 = 一份定義,markup 以 class 多層套用;
+   禁止在元件內重寫等價樣式(scoped 原生 CSS 於 R2 清零)。
+   ============================================================ */
+@layer components {
+  /* 主 CTA:mint 漸層 */
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-ui bg-g-primary font-semibold text-on-primary transition-opacity;
+  }
+  .btn-primary:hover,
+  .btn-primary:focus-visible {
+    @apply opacity-90 outline-none;
+  }
+  .btn-primary:disabled {
+    @apply cursor-not-allowed bg-none bg-ink-4 text-ink-2;
+  }
+
+  /* 按鈕尺寸(與 variant 正交,UiButton size prop 對應) */
+  .btn-sm {
+    @apply h-9 px-4 text-body;
+  }
+  .btn-md {
+    @apply h-11 px-6 text-body;
+  }
+  .btn-lg {
+    @apply h-12 px-8 text-body-lg;
+  }
+
+  /* 次要按鈕:深底描邊 */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center rounded-ui border border-line bg-surface-deep font-semibold text-ink transition-colors;
+  }
+  .btn-ghost:hover,
+  .btn-ghost:focus-visible {
+    @apply border-ink-4 outline-none;
+  }
+
+  /* Back 按鈕(= 靜態站 .cms-back-button 規格) */
+  .btn-back {
+    @apply inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-primary/25 bg-surface px-3.5 text-[15px] font-extrabold leading-none text-ink transition;
+  }
+  .btn-back:hover,
+  .btn-back:focus-visible {
+    @apply -translate-y-px border-transparent bg-g-primary text-surface-deep shadow-mint outline-none;
+  }
+  .btn-back:active {
+    @apply translate-y-0 shadow-none;
+  }
+  .btn-back svg {
+    @apply h-[18px] w-[18px] flex-none;
+  }
+
+  /* 輸入框(取代 .mf-input/.pm-input/.a-input/.field 等 12 份定義) */
+  .input-ui {
+    @apply w-full rounded-ui border border-line bg-surface-deep px-4 py-3 text-body text-ink placeholder:text-ink-4;
+  }
+  .input-ui:focus {
+    @apply border-primary outline-none;
+  }
+  .input-ui:disabled {
+    @apply cursor-not-allowed bg-surface-2 text-ink-4;
+  }
+  .input-ui-invalid {
+    @apply border-danger;
+  }
+
+  /* mint 左槓區塊標題(取代 .pm-title/.wm-section-title/inline 共 11 份) */
+  .section-title {
+    @apply border-l-4 border-accent pl-3 text-h2 font-semibold text-accent;
+  }
+
+  /* 卡片容器 */
+  .card-ui {
+    @apply rounded-xl border border-line-soft bg-surface;
+  }
+
+  /* 狀態膠囊 */
+  .pill {
+    @apply inline-block rounded-full px-2.5 py-1 text-note font-bold leading-none;
+  }
+  .pill-ok {
+    @apply inline-block rounded-full px-2.5 py-1 text-note font-bold leading-none bg-success/10 text-success;
+  }
+  .pill-warn {
+    @apply inline-block rounded-full px-2.5 py-1 text-note font-bold leading-none bg-gold/10 text-gold;
+  }
+  .pill-bad {
+    @apply inline-block rounded-full px-2.5 py-1 text-note font-bold leading-none bg-danger/10 text-danger;
+  }
+  .pill-neutral {
+    @apply inline-block rounded-full px-2.5 py-1 text-note font-bold leading-none bg-surface-2 text-ink-3;
+  }
+  /* 漸層文字裁切(品牌字樣共用) */
+  .text-gradient-primary {
+    background: linear-gradient(90deg, theme('colors.primary.soft'), theme('colors.primary.DEFAULT'));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}

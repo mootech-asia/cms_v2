@@ -2,7 +2,8 @@
 
 > 本 repo 是 **WIN100 模板的交付版本**:Nuxt 4 + PrimeVue + TailwindCSS + Pinia,
 > 純 UI、邏輯占位,工程師可直接取用元件接後端。
-> 模板工廠(工具與規範的主要驅動)在 **mootech-asia/cms_system**;
+> 本 repo 同時是**模板工廠**(2026-07-17 業主整併,cms_system 已廢除):
+> `templates/starter/` 起新模板、`docs/template-guide.md` 為模板開發規範;
 > 本版本的後續編輯都在本 repo 進行。
 
 ## 快速開始
@@ -27,7 +28,7 @@ npm run generate                            # 靜態輸出(.output/public,54 路
   加皮膚 = 複製檔案改值 + nuxt.config css 陣列加一行。
 - **區塊/變體**:登錄表 `app/config/blocks.ts`(v1 不可動;變體同內容同皮膚只換版面)。
 - Token 對照:`docs/style-guide.md`;驗收紀錄:`docs/rebuild-plan.md`;
-  完整《模板開發規範》見工廠 repo `cms_system/docs/template-guide.md`。
+  完整《模板開發規範》:`docs/template-guide.md`;起新模板:`templates/starter/`(規範 §9)。
 
 ## GitHub Pages
 
