@@ -52,7 +52,7 @@ onUnmounted(() => { if (timer) clearInterval(timer); });
         </div>
       </div>
       <!-- 其餘 slides 直欄縮圖 -->
-      <div class="grid grid-rows-3 gap-3">
+      <div class="grid auto-rows-fr gap-3">
         <button
           v-for="(s, i) in banners" :key="s.id" type="button"
           class="banner-art relative flex items-center gap-3 overflow-hidden rounded-xl border px-4 py-3 text-left transition-colors"
