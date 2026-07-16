@@ -28,9 +28,9 @@ The old `cms_v2` Pages URL is retired and must not be used.
 
 | Purpose | Branch / source | SHA |
 |---|---|---|
-| Deployed frontend source | `main` | `d3c74b96b1ab21cfa1c081e9f9a2b83a63516924` |
-| Candidate output | `pages-candidate` | `bb064f0090eb7506ec04f1997b665fb604dfeca0` |
-| Production output | `gh-pages` | `bb064f0090eb7506ec04f1997b665fb604dfeca0` |
+| Deployed frontend source | `main` | `61f750ceaba4649b6861030b89614f9aa81cc1c0` |
+| Candidate output | `pages-candidate` | `9cf26056c2b58fb7956821863f9c38413dbacb5a` |
+| Production output | `gh-pages` | `9cf26056c2b58fb7956821863f9c38413dbacb5a` |
 | Legacy production backup | `backup/gh-pages-legacy-2026-07-16` | `0b1a1d61a5bcc4bb72e490952a582d5da62a02bd` |
 
 The commit that updates this handoff is documentation-only and may make `main` newer than the
@@ -52,6 +52,13 @@ also ready.
 - Frontend checks: run `29522162544`, success.
 - Build Pages candidate: run `29522164173`, success.
 - GitHub Pages deployment: run `29522862886`, success.
+
+### Vivid Emerald release (current production)
+
+- Source commit: `61f750ceaba4649b6861030b89614f9aa81cc1c0`.
+- Frontend checks: run `29523809039`, success.
+- Build Pages candidate: run `29523809019`, success.
+- GitHub Pages deployment: run `29524179052`, success.
 
 ## Latest completed user requests
 
@@ -165,6 +172,43 @@ Production verification:
 - `/themes/rose-graphite.css` returns HTTP 200.
 - Desktop and 390px mobile horizontal overflow: `0px`.
 
+### 5. Emerald vibrancy and contrast increased
+
+File:
+
+- `frontend/app/assets/css/themes/win100.css`
+
+Behavior:
+
+- The default green skin now uses a vivid emerald primary instead of muted mint.
+- A bright lime accent adds hierarchy without turning the interface into a single green scale.
+- Backgrounds, surfaces, borders, and disabled states are darker and more distinct.
+- Main, secondary, tertiary, and weak text colors were raised for clearer readability.
+- PrimeVue primary and surface ramps were updated with the same palette.
+
+Core production tokens:
+
+- Primary: `63 232 177` (`#3FE8B1`).
+- Accent: `194 255 87` (`#C2FF57`).
+- Background: `7 14 16` (`#070E10`).
+- Surface: `15 27 30` (`#0F1B1E`).
+
+Contrast verification:
+
+- Main text/background: `19.46:1`.
+- Secondary text/surface: `14.36:1`.
+- Tertiary text/surface: `8.21:1`.
+- Weak text/background: `5.26:1`.
+- Primary button text/background: `11.59:1`.
+- Danger, success, and gold on surfaces: at least `6.35:1`.
+
+Production verification:
+
+- Desktop and 390px mobile both expose the new primary token.
+- Desktop and mobile horizontal overflow: `0px`.
+- All five skin names remain available.
+- Carousel tabs and `Show all` routing remain functional.
+
 ## Earlier completed work still present
 
 - Desktop member sidebar is fixed below the 64px member header; mobile uses bottom navigation.
@@ -221,5 +265,5 @@ These are product limitations, not regressions from the latest work:
 ## Current handoff conclusion
 
 There are no known unfinished items from the user's latest requests. The game-carousel tabs,
-desktop operational banners, category provider photography, and five-skin system are complete,
-deployed, and verified on desktop and mobile.
+desktop operational banners, category provider photography, five-skin system, and vivid Emerald
+contrast update are complete, deployed, and verified on desktop and mobile.
