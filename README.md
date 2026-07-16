@@ -1,4 +1,4 @@
-# cms_v2 — WIN100(交付版)
+# cms_system_v2 — WIN100(交付版)
 
 > 本 repo 是 **WIN100 模板的交付版本**:Nuxt 4 + PrimeVue + TailwindCSS + Pinia,
 > 純 UI、邏輯占位,工程師可直接取用元件接後端。
@@ -29,10 +29,14 @@ npm run generate                            # 靜態輸出(.output/public,54 路
 - Token 對照:`docs/style-guide.md`;驗收紀錄:`docs/rebuild-plan.md`;
   完整《模板開發規範》見工廠 repo `cms_system/docs/template-guide.md`。
 
-## 現行運行版本(舊靜態站)
+## GitHub Pages
 
-改版前的靜態站**凍結於 `gh-pages` 分支**,持續服務於
-https://mootech-asia.github.io/cms_v2/ — 請勿刪除該分支;
-由 Nuxt 版取代的時間點由業主決定(rebuild-plan §4)。
+Nuxt 正式站由 `gh-pages` 分支提供:
+https://mootech-asia.github.io/cms_system_v2/
+
+- `main`:原始碼
+- `pages-candidate`:GitHub Actions 建置候選版
+- `gh-pages`:驗證後的正式版
+- `backup/gh-pages-legacy-2026-07-16`:改版前靜態站備份
 
 安全 tag:`keep/github-pages-latest-2026-06-29`、`keep/figma-react-version-2026-06-29`。
