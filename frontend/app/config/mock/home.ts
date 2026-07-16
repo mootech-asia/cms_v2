@@ -1,3 +1,5 @@
+import { HOME_OPERATION_MEDIA, PROMOTION_OPERATION_MEDIA } from '~/config/operational-media';
+
 /**
  * 首頁區塊 mock 內容 — R3 皮膚層獨立。
  * 內容與元件分離,讓 R4 的同一區塊多種版面(variants)可共用同一份資料。
@@ -15,12 +17,41 @@ export interface Banner {
   cta: string;
   /** 選配:客戶上傳的底圖(未設時顯示 token 藝術面 .banner-art) */
   img?: string;
+  /** object-position；營運素材可保護人物與產品焦點 */
+  focalPoint?: string;
 }
 
 export const banners: Banner[] = [
-  { id: 1, badge: 'WEEKLY RELOAD', title: 'Bonus', highlight: '50%', sub: 'EVERY MONDAY & FRIDAY', cta: 'Claim Now' },
-  { id: 2, badge: 'FIRST DEPOSIT', title: 'Fever', highlight: '100%', sub: 'BONUS UP TO RM 500', cta: 'Deposit Now' },
-  { id: 3, badge: 'VIP EXCLUSIVE', title: 'Unlock', highlight: 'VIP', sub: 'CASHBACK · REBATE · PRIORITY SUPPORT', cta: 'Join VIP' },
+  {
+    id: 1,
+    badge: 'E-SPORTS WEEK',
+    title: 'Level Up',
+    highlight: '30%',
+    sub: 'WEEKLY GAMEPLAY CASHBACK · LIMITED TIME',
+    cta: 'Enter Arena',
+    img: HOME_OPERATION_MEDIA.esports.image,
+    focalPoint: HOME_OPERATION_MEDIA.esports.focalPoint,
+  },
+  {
+    id: 2,
+    badge: 'ROYAL VIP',
+    title: 'Prestige',
+    highlight: 'VIP',
+    sub: 'EXCLUSIVE REBATES · PRIVATE SUPPORT · FAST PAYOUT',
+    cta: 'Unlock VIP',
+    img: HOME_OPERATION_MEDIA.luxury.image,
+    focalPoint: HOME_OPERATION_MEDIA.luxury.focalPoint,
+  },
+  {
+    id: 3,
+    badge: 'SMART WALLET',
+    title: 'USDT',
+    highlight: '+8%',
+    sub: 'FAST DEPOSIT · SECURE SETTLEMENT · 24/7 ACCESS',
+    cta: 'Deposit Now',
+    img: HOME_OPERATION_MEDIA.finance.image,
+    focalPoint: HOME_OPERATION_MEDIA.finance.focalPoint,
+  },
 ];
 
 // ---- MiniGamesGrid --------------------------------------------------------
@@ -144,11 +175,32 @@ export interface PromoCard {
   name: string;
   /** 選配:促銷卡圖(客戶後台可換;未設時顯示 token 藝術面) */
   img?: string;
+  focalPoint?: string;
 }
 
 export const promoCards: PromoCard[] = [
-  { id: 'riobet-casino', name: 'RioBet Casino' },
-  { id: 'bitstarz-casino', name: 'BitStarz Casino' },
-  { id: 'icecasino', name: 'IceCasino' },
-  { id: 'gamdom-casino', name: 'Gamdom Casino' },
+  {
+    id: 'riobet-casino',
+    name: 'RioBet Casino',
+    img: PROMOTION_OPERATION_MEDIA['riobet-casino'].image,
+    focalPoint: PROMOTION_OPERATION_MEDIA['riobet-casino'].focalPoint,
+  },
+  {
+    id: 'bitstarz-casino',
+    name: 'BitStarz Casino',
+    img: PROMOTION_OPERATION_MEDIA['bitstarz-casino'].image,
+    focalPoint: PROMOTION_OPERATION_MEDIA['bitstarz-casino'].focalPoint,
+  },
+  {
+    id: 'icecasino',
+    name: 'IceCasino',
+    img: PROMOTION_OPERATION_MEDIA.icecasino.image,
+    focalPoint: PROMOTION_OPERATION_MEDIA.icecasino.focalPoint,
+  },
+  {
+    id: 'gamdom-casino',
+    name: 'Gamdom Casino',
+    img: PROMOTION_OPERATION_MEDIA['gamdom-casino'].image,
+    focalPoint: PROMOTION_OPERATION_MEDIA['gamdom-casino'].focalPoint,
+  },
 ];
