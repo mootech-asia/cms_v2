@@ -28,9 +28,9 @@ The old `cms_v2` Pages URL is retired and must not be used.
 
 | Purpose | Branch / source | SHA |
 |---|---|---|
-| Deployed frontend source | `main` | `ffd99700ca76907c920399ffb84d3ff85a64c1bf` |
-| Candidate output | `pages-candidate` | `9e67d02d5dc29c99145a5aa6ea504c28cb2e4ab1` |
-| Production output | `gh-pages` | `9e67d02d5dc29c99145a5aa6ea504c28cb2e4ab1` |
+| Deployed frontend source | `main` | `be8c7f8898b10dfb1bd3b5acc1c9dae611c75ca9` |
+| Candidate output | `pages-candidate` | `c440183f7751f0536c6c57119ec25f529e920e3b` |
+| Production output | `gh-pages` | `c440183f7751f0536c6c57119ec25f529e920e3b` |
 | Legacy production backup | `backup/gh-pages-legacy-2026-07-16` | `0b1a1d61a5bcc4bb72e490952a582d5da62a02bd` |
 
 The commit that updates this handoff is documentation-only and may make `main` newer than the
@@ -53,7 +53,7 @@ also ready.
 - Build Pages candidate: run `29522164173`, success.
 - GitHub Pages deployment: run `29522862886`, success.
 
-### Vivid Emerald release (current production)
+### Vivid Emerald release (superseded)
 
 - Source commit: `61f750ceaba4649b6861030b89614f9aa81cc1c0`.
 - Frontend checks: run `29523809039`, success.
@@ -66,6 +66,13 @@ also ready.
 - Frontend checks: run `29548118308`, success.
 - Build Pages candidate: run `29548118300`, success.
 - GitHub Pages deployment: run `29548317021`, success.
+
+### Original Emerald restoration (current production)
+
+- Source commit: `be8c7f8898b10dfb1bd3b5acc1c9dae611c75ca9`.
+- Frontend checks: run `29548574650`, success.
+- Build Pages candidate: run `29548574696`, success.
+- GitHub Pages deployment: run `29548758154`, success.
 
 ## Latest completed user requests
 
@@ -179,7 +186,7 @@ Production verification:
 - `/themes/rose-graphite.css` returns HTTP 200.
 - Desktop and 390px mobile horizontal overflow: `0px`.
 
-### 5. Emerald vibrancy and contrast increased
+### 5. Original Emerald palette restored
 
 File:
 
@@ -187,34 +194,26 @@ File:
 
 Behavior:
 
-- The default green skin now uses a vivid emerald primary instead of muted mint.
-- A bright lime accent adds hierarchy without turning the interface into a single green scale.
-- Backgrounds, surfaces, borders, and disabled states are darker and more distinct.
-- Main, secondary, tertiary, and weak text colors were raised for clearer readability.
-- PrimeVue primary and surface ramps were updated with the same palette.
+- The brief high-saturation Emerald experiment was reverted at the user's request.
+- `win100.css` was restored byte-for-byte from the known-good version before that experiment.
+- The original soft mint primary, green-black surfaces, text hierarchy, PrimeVue ramps, hero
+  gradient, and shadows are active again.
+- The other four skins and the development login bypass were not changed.
 
 Core production tokens:
 
-- Primary: `63 232 177` (`#3FE8B1`).
-- Accent: `194 255 87` (`#C2FF57`).
-- Background: `7 14 16` (`#070E10`).
-- Surface: `15 27 30` (`#0F1B1E`).
-
-Contrast verification:
-
-- Main text/background: `19.46:1`.
-- Secondary text/surface: `14.36:1`.
-- Tertiary text/surface: `8.21:1`.
-- Weak text/background: `5.26:1`.
-- Primary button text/background: `11.59:1`.
-- Danger, success, and gold on surfaces: at least `6.35:1`.
+- Primary: `152 231 210` (`#98E7D2`).
+- Primary soft: `203 232 228` (`#CBE8E4`).
+- Accent: `170 229 211` (`#AAE5D3`).
+- Background: `15 20 25` (`#0F1419`).
+- Surface: `26 33 40` (`#1A2128`).
 
 Production verification:
 
-- Desktop and 390px mobile both expose the new primary token.
+- Desktop and 390px mobile both expose the restored primary token.
 - Desktop and mobile horizontal overflow: `0px`.
 - All five skin names remain available.
-- Carousel tabs and `Show all` routing remain functional.
+- Development login bypass remains functional.
 
 ### 6. Login credential validation disabled for development
 
@@ -298,6 +297,6 @@ These are product limitations, not regressions from the latest work:
 ## Current handoff conclusion
 
 There are no known unfinished items from the user's latest requests. The game-carousel tabs,
-desktop operational banners, category provider photography, five-skin system, and vivid Emerald
-contrast update are complete. The development login bypass is also deployed and verified on
-desktop and mobile.
+desktop operational banners, category provider photography, and five-skin system are complete.
+The original Emerald palette has been restored, and the development login bypass remains deployed
+and verified on desktop and mobile.
