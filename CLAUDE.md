@@ -4,14 +4,24 @@
 - 本 repo = **WIN100 模板交付版**:`frontend/`(Nuxt 4 + PrimeVue + Tailwind + Pinia,純 UI、邏輯占位)。
 - **工廠已整併回本 repo(業主 2026-07-17)**:`templates/starter/`(起新模板骨架)與
   `docs/template-guide.md`(模板開發規範)都在這裡;`mootech-asia/cms_system` 已廢除待刪。
+- **定位鐵則(業主 2026-07-17,寫入 DNA)**:業主做的是**整個生成系統**,
+  全部資產屬於業主個人、不屬於公司;**一個交付出去的版型 = 一個獨立專案**
+  (例:`cms_system_v3`),交付後各自演進。工廠整併回本 repo 看似走回頭路,
+  實際是先前沒有工廠概念 — 現在才是把生成系統立起來;理解本 repo 時一律以
+  「生成系統母體(工廠+示範交付版)」看待,而非單一站台專案。
 - GitHub Pages 正式站由 `gh-pages` 分支提供(mootech-asia.github.io/cms_system_v2);
   `main` 先建置到 `pages-candidate`,完成驗證後才可升級正式分支;不得刪除既有備份分支。
 - **最新接手入口:**`docs/CLAUDE-HANDOFF-LATEST.md`(先讀;含目前正式站、分支 SHA、部署流程與最新驗證)。
+- **待執行計畫:**`docs/factory-html-pipeline-plan.md`(工廠純 HTML 化 + 交付流水線,
+  已定案、分 Phase 0–6,usage 恢復後依 phase 開新 session 執行)。
 - **歷史交接紀錄:**`docs/handoff-2026-07-16.md`(需要追查早期改動時再讀)。
 - 驗收紀錄:`docs/rebuild-plan.md`;token 對照:`docs/style-guide.md`;
   完整規範:`docs/template-guide.md`。
 
 ## 省 token 守則(必守;業主 2026-07-17 升級為鐵則)
+0. **加速鐵則(業主 2026-07-17,寫入 DNA)**:盡一切可能調用外掛、skill、
+   subagent、MCP 工具、外部程式加速任務 — 什麼都可以用;同時一律以最省 token
+   的方式進行。速度靠工具與平行化,省 token 靠分派與導檔,兩者並行不牴觸。
 1. **主對話極簡化**:調查、批次修改、逐頁驗證、e2e、截圖比對一律分派 subagent
    (機械型 `model:'sonnet'`、純檢查 `model:'haiku'`),主對話只收一行結論;
    主對話自己只做:架構判斷、與業主對話、最終 commit/push。
