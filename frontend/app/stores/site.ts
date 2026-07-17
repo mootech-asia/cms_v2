@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import type { SectionConfig } from '~/config/blocks';
+import { THEME_KEYS } from '~/utils/themes';
 
 /**
  * 站點組態 store — R5 設計後台/R6 客戶後台調整的目標。
@@ -11,8 +12,8 @@ export const useSiteStore = defineStore('site', {
     /** 前台分頁/站點名稱 — 命名權在後台:/admin(客戶)與 /studio(設計師)可改 */
     siteName: 'CMS_前台_v2',
     skin: 'win100',
-    /** Studio 控制前台是否開放 skin 切換;0/1 個時前台切換器會隱藏。 */
-    publicSkins: [] as string[],
+    /** Studio 控制前台開放哪些 skin;預設全公開,縮到 0/1 個時前台切換器隱藏。 */
+    publicSkins: [...THEME_KEYS] as string[],
     /** 全站 chrome(header/footer)使用的變體 — layouts/default.vue 讀這裡 */
     chrome: { header: 'v1', footer: 'v1' },
     pages: {
