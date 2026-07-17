@@ -9,12 +9,13 @@ import type {
 } from '~/config/mock/home';
 import type { GameCategory } from '~/stores/content';
 
-export type AppLocale = 'zh' | 'en' | 'ko';
+export type AppLocale = 'zh' | 'en' | 'ko' | 'th';
 
 export const APP_LOCALES: { code: AppLocale; short: string; label: string }[] = [
   { code: 'zh', short: '中文', label: '中文' },
   { code: 'en', short: 'EN', label: 'English' },
   { code: 'ko', short: '한국어', label: '한국어' },
+  { code: 'th', short: 'ไทย', label: 'ภาษาไทย' },
 ];
 
 const LOCALE_KEY = 'win100-locale';
@@ -30,6 +31,11 @@ const legacyLocaleMap: Record<string, AppLocale> = {
   KR: 'ko',
   '한국어': 'ko',
   Korean: 'ko',
+  th: 'th',
+  TH: 'th',
+  Thai: 'th',
+  'ไทย': 'th',
+  'ภาษาไทย': 'th',
 };
 
 const normalizeLocale = (value: unknown): AppLocale =>
@@ -177,6 +183,53 @@ const messages = {
     'footer.rights': 'win10069 © 모든 권리 보유 및 법적 보호',
     'studio.previewLanguage': '미리보기 언어',
   },
+  th: {
+    'nav.home': 'หน้าแรก',
+    'nav.hotGames': 'เกมยอดนิยม',
+    'nav.sports': 'กีฬา',
+    'nav.live': 'คาสิโนสด',
+    'nav.slots': 'สล็อต',
+    'nav.fish': 'เกมยิงปลา',
+    'nav.miniGames': 'มินิเกม',
+    'nav.promotion': 'โปรโมชั่น',
+    'nav.browse': 'เลือกดู',
+    'nav.deposit': 'ฝากเงิน',
+    'nav.member': 'สมาชิก',
+    'account.id': 'บัญชี',
+    'account.balance': 'ยอดเงิน',
+    'account.points': 'แต้ม',
+    'account.view': 'ดูศูนย์สมาชิก',
+    'auth.login': 'เข้าสู่ระบบ',
+    'auth.register': 'สมัครสมาชิก',
+    'auth.logout': 'ออกจากระบบ',
+    'action.showAll': 'ดูทั้งหมด',
+    'action.playNow': 'เล่นเลย',
+    'action.detail': 'ดูรายละเอียด',
+    'action.viewAllLive': 'ดูไลฟ์ทั้งหมด',
+    'action.placeBet': 'เดิมพันเลย',
+    'action.back': 'กลับ',
+    'action.search': 'ค้นหา',
+    'action.loadMore': 'โหลดเพิ่ม',
+    'search.vendorName': 'ชื่อผู้ให้บริการ',
+    'search.game': 'ค้นหาเกม',
+    'label.liveStudio': 'สตูดิโอสด',
+    'label.liveDealer': 'ดีลเลอร์สด',
+    'game.placeholder': 'ชื่อเกม',
+    'section.hotGames': 'เกมยอดนิยม',
+    'section.liveSport': 'กีฬาสด',
+    'section.promotion': 'โปรโมชั่น',
+    'ticker.congratulations': 'ยินดีด้วย',
+    'ticker.winning': 'ชนะ',
+    'ticker.in': 'ใน',
+    'sport.eventTag': 'อีเวนต์ใหญ่ที่สุดของโลก',
+    'sport.worldCup': 'ฟุตบอลโลก FIFA',
+    'sport.prizePool': 'เงินรางวัลรวม',
+    'footer.tagline': 'เล่นอย่างรับผิดชอบ สนุกอย่างมั่นใจ',
+    'footer.responsible': 'การพนันอาจทำให้เกิดการเสพติด โปรดเล่นอย่างรับผิดชอบ หากต้องการข้อมูลช่วยเหลือ โปรดไปที่หน้าความช่วยเหลือด้านการพนันอย่างรับผิดชอบ',
+    'footer.cookies': 'เมื่อคุณเข้าถึง ใช้งานต่อ หรือเรียกดูเว็บไซต์นี้ แสดงว่าคุณยอมรับการใช้คุกกี้บางส่วนเพื่อปรับปรุงประสบการณ์ของคุณ',
+    'footer.rights': 'win10069 © สงวนลิขสิทธิ์และได้รับการคุ้มครองตามกฎหมาย',
+    'studio.previewLanguage': 'ภาษาตัวอย่าง',
+  },
 } satisfies Record<AppLocale, Record<string, string>>;
 
 const bannerCopy: Record<number, Record<AppLocale, Partial<Banner>>> = {
@@ -184,38 +237,47 @@ const bannerCopy: Record<number, Record<AppLocale, Partial<Banner>>> = {
     zh: { badge: '首存禮遇', title: '儲值狂熱', sub: '迎新加碼 · 快速出款 · 限時開放', cta: '立即儲值' },
     en: { badge: 'FIRST DEPOSIT', title: 'Deposit Fever', sub: 'WELCOME BONUS · FAST PAYOUT · LIMITED TIME', cta: 'Deposit Now' },
     ko: { badge: '첫 입금 혜택', title: '입금 피버', sub: '웰컴 보너스 · 빠른 출금 · 한정 혜택', cta: '입금하기' },
+    th: { badge: 'ฝากครั้งแรก', title: 'Deposit Fever', sub: 'โบนัสต้อนรับ · ถอนเร็ว · จำกัดเวลา', cta: 'ฝากเงินเลย' },
   },
   4: {
     zh: { badge: '2026 世界足球', title: '榮耀之路', sub: '即時賠率 · 賽事中心 · 每球必爭', cta: '查看賽事' },
     en: { badge: 'WORLD FOOTBALL 2026', title: 'Road to Glory', sub: 'LIVE ODDS · MATCH CENTRE · EVERY KICK', cta: 'View Matches' },
     ko: { badge: '2026 월드 풋볼', title: '영광의 길', sub: '실시간 배당 · 매치 센터 · 모든 순간', cta: '경기 보기' },
+    th: { badge: 'ฟุตบอลโลก 2026', title: 'เส้นทางสู่ชัยชนะ', sub: 'ราคาสด · ศูนย์การแข่งขัน · ลุ้นทุกลูก', cta: 'ดูการแข่งขัน' },
   },
   1: {
     zh: { badge: '電競週', title: '戰力升級', sub: '每週遊戲返水 · 限時開放', cta: '進入競技場' },
     en: { badge: 'E-SPORTS WEEK', title: 'Level Up', sub: 'WEEKLY GAMEPLAY CASHBACK · LIMITED TIME', cta: 'Enter Arena' },
     ko: { badge: 'E-스포츠 위크', title: '레벨 업', sub: '주간 캐시백 · 한정 이벤트', cta: '아레나 입장' },
+    th: { badge: 'สัปดาห์อีสปอร์ต', title: 'อัปเลเวล', sub: 'คืนยอดเล่นรายสัปดาห์ · จำกัดเวลา', cta: 'เข้าสู่อารีนา' },
   },
   3: {
     zh: { badge: '智慧錢包', title: 'USDT', sub: '快速入金 · 安全結算 · 24/7 存取', cta: '立即儲值' },
     en: { badge: 'SMART WALLET', title: 'USDT', sub: 'FAST DEPOSIT · SECURE SETTLEMENT · 24/7 ACCESS', cta: 'Deposit Now' },
     ko: { badge: '스마트 월렛', title: 'USDT', sub: '빠른 입금 · 안전 정산 · 24/7 이용', cta: '입금하기' },
+    th: { badge: 'สมาร์ตวอลเล็ต', title: 'USDT', sub: 'ฝากเร็ว · ชำระปลอดภัย · ใช้งาน 24/7', cta: 'ฝากเงินเลย' },
   },
 };
 
 const tabLabels: Record<string, Record<AppLocale, string>> = {
-  mini: { zh: '迷你遊戲', en: 'Mini Game', ko: '미니게임' },
-  slot: { zh: '老虎機', en: 'Slot Game', ko: '슬롯 게임' },
-  live: { zh: '真人遊戲', en: 'Live Game', ko: '라이브 게임' },
+  mini: { zh: '迷你遊戲', en: 'Mini Game', ko: '미니게임', th: 'มินิเกม' },
+  slot: { zh: '老虎機', en: 'Slot Game', ko: '슬롯 게임', th: 'สล็อต' },
+  live: { zh: '真人遊戲', en: 'Live Game', ko: '라이브 게임', th: 'คาสิโนสด' },
 };
 
 const bonusPrefix: Record<AppLocale, string> = {
   zh: '加碼',
   en: 'BONUS',
   ko: '보너스',
+  th: 'โบนัส',
 };
 
 const localizeBonus = (bonus: string, locale: AppLocale) => {
-  const value = bonus.replace(/^BONUS\s*/i, '').replace(/^加碼\s*/i, '').replace(/^보너스\s*/i, '');
+  const value = bonus
+    .replace(/^BONUS\s*/i, '')
+    .replace(/^加碼\s*/i, '')
+    .replace(/^보너스\s*/i, '')
+    .replace(/^โบนัส\s*/i, '');
   return `${bonusPrefix[locale]} ${value}`.trim();
 };
 

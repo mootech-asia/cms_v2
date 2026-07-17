@@ -174,7 +174,7 @@ const mobileOpen = useState<boolean>('ui:mobileMenuOpen', () => false);
                 class="mt-3 block text-center rounded-lg bg-g-primary text-on-primary text-sm font-bold"
                 style="padding:10px 18px;text-decoration:none"
                 @click="mobileOpen = false"
-              >View Account</NuxtLink>
+              >{{ t('account.view') }}</NuxtLink>
             </template>
             <div v-else>
               <button style="display:block;width:100%;text-align:left;padding:12px 14px;background:none;border:0;color:#fff;cursor:pointer;font-weight:600;font-size:15px" @click="mobileOpen = false; openAuth('login')">{{ t('auth.login') }}</button>
