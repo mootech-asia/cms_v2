@@ -1,0 +1,38 @@
+name: Promote Pages candidate
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidate_sha:
+        description: 'Expected pages-candidate commit SHA (promotion refuses on mismatch)'
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages-promote
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out pages-candidate
+        uses: actions/checkout@v4
+        with:
+          ref: pages-candidate
+          fetch-depth: 1
+
+      - name: Verify candidate SHA and promote to gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EXPECTED: ${{ inputs.candidate_sha }}
+        run: |
+          set -euo pipefail
+          ACTUAL=$(git rev-parse HEAD)
+          if [ "$ACTUAL" != "$EXPECTED" ]; then
+            echo "pages-candidate is at $ACTUAL, expected $EXPECTED — refusing to promote."
+            exit 1
+          fi
+          git push --force "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:gh-pages
