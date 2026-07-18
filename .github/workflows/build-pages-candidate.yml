@@ -5,7 +5,8 @@ on:
     branches:
       - main
     paths:
-      - 'frontend/**'
+      - 'factory/**'
+      - 'scripts/verify-factory-win100.js'
       - '.github/workflows/build-pages-candidate.yml'
   workflow_dispatch:
 
@@ -23,41 +24,25 @@ jobs:
       - name: Check out main
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.18.0
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
+      - name: Verify factory static site
+        run: node scripts/verify-factory-win100.js
 
-      - name: Install dependencies
-        working-directory: frontend
-        run: npm ci
-
-      - name: Generate GitHub Pages site
-        working-directory: frontend
-        env:
-          NUXT_APP_BASE_URL: /cms_system_v2/
-        run: npm run generate
-
-      - name: Verify generated routes and base path
-        working-directory: frontend/.output/public
+      - name: Assemble candidate output
         run: |
           set -euo pipefail
-          test -f index.html
-          test -f admin/index.html
-          test -f studio/index.html
-          test -f studio/preview/index.html
-          grep -q '/cms_system_v2/' index.html
-          if grep -Eq '(src|href)="/_nuxt/' index.html; then
+          rm -rf .candidate
+          mkdir -p .candidate
+          cp -R factory/win100/. .candidate/
+          test -f .candidate/index.html
+          if grep -Eq '(src|href)="/_nuxt/' .candidate/index.html; then
             echo 'Found root-relative Nuxt asset path; refusing candidate.'
             exit 1
           fi
-          touch .nojekyll
-          cp index.html 404.html
+          touch .candidate/.nojekyll
+          cp .candidate/index.html .candidate/404.html
 
       - name: Publish candidate branch
-        working-directory: frontend/.output/public
+        working-directory: .candidate
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

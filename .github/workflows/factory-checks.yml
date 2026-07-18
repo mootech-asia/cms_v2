@@ -1,0 +1,33 @@
+name: Factory checks
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "factory/**"
+      - "scripts/verify-factory-win100.js"
+      - ".github/workflows/factory-checks.yml"
+  pull_request:
+    paths:
+      - "factory/**"
+      - "scripts/verify-factory-win100.js"
+      - ".github/workflows/factory-checks.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: factory-checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify factory static site
+        run: node scripts/verify-factory-win100.js
