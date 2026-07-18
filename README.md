@@ -1,3 +1,6 @@
+> **分支說明(2026-07-18)**:本分支凍結保存 WIN100 的**工程師框架實作**(Nuxt 4 + PrimeVue + Tailwind + Pinia,`frontend/`)。
+> `main` 已改為工廠純 HTML+CSS+JS 形態;需要框架版(工程師形式)一律以本分支為準。
+
 # cms_system_v2 — WIN100(交付版)
 
 > 本 repo 是 **WIN100 模板的交付版本**:Nuxt 4 + PrimeVue + TailwindCSS + Pinia,
