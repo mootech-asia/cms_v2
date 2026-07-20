@@ -13,7 +13,7 @@ const EXEC = process.env.PLAYWRIGHT_CHROMIUM || '/opt/pw-browsers/chromium-1194/
 const ROOT = path.join(__dirname, '..', 'factory', 'win100');
 const PAGES = [
   'about', 'account-record', 'account', 'betting-record',
-  'change-nickname', 'change-password', 'deposit-record', 'deposit', 'fish',
+  'change-password', 'deposit-record', 'deposit', 'fish',
   'hot-games', 'index', 'live', 'mini-games', 'personal-info', 'profit-loss',
   'promotion', 'security', 'slot', 'sport', 'support', 'ui-kit',
   'withdrawal-record', 'withdrawal',

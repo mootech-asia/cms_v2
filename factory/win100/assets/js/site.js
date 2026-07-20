@@ -438,9 +438,8 @@
 
   function buildMemberDrawerHtml() {
     var links = D.MEMBER_MENU_LINKS || [];
-    var curParent = pageName() === 'change-nickname' ? 'account.html' : null;
     var rows = links.map(function (l) {
-      var active = isActivePage(l.href) || (curParent === l.href);
+      var active = isActivePage(l.href);
       return '<a href="' + l.href + '" class="mmd-row' + (active ? ' active' : '') + '">' + iconSvg(l.icon, 'mmd-icon') + '<span>' + escapeHtml(l.label) + '</span></a>';
     }).join('');
     return (
@@ -1386,7 +1385,7 @@
       '<div class="mf-modal-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + ic.w + '" stroke-linecap="round" stroke-linejoin="round">' + ic.d + '</svg></div>' +
       '<h3 class="mf-modal-title">' + escapeHtml(title) + '</h3>' +
       (type === 'danger'
-        ? '<p class="mf-modal-msg">Are you sure you want to remove <strong>' + escapeHtml(opts.subject || 'this bank account') + '</strong>?<br>This action cannot be undone.</p>'
+        ? '<p class="mf-modal-msg">Are you sure you want to remove <strong>' + escapeHtml(opts.subject || 'this bank account') + '</strong>? This action cannot be undone.</p>'
         : (message ? '<p class="mf-modal-msg">' + escapeHtml(message) + '</p>' : '')) +
       '<button type="button" class="mf-modal-btn' + (type === 'danger' ? ' danger-confirm' : '') + '" data-mf-confirm>' + escapeHtml(confirmText) + '</button>' +
       ((type === 'confirm' || type === 'danger') ? '<button type="button" class="mf-modal-btn secondary" data-mf-cancel>' + escapeHtml(cancelText) + '</button>' : '') +
@@ -1646,7 +1645,7 @@
     cryptoSection.setAttribute('data-crypto-panel', '');
     cryptoSection.innerHTML =
       '<h2 class="pay-section-title">Crypto Wallet</h2>' +
-      '<div class="wallet-empty"><div class="coin-empty coin-lg">₿</div><div>Empty wallet list</div>' +
+      '<div class="wallet-empty" data-wallet-panel><div class="coin-empty coin-lg">₿</div><div>Empty wallet list</div>' +
       '<button class="add-wallet" data-add-wallet><span style="font-size:20px;line-height:1">+</span>Add wallet</button></div>' +
       '<div class="balance-grid"><span>Central Wallet:</span><strong>0.00</strong><span>Available Amount:</span><strong>0.00</strong></div>' +
       '<h2 class="pay-section-title mt-6">Withdrawal Amount &amp; Password</h2>' +
@@ -1681,8 +1680,8 @@
       '<button class="pay-action" disabled>Submit</button>' +
       '</div>' +
       '<div data-mgmt-crypto style="display:none">' +
-      '<div class="account-summary"><h2 class="pay-section-title">Bound wallet <span>(0/1)</span></h2>' +
-      '<div class="bound-wallet"><div class="coin-empty coin-md">₿</div><div>Empty wallet list</div></div></div>' +
+      '<div class="account-summary"><h2 class="pay-section-title">Bound wallet <span data-mgmt-wallet-count>(0/1)</span></h2>' +
+      '<div class="bound-wallet" data-mgmt-wallet-list><div class="coin-empty coin-md">₿</div><div>Empty wallet list</div></div></div>' +
       '<div class="pay-form-grid">' +
       '<label>Wallet type:</label><select class="pay-field"><option value="">Please select wallet type</option><option>USDT TRC20</option></select>' +
       '<label>Wallet address:</label><input class="pay-field" placeholder="Please fill in wallet address">' +
@@ -1712,6 +1711,52 @@
     }
     renderMgmtList();
 
+    /* 錢包管理清單(業主:圖3圖4 銀行同步鐵則比照套用到 Crypto Wallet)*/
+    function walletMask(addr) {
+      var s = addr || '';
+      return s.length > 10 ? s.slice(0, 6) + '...' + s.slice(-4) : s;
+    }
+    function renderMgmtWalletList() {
+      var wrap = mgmtSection.querySelector('[data-mgmt-wallet-list]');
+      var count = mgmtSection.querySelector('[data-mgmt-wallet-count]');
+      var wallets = D.WALLET_ACCOUNTS || [];
+      if (count) count.textContent = '(' + wallets.length + '/1)';
+      if (wrap) {
+        if (!wallets.length) {
+          wrap.className = 'bound-wallet';
+          wrap.innerHTML = '<div class="coin-empty coin-md">₿</div><div>Empty wallet list</div>';
+        } else {
+          var w = wallets[0];
+          wrap.className = 'registered-card';
+          wrap.innerHTML = '<div class="bank-logo">₿</div>' +
+            '<div><strong>' + escapeHtml(w.type) + '</strong><span>' + escapeHtml(walletMask(w.address)) + '</span>' +
+            '<span>' + escapeHtml(w.bindDate || '') + '</span></div>';
+        }
+      }
+    }
+    renderMgmtWalletList();
+
+    /* 提款頁 Crypto 面板(Withdraw 模式)同步同一份 D.WALLET_ACCOUNTS */
+    var withdrawalWalletApi = null;
+    function renderWithdrawWalletPanel() {
+      var box = cryptoSection.querySelector('[data-wallet-panel]');
+      if (!box) return;
+      var wallets = D.WALLET_ACCOUNTS || [];
+      if (!wallets.length) {
+        box.className = 'wallet-empty';
+        box.innerHTML = '<div class="coin-empty coin-lg">₿</div><div>Empty wallet list</div>' +
+          '<button class="add-wallet" data-add-wallet><span style="font-size:20px;line-height:1">+</span>Add wallet</button>';
+      } else {
+        var w = wallets[0];
+        box.className = 'registered-card';
+        box.innerHTML = '<div class="bank-logo">₿</div>' +
+          '<div><strong>' + escapeHtml(w.type) + '</strong><span>' + escapeHtml(walletMask(w.address)) + '</span>' +
+          '<span>' + escapeHtml(w.bindDate || '') + '</span></div>';
+      }
+    }
+    renderWithdrawWalletPanel();
+    withdrawalWalletApi = { refresh: renderWithdrawWalletPanel };
+
     /* gate + submit for the generated panels(select 需選值、input 需非空)*/
     $all('.pay-action', cryptoSection).concat($all('.pay-action', mgmtSection)).forEach(function (btn) {
       var wrap = btn.closest('[data-mgmt-bank], [data-mgmt-crypto]') || cryptoSection;
@@ -1720,6 +1765,7 @@
       on(btn, 'click', function () {
         if (btn.disabled) return;
         var isBankMgmt = btn.closest('[data-mgmt-bank]');
+        var isWalletMgmt = btn.closest('[data-mgmt-crypto]');
         if (isBankMgmt) {
           /* 新增銀行帳戶 → 寫回共用陣列,清單與輪播同步刷新 */
           var sel = isBankMgmt.querySelector('select');
@@ -1736,6 +1782,26 @@
           if (acctInput) acctInput.value = '';
           var pw = isBankMgmt.querySelector('input[type="password"]');
           if (pw) pw.value = '';
+        } else if (isWalletMgmt) {
+          /* 新增錢包 → 寫回共用陣列,清單與 Withdraw 面板同步刷新(業主:1 個上限)*/
+          var walletSel = isWalletMgmt.querySelector('select');
+          var walletInput = $all('input', isWalletMgmt).filter(function (i) { return !i.disabled && i.type !== 'password'; })[0];
+          if (!walletSel || !walletSel.value || !walletInput || !walletInput.value.trim()) return;
+          if ((D.WALLET_ACCOUNTS || []).length >= 1) {
+            showMemberModal({ type: 'warning', message: 'Only 1 wallet can be bound at a time.' });
+            return;
+          }
+          (D.WALLET_ACCOUNTS = D.WALLET_ACCOUNTS || []).push({
+            type: walletSel.value,
+            address: walletInput.value,
+            bindDate: new Date().toISOString().slice(0, 10),
+          });
+          renderMgmtWalletList();
+          if (withdrawalWalletApi) withdrawalWalletApi.refresh();
+          walletSel.value = '';
+          walletInput.value = '';
+          var walletPw = isWalletMgmt.querySelector('input[type="password"]');
+          if (walletPw) walletPw.value = '';
         }
         showMemberModal({ type: 'success', message: 'Your request has been submitted successfully.' });
       });
@@ -1782,8 +1848,10 @@
       });
     });
 
-    /* 提款 Crypto 面板的「Add wallet」→ 跳到管理分頁的 Crypto 子頁 */
-    on(cryptoSection.querySelector('[data-add-wallet]'), 'click', function () {
+    /* 提款 Crypto 面板的「Add wallet」→ 跳到管理分頁的 Crypto 子頁(委派綁定,
+       因為 renderWithdrawWalletPanel() 會重繪這顆按鈕所在的容器)------------ */
+    on(cryptoSection, 'click', function (e) {
+      if (!e.target.closest('[data-add-wallet]')) return;
       showMode('management');
       var cryptoTab = mgmtSection.querySelector('[data-mgmt-tab="crypto"]');
       if (cryptoTab) cryptoTab.click();
@@ -1795,7 +1863,7 @@
     }
   }
 
-  /* ---- personal-info / change-password / change-nickname / banking-details -- */
+  /* ---- personal-info / change-password / banking-details -- */
 
   function initPersonalInfoPage() {
     if (pageName() !== 'personal-info') return;
@@ -1822,32 +1890,6 @@
       if (a !== confirmPw.value) { showMemberModal({ type: 'warning', message: 'The two passwords do not match.' }); return; }
       showMemberModal({ type: 'success', onConfirm: function () { newPw.value = ''; confirmPw.value = ''; submitBtn.classList.remove('ready'); submitBtn.disabled = true; } });
     });
-  }
-
-  function initChangeNicknamePage() {
-    if (pageName() !== 'change-nickname') return;
-    var card = document.querySelector('.mf-card');
-    if (!card) return;
-    var current = document.getElementById('current-nickname');
-    var draft = document.getElementById('new-nickname');
-    var submitBtn = card.querySelector('.mf-submit');
-    if (!current || !draft || !submitBtn) return;
-    function ready() {
-      var v = draft.value.trim();
-      return v.length >= 2 && v.length <= 20 && v !== current.value;
-    }
-    function sync() { var ok = ready(); submitBtn.classList.toggle('ready', ok); submitBtn.disabled = !ok; }
-    on(draft, 'input', sync);
-    function submit() {
-      if (!ready()) return;
-      showMemberModal({
-        type: 'success', title: 'Success!', message: 'Nickname updated successfully.',
-        onConfirm: function () { location.href = 'account.html'; },
-      });
-    }
-    on(submitBtn, 'click', submit);
-    on(draft, 'keyup', function (e) { if (e.key === 'Enter') submit(); });
-    sync();
   }
 
   /* ================================ security.html =========================== */
@@ -1937,7 +1979,7 @@
         }
       });
     }
-    var memberPages = ['account-record', 'betting-record', 'change-nickname',
+    var memberPages = ['account-record', 'betting-record',
       'change-password', 'deposit', 'deposit-record', 'personal-info', 'profit-loss',
       'security', 'support', 'withdrawal', 'withdrawal-record'];
     if (memberPages.indexOf(pageName()) !== -1 && !document.querySelector('[data-member-back]')) {
@@ -2085,7 +2127,6 @@
     initWithdrawalForms();
     initPersonalInfoPage();
     initChangePasswordPage();
-    initChangeNicknamePage();
     initSecurityPage();
     initBackofficeHint();
     initMemberQuickLinks();
