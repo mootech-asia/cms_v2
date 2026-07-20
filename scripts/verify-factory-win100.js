@@ -7,7 +7,7 @@ const path = require('path');
 
 const OUT = path.join(__dirname, '..', 'factory', 'win100');
 const SLUGS = [
-  'about', 'account', 'account-record', 'banking-details', 'betting-record',
+  'about', 'account', 'account-record', 'betting-record',
   'change-nickname', 'change-password', 'deposit', 'deposit-record', 'fish',
   'hot-games', 'live', 'mini-games', 'personal-info', 'profit-loss', 'promotion',
   'security', 'slot', 'sport', 'support', 'ui-kit', 'withdrawal', 'withdrawal-record',
@@ -23,7 +23,7 @@ function check(name, ok, detail) {
 
 // 1. 24 pages exist
 const missing = EXPECTED_PAGES.filter((f) => !fs.existsSync(path.join(OUT, f)));
-check('24 pages exist', missing.length === 0, missing.join(', '));
+check('23 pages exist', missing.length === 0, missing.join(', '));
 
 // gather all files for existence-checking of referenced assets
 function walk(dir, base = dir, acc = new Set()) {

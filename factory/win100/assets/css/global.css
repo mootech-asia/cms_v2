@@ -1,0 +1,17 @@
+/* global.css — 站點層級補充樣式(業主 2026-07-20 指示:Tailwind 優先,
+   utility 無法涵蓋的整理到本檔)。目前僅收 compiled bundle 產不出的規則。 */
+
+/* Header 置頂:頁面外層的 overflow-x-hidden 會讓 position:sticky 失效
+   (祖先建立捲動容器)。改用 overflow-x:clip — 同樣阻擋水平捲動,
+   但不建立捲動容器,header 的 sticky top-0 得以生效。 */
+.min-h-screen.overflow-x-hidden {
+  overflow-x: clip;
+}
+
+/* member 頁 Back 控制:內容欄是 flex-col items-center,靠 self-start 靠左,
+   並與上緣留出空隙(業主:所有 back 距離上方要空隙)。 */
+[data-member-back] {
+  align-self: flex-start;
+  margin-top: 2px;
+  margin-bottom: 18px;
+}

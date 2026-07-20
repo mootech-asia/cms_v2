@@ -126,6 +126,37 @@ also ready.
 - Build Pages candidate: run `29550284475`, success.
 - GitHub Pages deployment: run `29550538980`, success.
 
+## 2026-07-20 owner batch (factory/win100 static front)
+
+All changes live in `factory/win100/` (vanilla JS/CSS) unless noted:
+
+- **Sticky header**: ancestor `overflow-x-hidden` killed `position:sticky`; new
+  `assets/css/global.css` (owner rule: Tailwind first, remainder in global.css)
+  overrides to `overflow-x: clip`. Header now pins on scroll on every page.
+- **Banking Details removed entirely**: `banking-details.html` deleted (23 pages now),
+  security row + `initBankingDetailsPage()` removed, account page "Add New Bank
+  Account" repointed to `withdrawal.html?tab=management` (deep link supported).
+- **Bank account sync**: withdrawal carousel + Account Management list render from the
+  same `D.BANK_ACCOUNTS`; management submit pushes and refreshes both
+  (`renderMgmtList()` + `withdrawalCarouselApi.refresh()`).
+- **Back button placement**: `[data-member-back]` left-aligned above the title with a
+  top gap (global.css `align-self: flex-start`).
+- **Customer Service = popup**: sidebar CS button opens `openCsModal()`
+  (Live Chat / Telegram / Email rows, v3-style), no navigation.
+- **Strict locale**: `initLocaleObserver()` wired at boot (MutationObserver localizes
+  all dynamically added nodes); `currentLocale()` normalizes stray ko/th → zh;
+  I18N entries take precedence over inverted SWEEP_PAIRS so nav shows canonical
+  labels; category-banner baked art strings (HOT GAMES / SLOT MACHINES /
+  TRENDING NOW…) snapshot to `data-i18n-orig` and restore exactly in EN
+  (uppercase visual kept by `.category-hero-title { text-transform: uppercase }`).
+- **Nuxt side**: `AuthModal.vue` fully on `t()` + `useLocale.ts` auth.* keys ×4 locales
+  (compiled into studio bundle, verified zh/en values present).
+- **Suites (all green)**: `verify-factory-win100.js` 9/9, behavior 30/30 (1280×900
+  viewport; hero-arrow clicks JS-dispatched because the original fixed `.qr-rail`
+  overlays them at short viewports; auth title asserts zh 登入), owner-batch 10/10
+  (CS check now expects popup), batch3 8/8 (sticky/banking/back/CS/bank-sync/strict
+  locale incl. dynamic CS modal + withdrawal zh).
+
 ## Latest completed user requests
 
 ### 1. Homepage game-carousel tabs repaired

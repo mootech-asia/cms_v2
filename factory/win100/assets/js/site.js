@@ -164,28 +164,35 @@
    * ========================================================== */
   var LOCALE_KEY = 'win100-locale';
   function currentLocale() {
-    try { return localStorage.getItem(LOCALE_KEY) || 'zh'; } catch (e) { return 'zh'; }
+    /* 靜態站僅實作 zh/en;舊資料若存過 ko/th 一律回落 zh */
+    try { return localStorage.getItem(LOCALE_KEY) === 'en' ? 'en' : 'zh'; } catch (e) { return 'zh'; }
   }
   function localeSwapMap(target) {
     var dicts = D.I18N || {};
     var zh = dicts.zh || {}, en = dicts.en || {};
     var map = {};
+    /* FAQ_ZH 與 SWEEP_PAIRS 皆為 en -> zh 的成對字典。先鋪這兩份,
+       再覆蓋 I18N:同一個 zh 字串對到多個 en 變體時(如 熱門遊戲 =
+       nav「Hot Games」與 banner 烘焙字「HOT GAMES」),以 I18N 的
+       標準 UI 文案為準;banner 靠 .category-hero-title 的
+       text-transform:uppercase 維持大寫視覺,不受回填大小寫影響。 */
+    [D.FAQ_ZH || {}, D.SWEEP_PAIRS || {}].forEach(function (dict) {
+      Object.keys(dict).forEach(function (enStr) {
+        if (enStr === dict[enStr]) return;
+        if (target === 'zh') map[enStr] = dict[enStr];
+        else map[dict[enStr]] = enStr;
+      });
+    });
     Object.keys(zh).forEach(function (k) {
       if (!en[k] || zh[k] === en[k]) return;
       if (target === 'en') map[zh[k]] = en[k];
       else map[en[k]] = zh[k];
     });
-    var faq = D.FAQ_ZH || {};
-    Object.keys(faq).forEach(function (enStr) {
-      if (target === 'zh') map[enStr] = faq[enStr];
-      else map[faq[enStr]] = enStr;
-    });
     return map;
   }
-  function applyLocale(target, persist) {
-    if (target !== 'zh' && target !== 'en') return false;
-    var map = localeSwapMap(target);
-    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  var activeLocaleMap = null;
+  function swapInTree(root, map) {
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
     var node;
     while ((node = walker.nextNode())) {
       var trimmed = (node.nodeValue || '').trim();
@@ -193,10 +200,26 @@
         node.nodeValue = node.nodeValue.replace(trimmed, map[trimmed]);
       }
     }
-    $all('input[placeholder], textarea[placeholder]').forEach(function (i) {
+    var inputs = root.querySelectorAll ? root.querySelectorAll('input[placeholder], textarea[placeholder]') : [];
+    Array.prototype.forEach.call(inputs, function (i) {
       var p = i.getAttribute('placeholder');
       if (p && Object.prototype.hasOwnProperty.call(map, p)) i.setAttribute('placeholder', map[p]);
     });
+  }
+  function applyLocale(target, persist) {
+    if (target !== 'zh' && target !== 'en') return false;
+    /* category banner 的烘焙字是設計原字(HOT GAMES/SLOT MACHINES...),
+       與 I18N 標準文案(Hot Games/Slots)同 zh 對應、純字串映射會失真;
+       首次呼叫先快照原字,en 時精確還原(zh 走一般字典)。 */
+    var bannerEls = $all('.category-hero-title, .category-hero-content p');
+    bannerEls.forEach(function (el) {
+      if (!el.getAttribute('data-i18n-orig')) el.setAttribute('data-i18n-orig', el.textContent.trim());
+    });
+    activeLocaleMap = localeSwapMap(target);
+    swapInTree(document.body, activeLocaleMap);
+    if (target === 'en') {
+      bannerEls.forEach(function (el) { el.textContent = el.getAttribute('data-i18n-orig'); });
+    }
     document.documentElement.setAttribute('lang', target === 'zh' ? 'zh-Hant' : 'en');
     var trigger = localeTriggerSpan();
     if (trigger) {
@@ -205,6 +228,26 @@
     }
     if (persist) { try { localStorage.setItem(LOCALE_KEY, target); } catch (e) {} }
     return true;
+  }
+  /* 動態產生的內容(modal 重繪、提款面板、QR 步驟、優惠詳情等)一律
+     由這個 observer 自動套用當前語系,杜絕漏網。只觀察節點新增,
+     swap 僅改既有 text node 內容,不會觸發自身。 */
+  function initLocaleObserver() {
+    var mo = new MutationObserver(function (records) {
+      if (!activeLocaleMap) return;
+      records.forEach(function (r) {
+        Array.prototype.forEach.call(r.addedNodes, function (n) {
+          if (n.nodeType === 1) swapInTree(n, activeLocaleMap);
+          else if (n.nodeType === 3) {
+            var t = (n.nodeValue || '').trim();
+            if (t && Object.prototype.hasOwnProperty.call(activeLocaleMap, t)) {
+              n.nodeValue = n.nodeValue.replace(t, activeLocaleMap[t]);
+            }
+          }
+        });
+      });
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
   }
   function localeTriggerSpan() {
     var spans = $all('button > span').filter(function (s) {
@@ -1488,7 +1531,7 @@
           if (idx >= accounts.length) idx = Math.max(0, accounts.length - 1);
           if (!accounts.length && bankRow) {
             var listBlock = bankRow.closest('.space-y-3');
-            if (listBlock) listBlock.innerHTML = '<p class="text-ink-4 text-sm md:text-base">No bank account</p><a class="text-primary hover:text-primary-soft text-sm transition-colors" href="banking-details.html?add=1">+ Add New Bank Account</a>';
+            if (listBlock) listBlock.innerHTML = '<p class="text-ink-4 text-sm md:text-base">No bank account</p><a class="text-primary hover:text-primary-soft text-sm transition-colors" href="withdrawal.html?tab=management">+ Add New Bank Account</a>';
           } else {
             render();
           }
@@ -1498,6 +1541,9 @@
     });
   }
 
+  /* 提款頁銀行卡輪播與「帳戶管理」共用同一份 D.BANK_ACCOUNTS(業主:圖3圖4 要同步);
+     管理頁新增帳戶後透過這個 api 讓輪播即時反映。 */
+  var withdrawalCarouselApi = null;
   function initWithdrawalBankCarousel() {
     if (pageName() !== 'withdrawal') return;
     var prevBtn = document.querySelector('.accts-nav[aria-label="Previous"]');
@@ -1526,6 +1572,7 @@
     }
     on(prevBtn, 'click', function () { if (accounts.length) { idx = (idx - 1 + accounts.length) % accounts.length; render(); } });
     on(nextBtn, 'click', function () { if (accounts.length) { idx = (idx + 1) % accounts.length; render(); } });
+    withdrawalCarouselApi = { refresh: render };
   }
 
   /* ---- generic "ready" gate: enable a submit button once inputs are filled -- */
@@ -1605,8 +1652,8 @@
       '<button data-mgmt-tab="crypto"><span>Crypto Wallet</span></button>' +
       '</div>' +
       '<div data-mgmt-bank>' +
-      '<div class="account-summary"><h2 class="pay-section-title">Registered Withdrawal Accounts <span>(1/5)</span></h2>' +
-      '<div class="registered-card"><div class="bank-logo">신한은행</div><div><strong>Shinhan Bank</strong><span>********5123</span><span>2025-01-08 21:22:25</span></div></div></div>' +
+      '<div class="account-summary"><h2 class="pay-section-title">Registered Withdrawal Accounts <span data-mgmt-count>(0/5)</span></h2>' +
+      '<div data-mgmt-list></div></div>' +
       '<div class="pay-form-grid">' +
       '<label>Select Bank:</label><select class="pay-field"><option value="">Please Select a Bank</option><option>Shinhan Bank</option><option>KB Bank</option></select>' +
       '<label>Name on Card:</label><input class="pay-field" value="T***" disabled>' +
@@ -1627,6 +1674,26 @@
       '</div>';
     cryptoSection.parentElement.insertBefore(mgmtSection, cryptoSection.nextSibling);
 
+    /* 已登記帳戶清單 = 與輪播同一份 D.BANK_ACCOUNTS(同步鐵則) */
+    function acctMask(num) {
+      var digits = (num || '').replace(/\D/g, '');
+      return '********' + (digits.slice(-4) || '0000');
+    }
+    function renderMgmtList() {
+      var list = mgmtSection.querySelector('[data-mgmt-list]');
+      var count = mgmtSection.querySelector('[data-mgmt-count]');
+      var accounts = D.BANK_ACCOUNTS || [];
+      if (count) count.textContent = '(' + accounts.length + '/5)';
+      if (list) {
+        list.innerHTML = accounts.map(function (a) {
+          return '<div class="registered-card"><div class="bank-logo">' + escapeHtml(a.bank) + '</div>' +
+            '<div><strong>' + escapeHtml(a.bank) + '</strong><span>' + acctMask(a.num) + '</span>' +
+            '<span>' + escapeHtml(a.bindDate || '') + '</span></div></div>';
+        }).join('');
+      }
+    }
+    renderMgmtList();
+
     /* gate + submit for the generated panels(select 需選值、input 需非空)*/
     $all('.pay-action', cryptoSection).concat($all('.pay-action', mgmtSection)).forEach(function (btn) {
       var wrap = btn.closest('[data-mgmt-bank], [data-mgmt-crypto]') || cryptoSection;
@@ -1634,6 +1701,24 @@
       bindReadyGate(btn, fields, function (ok) { btn.classList.toggle('ready', ok); btn.disabled = !ok; });
       on(btn, 'click', function () {
         if (btn.disabled) return;
+        var isBankMgmt = btn.closest('[data-mgmt-bank]');
+        if (isBankMgmt) {
+          /* 新增銀行帳戶 → 寫回共用陣列,清單與輪播同步刷新 */
+          var sel = isBankMgmt.querySelector('select');
+          var acctInput = $all('input', isBankMgmt).filter(function (i) { return !i.disabled && i.type !== 'password'; })[0];
+          (D.BANK_ACCOUNTS = D.BANK_ACCOUNTS || []).push({
+            bank: sel ? sel.value : 'Bank',
+            num: acctInput ? acctInput.value : '',
+            holder: 'M＊＊＊＊＊＊＊',
+            bindDate: new Date().toISOString().slice(0, 10),
+          });
+          renderMgmtList();
+          if (withdrawalCarouselApi) withdrawalCarouselApi.refresh();
+          if (sel) sel.value = '';
+          if (acctInput) acctInput.value = '';
+          var pw = isBankMgmt.querySelector('input[type="password"]');
+          if (pw) pw.value = '';
+        }
         showMemberModal({ type: 'success', message: 'Your request has been submitted successfully.' });
       });
     });
@@ -1685,6 +1770,11 @@
       var cryptoTab = mgmtSection.querySelector('[data-mgmt-tab="crypto"]');
       if (cryptoTab) cryptoTab.click();
     });
+
+    /* account 頁「+ 新增銀行帳戶」深連結:withdrawal.html?tab=management */
+    if (new URLSearchParams(location.search).get('tab') === 'management') {
+      showMode('management');
+    }
   }
 
   /* ---- personal-info / change-password / change-nickname / banking-details -- */
@@ -1742,101 +1832,6 @@
     sync();
   }
 
-  function initBankingDetailsPage() {
-    if (pageName() !== 'banking-details') return;
-    var wrap = document.querySelector('.mf-wrap');
-    if (!wrap) return;
-    var originalHtml = wrap.innerHTML;
-
-    function bindListView() {
-      on(wrap.querySelector('.mf-fab'), 'click', showForm);
-      on(wrap.querySelector('.mf-add-btn'), 'click', showForm);
-    }
-    function formHtml() {
-      return '<div class="mf-card">' +
-        '<div class="mf-section"><span>Bank Information</span></div>' +
-        '<div class="mf-select-wrap"><button type="button" class="mf-select placeholder" data-bank-toggle>Choose a Bank' + iconSvg('chevron-down') + '</button></div>' +
-        '<div class="mf-field"><input class="mf-input plain" disabled placeholder=""></div>' +
-        '<div class="mf-field"><input class="mf-input" type="password" data-field="card" placeholder="Enter your card number"><button type="button" class="mf-eye">' + iconSvg('eye') + '</button></div>' +
-        '<div class="mf-section"><span>Transaction Password</span></div>' +
-        '<div class="mf-field"><input class="mf-input" type="password" data-field="txn" placeholder="Please  fill in the transaction password"><button type="button" class="mf-eye">' + iconSvg('eye') + '</button></div>' +
-        '<button type="button" class="mf-submit" data-bank-submit disabled><span>Submit</span></button>' +
-        '</div>';
-    }
-    function showForm() {
-      wrap.innerHTML = formHtml();
-      bindForm();
-    }
-    function bindForm() {
-      var card = wrap.querySelector('.mf-card');
-      var toggleBtn = card.querySelector('[data-bank-toggle]');
-      var selectWrap = document.createElement('div');
-      selectWrap.className = 'mf-select-wrap-runtime';
-      toggleBtn.parentElement.style.position = 'relative';
-      var cardInput = card.querySelector('[data-field="card"]');
-      var txnInput = card.querySelector('[data-field="txn"]');
-      var submitBtn = card.querySelector('[data-bank-submit]');
-      var chosenBank = '';
-
-      $all('.mf-eye', card).forEach(function (btn) {
-        on(btn, 'click', function () {
-          var inp = btn.previousElementSibling;
-          if (inp) inp.type = inp.type === 'password' ? 'text' : 'password';
-        });
-      });
-      function syncReady() {
-        var ok = !!(chosenBank && cardInput.value.trim() && txnInput.value.trim());
-        submitBtn.classList.toggle('ready', ok);
-        submitBtn.disabled = !ok;
-      }
-      on(cardInput, 'input', syncReady);
-      on(txnInput, 'input', syncReady);
-
-      function closeMenu() {
-        var m = toggleBtn.parentElement.querySelector('.mf-select-menu');
-        var b = toggleBtn.parentElement.querySelector('.mf-select-back');
-        if (m) m.remove();
-        if (b) b.remove();
-      }
-      on(toggleBtn, 'click', function () {
-        if (toggleBtn.parentElement.querySelector('.mf-select-menu')) { closeMenu(); return; }
-        var back = document.createElement('div');
-        back.className = 'mf-select-back';
-        on(back, 'click', closeMenu);
-        var menu = document.createElement('div');
-        menu.className = 'mf-select-menu';
-        menu.innerHTML = '<div class="mf-select-search">' + iconSvg('search') + '<input type="text" placeholder="search a bank" data-bank-search></div><div class="mf-select-opts">' +
-          (D.DEMO_BANKS || []).map(function (b) { return '<div class="mf-select-opt" data-bank="' + escapeHtml(b) + '">' + escapeHtml(b) + '</div>'; }).join('') + '</div>';
-        toggleBtn.parentElement.appendChild(back);
-        toggleBtn.parentElement.appendChild(menu);
-        var searchInput = menu.querySelector('[data-bank-search]');
-        on(searchInput, 'input', function () {
-          var q = searchInput.value.toLowerCase();
-          $all('[data-bank]', menu).forEach(function (opt) {
-            opt.style.display = opt.getAttribute('data-bank').toLowerCase().indexOf(q) === -1 ? 'none' : '';
-          });
-        });
-        $all('[data-bank]', menu).forEach(function (opt) {
-          on(opt, 'click', function () {
-            chosenBank = opt.getAttribute('data-bank');
-            toggleBtn.innerHTML = escapeHtml(chosenBank) + iconSvg('chevron-down');
-            toggleBtn.classList.remove('placeholder');
-            closeMenu();
-            syncReady();
-          });
-        });
-      });
-      on(submitBtn, 'click', function () {
-        if (submitBtn.disabled) return;
-        showMemberModal({
-          type: 'success',
-          onConfirm: function () { wrap.innerHTML = originalHtml; bindListView(); },
-        });
-      });
-    }
-    bindListView();
-  }
-
   /* ================================ security.html =========================== */
   /* security.vue's last Security Setting row ("Logout" / "Logout safely") is a
      plain <div> with no @click in the Nuxt source either — but the identical
@@ -1864,11 +1859,44 @@
   /* ============================================================
    * 業主回報批次:CS 側欄鈕、View More Records、member 頁 Back
    * ========================================================== */
+  /* 客服彈窗(業主 2026-07-20:CS 不進內容頁,改跳彈窗;內容藍本 =
+     同設計體系 v3 CustomerServiceModal:Live Chat / Telegram / Email 三列) */
+  var csModalRoot = null;
+  function closeCsModal() { if (csModalRoot) { csModalRoot.remove(); csModalRoot = null; } }
+  function openCsModal() {
+    if (csModalRoot) return;
+    csModalRoot = document.createElement('div');
+    csModalRoot.className = 'fixed inset-0 z-[999] flex bg-scrim/70 p-4';
+    var rows = [
+      { href: '#', strong: 'Live Chat Support', small: '24/7 instant help from our team' },
+      { href: 'https://t.me/win100kor', strong: 'Telegram Channel', small: 'Promotions & announcements' },
+      { href: '#', strong: 'Email Us', small: 'support@win100.gg · reply within 24h' },
+    ];
+    csModalRoot.innerHTML =
+      '<div class="relative m-auto w-full max-w-[400px] rounded-2xl border border-line-soft bg-surface shadow-2xl">' +
+      '<div class="flex items-center justify-between border-b border-line-soft px-[22px] py-[18px]">' +
+      '<h3 class="m-0 text-lg font-bold text-ink">Customer Service</h3>' +
+      '<button class="border-0 bg-transparent p-0 text-[22px] leading-none text-ink-3" data-cs-close>×</button>' +
+      '</div><div class="p-[22px]">' +
+      '<p class="mb-3 text-body font-semibold text-ink-2">Select a channel</p>' +
+      rows.map(function (r) {
+        return '<a href="' + r.href + '"' + (r.href.indexOf('http') === 0 ? ' target="_blank" rel="noopener"' : '') +
+          ' class="flex items-center justify-between p-4 border-b border-line-soft last:border-b-0 hover:bg-surface-deep transition-colors">' +
+          '<span class="flex flex-col"><span class="text-ink font-semibold">' + r.strong + '</span>' +
+          '<span class="text-ink-3 text-sm">' + r.small + '</span></span>' +
+          '<span class="text-ink-4">›</span></a>';
+      }).join('') +
+      '</div></div>';
+    on(csModalRoot, 'click', function (e) { if (e.target === csModalRoot) closeCsModal(); });
+    on(csModalRoot.querySelector('[data-cs-close]'), 'click', closeCsModal);
+    document.body.appendChild(csModalRoot);
+  }
+
   function initMemberQuickLinks() {
     $all('aside button').forEach(function (b) {
       var s = b.querySelector('span');
       if (s && s.textContent.trim() === 'Customer Service') {
-        on(b, 'click', function () { location.href = 'support.html'; });
+        on(b, 'click', openCsModal);
       }
     });
     if (pageName() === 'account') {
@@ -1878,7 +1906,7 @@
         }
       });
     }
-    var memberPages = ['account-record', 'banking-details', 'betting-record', 'change-nickname',
+    var memberPages = ['account-record', 'betting-record', 'change-nickname',
       'change-password', 'deposit', 'deposit-record', 'personal-info', 'profit-loss',
       'security', 'support', 'withdrawal', 'withdrawal-record'];
     if (memberPages.indexOf(pageName()) !== -1 && !document.querySelector('[data-member-back]')) {
@@ -2027,12 +2055,13 @@
     initPersonalInfoPage();
     initChangePasswordPage();
     initChangeNicknamePage();
-    initBankingDetailsPage();
     initSecurityPage();
     initBackofficeHint();
     initMemberQuickLinks();
     initPublicConfigSync();
-    /* 開機套用已存語系(zh 基準時仍需把 about/FAQ 英文內文換成中文) */
+    /* 開機套用已存語系(zh 基準時仍需把 about/FAQ 英文內文換成中文),
+       並掛上 observer 讓其後動態產生的節點自動套用當前語系 */
     applyLocale(currentLocale(), false);
+    initLocaleObserver();
   });
 })();

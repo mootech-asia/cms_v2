@@ -25,7 +25,7 @@ const THEMES_SRC = process.env.FACTORY_BUILD_THEMES_SRC || path.join(SRC, '..', 
 const OUT = path.join(REPO_ROOT, 'factory', 'win100');
 
 const SLUGS = [
-  'about', 'account', 'account-record', 'banking-details', 'betting-record',
+  'about', 'account', 'account-record', 'betting-record',
   'change-nickname', 'change-password', 'deposit', 'deposit-record', 'fish',
   'hot-games', 'live', 'mini-games', 'personal-info', 'profit-loss', 'promotion',
   'security', 'slot', 'sport', 'support', 'ui-kit', 'withdrawal', 'withdrawal-record',

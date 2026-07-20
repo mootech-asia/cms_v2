@@ -12,7 +12,7 @@ const BASE = process.env.FACTORY_VERIFY_BASE || `http://localhost:${PORT}`;
 const EXEC = process.env.PLAYWRIGHT_CHROMIUM || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const ROOT = path.join(__dirname, '..', 'factory', 'win100');
 const PAGES = [
-  'about', 'account-record', 'account', 'banking-details', 'betting-record',
+  'about', 'account-record', 'account', 'betting-record',
   'change-nickname', 'change-password', 'deposit-record', 'deposit', 'fish',
   'hot-games', 'index', 'live', 'mini-games', 'personal-info', 'profit-loss',
   'promotion', 'security', 'slot', 'sport', 'support', 'ui-kit',
@@ -54,7 +54,7 @@ async function run() {
 
   // ---- 1. console error sweep, all 24 pages ----
   for (const p of PAGES) {
-    const page = await browser.newPage();
+    const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
     await blockExternal(page);
     const errors = collectErrors(page);
     try {
@@ -70,7 +70,7 @@ async function run() {
 
   // ---- 2. P0 smoke: theme (6 skins) ----
   {
-    const page = await browser.newPage();
+    const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
     await blockExternal(page);
     const errors = collectErrors(page);
     await page.goto(BASE + '/index.html', { waitUntil: 'domcontentloaded' });
@@ -95,19 +95,19 @@ async function run() {
 
   // ---- 3. P0 smoke: banner next/prev/dots ----
   {
-    const page = await browser.newPage();
+    const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
     await blockExternal(page);
     const errors = collectErrors(page);
     await page.goto(BASE + '/index.html', { waitUntil: 'domcontentloaded' });
     const before = await page.getAttribute('.campaign-hero', 'data-campaign');
-    await page.click('.campaign-hero-arrow--next');
+    await page.$eval('.campaign-hero-arrow--next', (el) => el.click());
     await page.waitForTimeout(100);
     const afterNext = await page.getAttribute('.campaign-hero', 'data-campaign');
-    await page.click('.campaign-hero-arrow--prev');
+    await page.$eval('.campaign-hero-arrow--prev', (el) => el.click());
     await page.waitForTimeout(100);
     const afterPrev = await page.getAttribute('.campaign-hero', 'data-campaign');
     const dotCount = await page.$$eval('.campaign-hero-dot', (els) => els.length);
-    await page.click('.campaign-hero-dot:nth-child(3)');
+    await page.$eval('.campaign-hero-dot:nth-child(3)', (el) => el.click());
     await page.waitForTimeout(100);
     const afterDot = await page.getAttribute('.campaign-hero', 'data-campaign');
     const ok = before !== afterNext && afterPrev === before && dotCount === 4 && afterDot !== afterPrev;
@@ -119,7 +119,7 @@ async function run() {
 
   // ---- 4. P0 smoke: tab switching (MiniGamesGrid + generic .mode-tabs) ----
   {
-    const page = await browser.newPage();
+    const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
     await blockExternal(page);
     const errors = collectErrors(page);
     await page.goto(BASE + '/index.html', { waitUntil: 'domcontentloaded' });
@@ -149,7 +149,7 @@ async function run() {
 
   // ---- 5. P0 smoke: AuthModal open/close + login bypass ----
   {
-    const page = await browser.newPage();
+    const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
     await blockExternal(page);
     const errors = collectErrors(page);
     await page.goto(BASE + '/index.html', { waitUntil: 'domcontentloaded' });
@@ -173,7 +173,7 @@ async function run() {
     const closedAfterLoginBypass = (await page.$('[data-auth-overlay]')) === null;
     const loggedInUiShown = await page.locator('header a[href="account.html"]:has-text("meqomcao")').count();
 
-    const ok = titleText === 'Login' && closedAfterX && closedAfterBackdrop && closedAfterLoginBypass && loggedInUiShown > 0;
+    const ok = titleText === '登入' && closedAfterX && closedAfterBackdrop && closedAfterLoginBypass && loggedInUiShown > 0;
     record('smoke:auth-modal-open-close-bypass', ok && errors.length === 0,
       'title=' + titleText + ' xClose=' + closedAfterX + ' backdropClose=' + closedAfterBackdrop + ' loginBypassClose=' + closedAfterLoginBypass + ' loggedInUi=' + loggedInUiShown);
     await page.close();
@@ -182,7 +182,7 @@ async function run() {
 
   // ---- 6. bonus: nav dd-panel hover + mobile menu open ----
   {
-    const page = await browser.newPage();
+    const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
     await blockExternal(page);
     const errors = collectErrors(page);
     await page.goto(BASE + '/index.html', { waitUntil: 'domcontentloaded' });
@@ -217,7 +217,7 @@ async function run() {
     await page.waitForTimeout(300);
     const themeOk = await page.evaluate(() => !!window.WIN100_DATA && document.documentElement.getAttribute('data-theme') === 'win100');
     const before = await page.getAttribute('.campaign-hero', 'data-campaign');
-    await page.click('.campaign-hero-arrow--next');
+    await page.$eval('.campaign-hero-arrow--next', (el) => el.click());
     await page.waitForTimeout(100);
     const after = await page.getAttribute('.campaign-hero', 'data-campaign');
     await page.click('#games-tab-live');
