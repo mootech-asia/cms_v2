@@ -993,11 +993,14 @@
     }
     buttons.forEach(function (b, i) { on(b, 'click', function () { setActive(i); }); });
 
+    /* Deep link (?tab=faq etc.): panels carry no ids in the static markup, so
+       match against the tab keys from about.vue (= lowercased button labels). */
     var qs = new URLSearchParams(location.search);
-    var qtab = qs.get('tab');
+    var qtab = (qs.get('tab') || '').toLowerCase();
     if (qtab) {
-      var idx = -1;
-      panels.forEach(function (p, pi) { if (p.id === qtab) idx = pi; });
+      buttons.forEach(function (b, bi) {
+        if ((b.textContent || '').trim().toLowerCase() === qtab) setActive(bi);
+      });
     }
 
     var faqPanel = panels[panels.length - 1];
