@@ -133,16 +133,17 @@
   }
 
   /* ============================ locale switcher =========================== */
-  /* components/LanguageSwitcher.vue + composables/useLocale.ts. Only the zh
-     copy actually baked into these static pages was ported to data.js (see
-     data.js file header) — full runtime translation is out of scope for this
-     static build, so picking a non-zh option here surfaces the same "not in
-     this static preview" notice already used for backoffice links, rather
-     than silently pretending to translate the page. The trigger button itself
+  /* components/LanguageSwitcher.vue + composables/useLocale.ts. All four
+     locales (zh/en/ko/th) are fully translated in data.js — I18N plus the
+     FAQ_ZH/FAQ_KO/FAQ_TH and SWEEP_PAIRS/SWEEP_PAIRS_KO/SWEEP_PAIRS_TH
+     en-keyed dictionaries — and swapped in via the same exact-string-match
+     mechanism this file already used for zh<->en. The trigger button itself
      (globe icon + current short label + chevron, wrapped in a `.relative`
      div) has no unique id/class in the baked HTML, so it's matched the same
      defensive way other structural triggers in this file are: by its exact
-     rendered content. */
+     rendered content. Two copies of this trigger exist per page (desktop
+     header + hidden mobile nav), so every DOM update below applies to all
+     matches, not just the first. */
 
   function buildLocalePanelHtml() {
     var locales = D.LOCALES || [];
@@ -158,35 +159,52 @@
   }
 
   /* ============================================================
-   * i18n(useLocale.ts 對應):zh/en 完整字典由 data.js I18N 提供。
-   * 靜態頁烘焙基準 = zh chrome + about/FAQ 英文內文;applyLocale 以
-   * 「精確字串對照」在 text node / placeholder 層交換,兩方向皆可逆。
+   * i18n(useLocale.ts 對應):zh/en/ko/th 四語系完整字典由 data.js 提供。
+   * 靜態頁烘焙基準 = zh chrome + 設計原字(banner 英文大寫);applyLocale
+   * 以「精確字串對照」在 text node / placeholder 層交換,任兩語系互切
+   * 皆可逆 — 做法是對每個目標語系,把「另外三個語系各自的顯示文字」都
+   * 收進同一份 swap map(而非追蹤『目前是哪個語系』這個額外狀態),
+   * 這樣不管使用者從哪個語系切過來、或動態插入的內容是哪個語系寫死的
+   * 原文,都能一次比對命中。
    * ========================================================== */
   var LOCALE_KEY = 'win100-locale';
+  var LOCALE_CODES = ['zh', 'en', 'ko', 'th'];
   function currentLocale() {
-    /* 靜態站僅實作 zh/en;舊資料若存過 ko/th 一律回落 zh */
-    try { return localStorage.getItem(LOCALE_KEY) === 'en' ? 'en' : 'zh'; } catch (e) { return 'zh'; }
+    try {
+      var saved = localStorage.getItem(LOCALE_KEY);
+      return LOCALE_CODES.indexOf(saved) !== -1 ? saved : 'zh';
+    } catch (e) { return 'zh'; }
   }
   function localeSwapMap(target) {
-    var dicts = D.I18N || {};
-    var zh = dicts.zh || {}, en = dicts.en || {};
     var map = {};
-    /* FAQ_ZH 與 SWEEP_PAIRS 皆為 en -> zh 的成對字典。先鋪這兩份,
-       再覆蓋 I18N:同一個 zh 字串對到多個 en 變體時(如 熱門遊戲 =
-       nav「Hot Games」與 banner 烘焙字「HOT GAMES」),以 I18N 的
-       標準 UI 文案為準;banner 靠 .category-hero-title 的
-       text-transform:uppercase 維持大寫視覺,不受回填大小寫影響。 */
-    [D.FAQ_ZH || {}, D.SWEEP_PAIRS || {}].forEach(function (dict) {
-      Object.keys(dict).forEach(function (enStr) {
-        if (enStr === dict[enStr]) return;
-        if (target === 'zh') map[enStr] = dict[enStr];
-        else map[dict[enStr]] = enStr;
+    function addEntry(textFor) {
+      var tgtText = textFor[target];
+      if (!tgtText) return;
+      LOCALE_CODES.forEach(function (loc) {
+        if (loc === target) return;
+        var srcText = textFor[loc];
+        if (srcText && srcText !== tgtText) map[srcText] = tgtText;
+      });
+    }
+    /* FAQ_ZH/FAQ_KO/FAQ_TH 與 SWEEP_PAIRS/_KO/_TH 皆以同一組 en 字串為
+       key。先鋪這兩份,再覆蓋 I18N:同一個字串對到多個變體時(如
+       熱門遊戲 = nav「Hot Games」與 banner 烘焙字「HOT GAMES」),以
+       I18N 的標準 UI 文案為準;banner 靠 .category-hero-title 的
+       text-transform:uppercase 維持大寫視覺,不受回填大小寫影響
+       (下方 applyLocale 對 en 目標另有還原設計原字的處理)。 */
+    [
+      [D.FAQ_ZH, D.FAQ_KO, D.FAQ_TH],
+      [D.SWEEP_PAIRS, D.SWEEP_PAIRS_KO, D.SWEEP_PAIRS_TH]
+    ].forEach(function (triplet) {
+      var zhDict = triplet[0] || {}, koDict = triplet[1] || {}, thDict = triplet[2] || {};
+      Object.keys(zhDict).forEach(function (enStr) {
+        addEntry({ en: enStr, zh: zhDict[enStr], ko: koDict[enStr], th: thDict[enStr] });
       });
     });
+    var dicts = D.I18N || {};
+    var zh = dicts.zh || {}, en = dicts.en || {}, ko = dicts.ko || {}, th = dicts.th || {};
     Object.keys(zh).forEach(function (k) {
-      if (!en[k] || zh[k] === en[k]) return;
-      if (target === 'en') map[zh[k]] = en[k];
-      else map[en[k]] = zh[k];
+      addEntry({ zh: zh[k], en: en[k], ko: ko[k], th: th[k] });
     });
     return map;
   }
@@ -206,11 +224,13 @@
       if (p && Object.prototype.hasOwnProperty.call(map, p)) i.setAttribute('placeholder', map[p]);
     });
   }
+  var LOCALE_LANG_ATTR = { zh: 'zh-Hant', en: 'en', ko: 'ko', th: 'th' };
   function applyLocale(target, persist) {
-    if (target !== 'zh' && target !== 'en') return false;
+    if (LOCALE_CODES.indexOf(target) === -1) return false;
     /* category banner 的烘焙字是設計原字(HOT GAMES/SLOT MACHINES...),
-       與 I18N 標準文案(Hot Games/Slots)同 zh 對應、純字串映射會失真;
-       首次呼叫先快照原字,en 時精確還原(zh 走一般字典)。 */
+       與 I18N 標準文案(Hot Games/Slots)同 zh/ko/th 對應、純字串映射
+       會失真;首次呼叫先快照原字,en 時精確還原(zh/ko/th 三者都走一般
+       字典,不需要保留英文大寫設計感)。 */
     var bannerEls = $all('.category-hero-title, .category-hero-content p');
     bannerEls.forEach(function (el) {
       if (!el.getAttribute('data-i18n-orig')) el.setAttribute('data-i18n-orig', el.textContent.trim());
@@ -220,12 +240,11 @@
     if (target === 'en') {
       bannerEls.forEach(function (el) { el.textContent = el.getAttribute('data-i18n-orig'); });
     }
-    document.documentElement.setAttribute('lang', target === 'zh' ? 'zh-Hant' : 'en');
-    var trigger = localeTriggerSpan();
-    if (trigger) {
-      var entry = (D.LOCALES || []).filter(function (l) { return l.code === target; })[0];
+    document.documentElement.setAttribute('lang', LOCALE_LANG_ATTR[target] || target);
+    var entry = (D.LOCALES || []).filter(function (l) { return l.code === target; })[0];
+    localeTriggerSpans().forEach(function (trigger) {
       trigger.textContent = entry ? (entry.short || entry.label) : target;
-    }
+    });
     if (persist) { try { localStorage.setItem(LOCALE_KEY, target); } catch (e) {} }
     return true;
   }
@@ -249,12 +268,11 @@
     });
     mo.observe(document.body, { childList: true, subtree: true });
   }
-  function localeTriggerSpan() {
-    var spans = $all('button > span').filter(function (s) {
+  function localeTriggerSpans() {
+    return $all('button > span').filter(function (s) {
       var t = s.textContent.trim();
       return t === '中文' || t === 'EN' || t === '한국어' || t === 'ไทย' || t === 'English';
     });
-    return spans[0] || null;
   }
 
   /* ============================================================
@@ -303,11 +321,7 @@
         $all('[data-locale-option]', panel).forEach(function (opt) {
           on(opt, 'click', function () {
             close();
-            var code = opt.getAttribute('data-locale-option');
-            if (!applyLocale(code, true)) {
-              /* ko/th:字典尚未移植(useLocale.ts 有,首波僅開 zh/en) */
-              window.alert((D.T || {}).notAvailable || '此語系即將推出 (Coming soon)');
-            }
+            applyLocale(opt.getAttribute('data-locale-option'), true);
           });
         });
       }
@@ -1185,6 +1199,8 @@
 
   function buildPromoDetailHtml(p) {
     return '' +
+      '<section class="py-8 min-h-[600px] bg-surface-deep">' +
+      '<div class="container mx-auto px-4">' +
       '<div class="mx-auto max-w-[1180px] text-ink" data-promo-detail>' +
       '<button type="button" class="btn-back mb-[22px] text-base md:mb-7 md:text-[15px]" aria-label="Back" data-promo-back>' +
       iconSvg('back') + '<span>Back</span></button>' +
@@ -1228,7 +1244,9 @@
       '</div>' +
       '</div>' +
       '</div>' +
-      '</div>';
+      '</div>' +
+      '</div>' +
+      '</section>';
   }
 
   function initPromotionDetail() {
@@ -1964,7 +1982,7 @@
   }
   function showDepositQrStep(methodId) {
     var qrData = D.DEPOSIT_QR || {};
-    var t8 = qrData[currentLocale() === 'zh' ? 'zh' : 'en'] || qrData.en || {};
+    var t8 = qrData[currentLocale()] || qrData.en || {};
     var addr = (qrData.addresses || {})[methodId] || (qrData.addresses || {}).linepay || '';
     var isAddress = methodId === 'trc20' || methodId === 'erc20';
     var formCard = document.querySelector('.payment-card');
