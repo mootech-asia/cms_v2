@@ -375,8 +375,8 @@
       '<div class="flex items-center gap-4">' +
       '<div class="w-12 h-12 min-[400px]:w-14 min-[400px]:h-14 rounded-full bg-g-primary text-on-primary flex items-center justify-center flex-shrink-0">' + iconSvg('user', 'w-7 h-7') + '</div>' +
       '<div class="min-w-0"><div class="flex items-center gap-3"><span class="text-ink text-lg min-[400px]:text-xl font-bold truncate">meqomcao</span><span class="bg-g-primary text-on-primary text-xs min-[400px]:text-sm font-bold px-2.5 py-1 rounded-full leading-none">VIP1</span></div>' +
-      '<div class="mt-1 text-sm min-[400px]:text-base font-semibold whitespace-nowrap"><span class="text-ink-3">' + escapeHtml(T.accountBalance) + ': </span><span class="text-primary">₩1,000,000,000</span></div>' +
-      '<div class="text-sm min-[400px]:text-base font-semibold"><span class="text-ink-3">' + escapeHtml(T.accountPoints) + ': </span><span class="text-primary">0.00</span></div></div></div>' +
+      '<div class="mt-1 text-sm min-[400px]:text-base font-semibold whitespace-nowrap"><span class="text-ink-3">' + escapeHtml(T.accountBalance) + '</span><span class="text-ink-3">: </span><span class="text-primary">₩1,000,000,000</span></div>' +
+      '<div class="text-sm min-[400px]:text-base font-semibold"><span class="text-ink-3">' + escapeHtml(T.accountPoints) + '</span><span class="text-ink-3">: </span><span class="text-primary">0.00</span></div></div></div>' +
       '<a href="account.html" class="mt-3 block text-center rounded-lg bg-g-primary text-on-primary text-sm font-bold" style="padding:10px 18px;text-decoration:none">' + escapeHtml(T.accountView) + '</a>'
     );
   }
@@ -1198,19 +1198,21 @@
 
   function initAboutTabs() {
     if (pageName() !== 'about') return;
-    var tabsWrap = document.querySelector('.border-b.border-line-soft.mb-7');
+    /* about.html 分頁沿用共用 .mode-tabs(CLAUDE.md 頁簽規範:唯一允許的頁簽樣式,
+       active 狀態一律用 .active class,不得另創底線樣式)。initModeTabsGeneric()
+       已對所有 .mode-tabs 掛上「點擊互斥切換 active」的通用邏輯,這裡只需再掛一層
+       面板顯示/隱藏(以及自身的 active 管理,涵蓋 ?tab= 深連結這種非點擊觸發的
+       初始化路徑,initModeTabsGeneric 的點擊監聽器不會處理這種情形)。 */
+    var tabsWrap = document.querySelector('.mode-tabs');
     if (!tabsWrap) return;
-    var buttons = $all('button', tabsWrap);
+    var buttons = $all(':scope > button', tabsWrap);
     var panels = [];
     var node = tabsWrap.nextElementSibling;
     while (node && panels.length < buttons.length) { panels.push(node); node = node.nextElementSibling; }
     if (!buttons.length || panels.length !== buttons.length) return;
 
     function setActive(i) {
-      buttons.forEach(function (b, bi) {
-        b.classList.toggle('text-primary', bi === i);
-        b.classList.toggle('text-ink-3', bi !== i);
-      });
+      buttons.forEach(function (b, bi) { b.classList.toggle('active', bi === i); });
       panels.forEach(function (p, pi) { p.style.display = pi === i ? '' : 'none'; });
     }
     buttons.forEach(function (b, i) { on(b, 'click', function () { setActive(i); }); });
