@@ -54,6 +54,17 @@
   function applySiteNameToFrame(name) {
     try { if (frame.contentDocument) frame.contentDocument.title = name; } catch (e) {}
   }
+  /* 前台可能含外部圖,iframe 'load' 會被卡住/延遲;短時間輪詢重套,贏過前台預設皮膚競態。 */
+  var _reapplyTimer = null;
+  function scheduleApply() {
+    if (_reapplyTimer) clearInterval(_reapplyTimer);
+    var n = 0;
+    _reapplyTimer = setInterval(function () {
+      applySkinToFrame(draft.skin);
+      applySiteNameToFrame(draft.siteName || DEFAULT_SITE);
+      if (++n >= 24) { clearInterval(_reapplyTimer); _reapplyTimer = null; }
+    }, 150);
+  }
 
   function renderSkins() {
     var wrap = $('ad-skins');
@@ -134,4 +145,5 @@
   });
 
   syncFromDraft();
+  scheduleApply(); /* 首次 iframe 載入即套用當前草稿皮膚/站名(不等 load) */
 })();
