@@ -236,15 +236,21 @@
   gap: 4px;
 }
 
-/* 加密錢包卡背景(業主 2026-07-22 B2):.registered-card 共用底色是
-   --c-bg(全站底色,比外層 bg-surface 模組更深),銀行卡輪播沿用沒問題,
-   但錢包卡疊在 bg-surface 卡片內視覺上變成一個深色洞。只加在錢包卡上蓋掉
-   背景讓它融入外層,不影響共用同一份 .registered-card 的銀行卡輪播
-   (initAccountBankCarousel 沒有加這個 class)。邊框保留(換成較柔和的
-   border-soft token)維持卡片邊界的可辨識度。 */
+/* 加密錢包卡(業主 2026-07-22 設計圖):錢包卡「沒有框線」,要跟左邊的銀行
+   帳戶卡一樣扁平貼齊 bg-surface 模塊 —— 但它共用 .registered-card,天生帶
+   邊框/底色/固定高度/內距。這裡只在錢包卡上把這一整個「框」拿掉(去邊框、
+   去底色、高度自動、去內距與上方外距),內容(標題/位址+複製/日期 + 右側
+   垃圾桶)直接扁平排在模塊裡;垃圾桶靠上對齊。銀行卡輪播共用同一份
+   .registered-card 但沒有這個 class,不受影響。 */
 .wallet-card {
   background-color: transparent;
-  border-color: rgb(var(--c-border-soft));
+  border: 0;
+  border-radius: 0;
+  height: auto;
+  min-height: 0;
+  margin-top: 0;
+  padding: 0;
+  align-items: flex-start;
 }
 
 /* Favorites 頁簽的空狀態(vnd-head 之後,重用既有的 game-grid 容器,
@@ -330,7 +336,7 @@
    ≤639px 改成 flex:1 與 w-36 下拉共用同一列;桌機(≥640,sm:w-80)不動。 */
 @media (max-width: 639px) {
   .flex-wrap.items-center.gap-2 > .w-full.min-w-0.sm\:w-80 {
-    flex: 1 1 0;
+    flex: 1 1 50%;
     width: auto;
   }
 }

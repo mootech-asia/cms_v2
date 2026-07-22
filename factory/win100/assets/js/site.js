@@ -1815,8 +1815,7 @@
       body.innerHTML =
         '<div class="rc-info"><strong>' + escapeHtml(w.type) + '</strong>' +
         '<span class="flex items-center gap-1.5">' + escapeHtml(walletMask(w.address)) +
-        '<button type="button" class="text-ink-4 hover:text-ink transition-colors" data-wallet-copy aria-label="' + escapeHtml(copyLabel) + '">' + COPY_SVG + '</button></span>' +
-        '<span>' + escapeHtml(w.bindDate || '') + '</span></div>' +
+        '<button type="button" class="text-ink-4 hover:text-ink transition-colors" data-wallet-copy aria-label="' + escapeHtml(copyLabel) + '">' + COPY_SVG + '</button></span></div>' +
         '<button type="button" class="ml-auto text-ink-4 hover:text-ink transition-colors" data-wallet-del aria-label="Delete wallet">' + TRASH_SVG + '</button>';
       on(body.querySelector('[data-wallet-copy]'), 'click', function (e) {
         e.stopPropagation();
