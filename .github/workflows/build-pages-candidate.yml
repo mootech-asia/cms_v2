@@ -8,6 +8,7 @@ on:
       - 'factory/**'
       - 'frontend/**'
       - 'scripts/verify-factory-win100.js'
+      - 'scripts/cache-bust-candidate.js'
       - '.github/workflows/build-pages-candidate.yml'
   workflow_dispatch:
 
@@ -63,6 +64,14 @@ jobs:
             echo 'Found root-relative Nuxt asset path in the static front-end; refusing candidate.'
             exit 1
           fi
+
+          # Cache-bust the static front-end's asset refs so GitHub Pages / CDNs /
+          # mobile browsers don't keep serving stale site.js/global.css after a
+          # deploy. Source keeps bare refs (hand-written, opens locally); only this
+          # candidate copy gets ?v=<content-hash>. Runs before the 404.html copy
+          # below so 404 inherits the stamped refs, and before the Nuxt studio copy
+          # so it only touches factory pages (studio is already content-hashed).
+          node scripts/cache-bust-candidate.js .candidate
 
           # Design studio (/studio) is bound to the factory and deploys alongside
           # the static front-end — only the client admin (/admin) is archived to
