@@ -1812,13 +1812,12 @@
       var qrT = qrDict[currentLocale()] || qrDict.en || {};
       var copyLabel = qrT.copy || '複製';
       var copiedLabel = qrT.copied || '已複製';
-      body.innerHTML = '<div class="bank-logo">₿</div>' +
-        '<div class="rc-info"><strong>' + escapeHtml(w.type) + '</strong><span>' + escapeHtml(walletMask(w.address)) + '</span>' +
+      body.innerHTML =
+        '<div class="rc-info"><strong>' + escapeHtml(w.type) + '</strong>' +
+        '<span class="flex items-center gap-1.5">' + escapeHtml(walletMask(w.address)) +
+        '<button type="button" class="text-ink-4 hover:text-ink transition-colors" data-wallet-copy aria-label="' + escapeHtml(copyLabel) + '">' + COPY_SVG + '</button></span>' +
         '<span>' + escapeHtml(w.bindDate || '') + '</span></div>' +
-        '<div class="ml-auto flex items-center gap-3">' +
-        '<button type="button" class="text-ink-4 hover:text-ink transition-colors" data-wallet-copy aria-label="' + escapeHtml(copyLabel) + '">' + COPY_SVG + '</button>' +
-        '<button type="button" class="text-ink-4 hover:text-ink transition-colors" data-wallet-del aria-label="Delete wallet">' + TRASH_SVG + '</button>' +
-        '</div>';
+        '<button type="button" class="ml-auto text-ink-4 hover:text-ink transition-colors" data-wallet-del aria-label="Delete wallet">' + TRASH_SVG + '</button>';
       on(body.querySelector('[data-wallet-copy]'), 'click', function (e) {
         e.stopPropagation();
         var btn = e.currentTarget;
