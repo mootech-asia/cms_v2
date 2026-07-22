@@ -220,6 +220,14 @@
   fill: currentColor;
 }
 
+/* VendorBrowser 廠商/收藏 頁簽置左對齊標題(業主 2026-07-22)。共用 .mode-tabs 預設
+   max-width+margin:auto 會置中;此修飾僅解除置中改置左,不改頁簽視覺(仍底線式)。 */
+.mode-tabs.vnd-tabs {
+  max-width: none;
+  margin-left: 0;
+  margin-right: auto;
+}
+
 /* Favorites 頁簽的空狀態(vnd-head 之後,重用既有的 game-grid 容器,
    跨版位橫向撐滿一整列)。 */
 .fav-empty {

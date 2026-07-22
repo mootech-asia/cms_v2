@@ -1282,7 +1282,7 @@
     }
 
     var tabsWrap = document.createElement('div');
-    tabsWrap.className = 'mode-tabs';
+    tabsWrap.className = 'mode-tabs vnd-tabs';
     tabsWrap.innerHTML =
       '<button type="button" class="active">' + escapeHtml(T.vendor) + '</button>' +
       '<button type="button">' + escapeHtml(T.favorites) + '</button>';
