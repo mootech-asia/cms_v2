@@ -1114,9 +1114,10 @@
       '<div class="trow"><span class="tlabel">Deposit Amount</span><span class="tamount">' + escapeHtml(amountVal) + '</span></div>' +
       '<div class="trow"><span class="tlabel">Deposit Account</span><span class="tvalue">wururu1234</span></div>' +
       '<p class="tnote">Once the transfer is complete, please click the "Complete" button below. Should you have any questions, please feel free to contact our Customer Service team.</p>' +
-      '<p class="tcs"><a href="support.html">Customer Service</a></p>' +
+      '<p class="tcs"><a href="#" data-cs-open>Customer Service</a></p>' +
       '<button type="button" class="complete" data-deposit-complete><span>Complete</span></button>';
     formCard.parentElement.insertBefore(section, formCard.nextSibling);
+    on(section.querySelector('[data-cs-open]'), 'click', function (e) { e.preventDefault(); openCsModal(); });
     on(section.querySelector('[data-deposit-complete]'), 'click', function () {
       showMemberModal({ type: 'success', message: 'Your deposit application has been submitted.' });
     });
