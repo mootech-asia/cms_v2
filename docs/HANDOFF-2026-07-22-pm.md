@@ -84,16 +84,18 @@
 Tailwind utility 堆改成 v3 式手寫語意 class)+ 附帶項目。**全部只進分支,正式站由業主
 promote 才更新。**
 
-**⛔ 業主定案取消(2026-07-23)——以下兩項不再做、未來 session 勿再提:**
-1. **`cms_v2_1.0.0` 首次交付**(原卡在 GitHub App 無建 repo 權限)→ **取消**。
-2. **靜態 studio 取代正式站 Nuxt studio 的部署接線**(原「待業主確認」)→ **取消**,
-   正式站 studio 維持 Nuxt 現狀。靜態 `factory/win100/studio`、`admin`、v3 `studio/`
-   留在分支/main 供參,不接進 candidate/正式站。
-3. **連帶**:既然 studio 續用 Nuxt,**`frontend/`(v2)、`vue3-app/`(v3)必須保留**
-   (build studio 用);task #6 收尾清理中「刪 `frontend/`/`vue3-app/` + 移除 Nuxt/Vite
-   build 步驟」**一併不做**。#6 只剩「刪已併入 main 的 `claude/*` stale 分支」這種可選、
-   不可逆的動作,須業主明確要求才做,否則不動。
-→ 本 session 剩餘自主範圍 = **純 Stage B 前台語意化 + 安全收尾(ui-kit、app.css 死 CSS 清除)**。
+**業主定案(2026-07-23):**
+1. **`cms_v2_1.0.0` 首次交付**(卡 GitHub App 無建 repo 權限)→ **取消**,未來 session 勿再提。
+2. **靜態 studio 取代正式站 Nuxt studio 的部署接線 → 要做**(業主 2026-07-23 明確指示;
+   授權自主進行、不必再問)。範圍:改 `build-pages-candidate.yml` 候選組裝,改用靜態
+   `factory/win100/studio`(+ `admin`)、移除 Nuxt `nuxt generate`/`_nuxt` studio 步驟;
+   v3 同理改 `deploy-pages.yml` 用靜態 `studio/`。**取捨(業主已接受)**:靜態 studio 目前
+   只有換膚/站名/公開範圍,少掉 Nuxt studio 的區塊/變體編輯(那需前台 config 驅動,屬 DNA
+   決策,不在此範圍)。workflow 改在分支;**正式站實際切換仍由業主 promote**。
+3. **連帶**:studio 改靜態後,`frontend/`(v2)、`vue3-app/`(v3)不再是部署必需 →
+   task #6 收尾清理「刪 `frontend/`/`vue3-app/` + 移除 Nuxt/Vite build」**重新回到範圍**,
+   但屬不可逆動作,排在最後、確認靜態 studio 正式站驗過後才做。
+→ 本 session 自主範圍 = **Stage B 前台語意化 + studio 靜態化部署接線 + 安全收尾**。
 
 **方法(已定型):** 不憑空重寫 CSS —— 把 `assets/css/app.css` 裡既有的 utility 宣告
 **精確重組**進手寫 `assets/css/components.css` 的語意 class(宣告完全相同,只是換語意名),
