@@ -460,3 +460,42 @@
 .member-topbar-logo:hover {
   color: rgb(var(--c-text));
 }
+
+/* ═══ Stage B 去編譯化:mini 遊戲卡(rail 縮圖卡) (2026-07-23) ═══════════
+   buildMiniCard + 各頁 rail 靜態卡共用。沿用專案 .vnd-card 命名風格。
+   原 group/group-hover:* 改為 .mini-card:hover 後代選擇器。
+   token:border-line→--c-border、text-ink→--c-text、primary→--c-primary。 */
+.mini-card {
+  width: 7rem;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  cursor: pointer;
+}
+@media (min-width: 768px) { .mini-card { width: 8rem; } }
+.mini-card-thumb {
+  height: 7rem;
+  width: 7rem;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  border: 2px solid rgb(var(--c-border));
+  transition: border-color 0.15s;
+}
+@media (min-width: 768px) { .mini-card-thumb { height: 8rem; width: 8rem; } }
+.mini-card:hover .mini-card-thumb { border-color: rgb(var(--c-primary)); }
+.mini-card-img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+.mini-card:hover .mini-card-img { transform: scale(1.05); }
+.mini-card-title {
+  margin-top: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgb(var(--c-text));
+}
+@media (min-width: 768px) { .mini-card-title { font-size: 0.875rem; } }

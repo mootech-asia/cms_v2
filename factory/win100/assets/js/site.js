@@ -894,10 +894,10 @@
     });
   }
   function buildMiniCard(g) {
-    return '<div data-game-card class="group w-28 flex-shrink-0 snap-start cursor-pointer md:w-32">' +
-      '<div class="h-28 w-28 overflow-hidden rounded-lg border-2 border-line transition-colors group-hover:border-primary md:h-32 md:w-32">' +
-      '<img src="' + g.img + '" alt="' + escapeHtml(g.title) + '" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" style="object-position:' + g.focalPoint + ';" loading="lazy"></div>' +
-      '<h3 class="mt-2 truncate text-center text-xs text-ink md:text-sm">' + escapeHtml(g.title) + '</h3></div>';
+    return '<div data-game-card class="mini-card">' +
+      '<div class="mini-card-thumb">' +
+      '<img src="' + g.img + '" alt="' + escapeHtml(g.title) + '" class="mini-card-img" style="object-position:' + g.focalPoint + ';" loading="lazy"></div>' +
+      '<h3 class="mini-card-title">' + escapeHtml(g.title) + '</h3></div>';
   }
 
   function initMiniGamesGrid() {
