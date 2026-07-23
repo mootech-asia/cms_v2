@@ -707,7 +707,7 @@
      已登入情境,固定顯示,不看 localStorage 登入旗標。 */
   function localeTriggerHtml() {
     return (
-      '<div class="relative"><button class="text-ink-2 hover:text-ink flex items-center gap-1">' +
+      '<div class="relative"><button class="lang-switch">' +
       iconSvg('globe', 'w-4 h-4') + '<span>中文</span>' + iconSvg('chevron-down', 'w-3 h-3') +
       '</button></div>'
     );

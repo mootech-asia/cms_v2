@@ -720,3 +720,12 @@
   color: rgb(var(--c-primary));
 }
 .acct-icon-btn--outline:hover { background-color: rgb(var(--c-primary) / 0.2); }  /* hover:bg-primary/20 */
+
+/* ═══ Stage B 去編譯化:語言切換觸發鈕 lang-switch(全 21 頁 header + site.js localeTriggerHtml) (2026-07-23)
+   .relative 包裹 + .dd-panel 下拉 + [data-locale-option] 皆為 JS hook,保留不動;本鈕只是視覺 chrome。
+   由 utility 叢集精確重組,視覺零變。token:ink-2→--c-text-2、ink→--c-text。 */
+.lang-switch {
+  display: flex; align-items: center; gap: 0.25rem;  /* flex items-center gap-1 */
+  color: rgb(var(--c-text-2));                         /* text-ink-2 */
+}
+.lang-switch:hover { color: rgb(var(--c-text)); }      /* hover:text-ink */
