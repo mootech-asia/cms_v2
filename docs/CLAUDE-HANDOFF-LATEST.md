@@ -1,8 +1,14 @@
 # Claude Latest Handoff
 
-> ⏭️ **2026-07-21 最新交接 → 先讀 `docs/HANDOFF-2026-07-21.md`**（bug 修復批次已完成上
-> main 並 promote;工廠純 HTML 化路線圖 task #1–6、v3 i18n 重建進行中）。以下 2026-07-19
-> 段落為部署機制底本,仍適用。
+> ⏭️ **2026-07-22 (PM) 最新交接 → 先讀 `docs/HANDOFF-2026-07-22-pm.md`**（帳戶錢包卡/銀行卡
+> 刪除鈕對齊 + 紀錄頁手機版篩選列兩行,已上 main 並 promote）。其次 `docs/HANDOFF-2026-07-21.md`
+> (bug 修復批次 + 工廠純 HTML 化 task #1–6 + v3 i18n 4 語系重建);以下 2026-07-19 段落為部署機制底本,仍適用。
+>
+> 📌 **狀態同步(2026-07-23 校對)**:正式站 `gh-pages` = `pages-candidate` = `db37f7e2`(內容來自 main
+> `8648121`);`main` 現為 `77cd9dc`(僅多一個 handoff 純文件 commit,不影響部署)。設計 review B 系列:
+> **B1/B3/B5 已上線;B4(客服舊連結)已完成**(全站 `customer-service.html` 連結移除、改走 `openCsModal`);
+> **B2 原「模塊對稱」規格已被 07-22 卡片重設計取代**(僅銀行總覽空狀態仍為純文字、未做成錢包式 `coin-empty` 盒);
+> **B6(廠商/收藏頁籤位移)待業主指定目標位置**。排程任務:帳號下無任何屬本 CMS 的 active 排程(全部已觸發/停用)。
 
 > Updated: 2026-07-19 (Asia/Taipei)
 > Repository: `mootech-asia/cms_system_v2`
