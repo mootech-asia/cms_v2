@@ -716,8 +716,8 @@
     if (!isMemberPage()) return;
     $all('header').forEach(function (header) {
       if (header.querySelector('[data-member-account-bar]')) return;
-      var mobileWrap = header.querySelector('[class~="md:hidden"]');
-      var row = mobileWrap ? mobileWrap.parentElement : header.querySelector('.flex.items-center.h-16');
+      var mobileWrap = header.querySelector('.member-topbar-mobile');
+      var row = mobileWrap ? mobileWrap.parentElement : header.querySelector('.member-topbar-row');
       if (!row) return;
       var bar = document.createElement('div');
       bar.className = 'hidden md:flex items-center gap-3 ml-auto text-sm';
