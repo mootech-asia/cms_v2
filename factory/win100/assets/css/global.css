@@ -590,3 +590,16 @@
   background-image: var(--g-primary);
 }
 .match-bet-btn:hover { opacity: 0.9; }
+
+/* ═══ Stage B 去編譯化:得獎跑馬燈 winners ticker(index/ui-kit) (2026-07-23)
+   track 的 animate-ticker 動畫 + 內層 text-primary/text-ink 高亮保留。
+   token:surface-deep→--c-bg、line-soft→--c-border-soft、ink-3→--c-text-3、line→--c-border。 */
+.win-ticker {
+  background-color: rgb(var(--c-bg));
+  border-top: 1px solid rgb(var(--c-border-soft));
+  border-bottom: 1px solid rgb(var(--c-border-soft));
+  padding-top: 0.5rem; padding-bottom: 0.5rem;
+  overflow: hidden;
+}
+.win-ticker-item { font-size: 0.75rem; color: rgb(var(--c-text-3)); padding-left: 1rem; padding-right: 1rem; flex-shrink: 0; }
+.win-ticker-sep { margin-left: 0.75rem; margin-right: 0.75rem; color: rgb(var(--c-border)); }
